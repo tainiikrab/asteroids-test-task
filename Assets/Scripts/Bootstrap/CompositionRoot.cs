@@ -24,9 +24,18 @@ namespace AsteroidsGame.Bootstrap
 
         private int nextEntityId = 1;
 
-        private void Start()
+        private PositionAspect _positionAspect;
+        private EntityAspect _entityAspect;
+        private RootAspect _rootAspect;
+
+        private void Awake()
         {
-            _world = new ProtoWorld(new GameAspect());
+            _rootAspect = new RootAspect();
+
+            _world = new ProtoWorld(_rootAspect);
+            _positionAspect = _rootAspect.PositionAspect;
+            _entityAspect = _rootAspect.EntityAspect;
+
             _systems = new ProtoSystems(_world);
 
             _viewIterator = new ProtoIt(new[]
@@ -42,38 +51,48 @@ namespace AsteroidsGame.Bootstrap
                 .AddSystem(_rotationSystem)
                 .AddSystem(_movementSystem)
                 .Init();
-
-            CreateEntity();
         }
 
-        private void CreateEntity()
+        private void Start()
         {
-            var aspect = (GameAspect)_world.Aspect(typeof(GameAspect));
-            ref var pos = ref aspect.PositionPool.NewEntity(out var entity);
-            pos.x = -1;
-            pos.y = -1;
-            var packed = _world.PackEntity(entity);
+            var entity = CreateEntity();
+            ref var player = ref _entityAspect.PlayerPool.Add(entity);
+        }
 
-            ref var idComp = ref aspect.EntityIdPool.Add(entity);
-            idComp.Id = nextEntityId++;
-            idComp.Packed = packed;
-            ref var vel = ref aspect.VelocityPool.Add(entity);
+
+        private ProtoEntity CreateEntity()
+        {
+            ref var pos = ref _positionAspect.PositionPool.NewEntity(out var entity);
+            pos.x = 0;
+            pos.y = 0;
+
+            ref var vel = ref _positionAspect.VelocityPool.Add(entity);
             vel.vx = 0;
             vel.vy = 0;
 
-            ref var rot = ref aspect.RotationPool.Add(entity);
+            ref var rot = ref _positionAspect.RotationPool.Add(entity);
             rot.angle = 0f;
 
-            ref var ang = ref aspect.AngularVelocityPool.Add(entity);
+            ref var ang = ref _positionAspect.AngularVelocityPool.Add(entity);
             ang.omega = 0f;
+
+            ref var idComp = ref _entityAspect.EntityIdPool.Add(entity);
+            var packed = _world.PackEntity(entity);
+            idComp.Id = nextEntityId++;
+            idComp.Packed = packed;
+
+            return entity;
         }
 
         private void Update()
         {
+            var dt = Time.deltaTime;
             var input = _inputReader.ReadInput();
             _playerInputSystem.SetInput(input);
-            _rotationSystem.SetDeltaTime(Time.deltaTime);
-            _movementSystem.SetDeltaTime(Time.deltaTime);
+
+            _playerInputSystem.DeltaTime = dt;
+            _movementSystem.DeltaTime = dt;
+            _rotationSystem.DeltaTime = dt;
 
             _systems.Run();
             SyncView();
@@ -82,19 +101,19 @@ namespace AsteroidsGame.Bootstrap
         private void SyncView()
         {
             _viewsBuffer.Clear();
-            var aspect = (GameAspect)_world.Aspect(typeof(GameAspect));
 
             foreach (var e in _viewIterator)
             {
-                ref var idComp = ref aspect.EntityIdPool.Get(e);
-                ref var p = ref aspect.PositionPool.Get(e);
-                ref var rot = ref aspect.RotationPool.Get(e);
+                ref var idComp = ref _entityAspect.EntityIdPool.Get(e);
+                ref var p = ref _positionAspect.PositionPool.Get(e);
+                ref var rot = ref _positionAspect.RotationPool.Get(e);
                 _viewsBuffer.Add(new ViewData
                 {
                     id = idComp.Id,
                     x = p.x,
                     y = p.y,
-                    angle = rot.angle
+                    angle = rot.angle,
+                    type = idComp.Type
                 });
             }
 

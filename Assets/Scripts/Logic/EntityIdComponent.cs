@@ -1,4 +1,5 @@
 ﻿using Leopotam.EcsProto.QoL;
+using AsteroidsGame.Contracts;
 
 namespace AsteroidsGame.Logic
 {
@@ -6,5 +7,6 @@ namespace AsteroidsGame.Logic
     {
         public int Id;
         public ProtoPackedEntity Packed;
+        public EntityType Type;
     }
 }

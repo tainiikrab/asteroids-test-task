@@ -7,6 +7,7 @@ namespace AsteroidsGame.Presentation
     public class UnityViewUpdater : MonoBehaviour, IViewUpdater
     {
         private Dictionary<int, GameObject> _map = new();
+        [SerializeField] private GameObject _playerPrefab;
 
         public void Apply(IReadOnlyList<ViewData> views)
         {
@@ -18,11 +19,11 @@ namespace AsteroidsGame.Presentation
 
                 if (!_map.TryGetValue(v.id, out var go))
                 {
-                    go = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                    if (v.type == EntityType.Player) go = Instantiate(_playerPrefab);
                     _map[v.id] = go;
                 }
 
-                go.transform.position = new Vector3(v.x, v.y);
+                go.transform.position = new Vector2(v.x, v.y);
                 go.transform.rotation = Quaternion.Euler(0f, 0f, v.angle);
             }
 

@@ -4,7 +4,7 @@ using AsteroidsGame.Contracts;
 
 namespace AsteroidsGame.Logic
 {
-    public sealed class GameAspect : IProtoAspect
+    public sealed class PositionAspect : IProtoAspect
     {
         private ProtoWorld _world;
 
@@ -17,23 +17,22 @@ namespace AsteroidsGame.Logic
         public ProtoPool<VelocityData> VelocityPool;
         public ProtoPool<RotationData> RotationPool;
         public ProtoPool<AngularVelocityData> AngularVelocityPool;
-        public ProtoPool<EntityIdComponent> EntityIdPool;
+
 
         public void Init(ProtoWorld world)
         {
-            world.AddAspect(this);
+            _world = world;
+            _world.AddAspect(this);
 
             PositionPool = new ProtoPool<PositionData>();
             VelocityPool = new ProtoPool<VelocityData>();
             RotationPool = new ProtoPool<RotationData>();
             AngularVelocityPool = new ProtoPool<AngularVelocityData>();
-            EntityIdPool = new ProtoPool<EntityIdComponent>();
 
-            world.AddPool(PositionPool);
-            world.AddPool(VelocityPool);
-            world.AddPool(RotationPool);
-            world.AddPool(AngularVelocityPool);
-            world.AddPool(EntityIdPool);
+            _world.AddPool(PositionPool);
+            _world.AddPool(VelocityPool);
+            _world.AddPool(RotationPool);
+            _world.AddPool(AngularVelocityPool);
         }
 
         public void PostInit()

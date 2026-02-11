@@ -33,5 +33,20 @@
         public int id;
         public float x, y;
         public float angle;
+        public EntityType type;
+    }
+
+    public enum EntityType
+    {
+        Player,
+        Asteroid,
+        Saucer,
+        Bullet,
+        Laser
+    }
+
+    public struct PlayerData
+    {
+        public int id;
     }
 }
