@@ -5,6 +5,7 @@ using AsteroidsGame.Logic;
 using AsteroidsGame.Presentation;
 using Leopotam.EcsProto;
 using Leopotam.EcsProto.QoL;
+using VContainer;
 
 namespace AsteroidsGame.Bootstrap
 {
@@ -12,9 +13,11 @@ namespace AsteroidsGame.Bootstrap
     {
         private ProtoWorld _world;
         private IProtoSystems _systems;
+        private ProtoIt _viewIterator;
+        private readonly List<ViewData> _viewsBuffer = new();
 
-        private IInputReader _inputReader;
-        private ViewUpdater _viewUpdater;
+        [Inject] private IInputReader _inputReader;
+        [Inject] private IViewUpdater _viewUpdater;
         private PlayerInputSystem _playerInputSystem;
         private MovementSystem _movementSystem;
         private RotationSystem _rotationSystem;
@@ -23,11 +26,12 @@ namespace AsteroidsGame.Bootstrap
 
         private void Start()
         {
-            _inputReader = FindFirstObjectByType<UnityInputReader>();
-            _viewUpdater = FindFirstObjectByType<ViewUpdater>();
-
             _world = new ProtoWorld(new GameAspect());
             _systems = new ProtoSystems(_world);
+
+            _viewIterator = new ProtoIt(new[]
+                { typeof(EntityIdComponent), typeof(PositionData), typeof(RotationData) });
+            _viewIterator.Init(_world);
 
             _playerInputSystem = new PlayerInputSystem();
             _movementSystem = new MovementSystem();
@@ -67,10 +71,7 @@ namespace AsteroidsGame.Bootstrap
         private void Update()
         {
             var input = _inputReader.ReadInput();
-
-            Debug.Log(input.forward + " " + input.turn + " " + input.shootLaser + " " + input.shootBullet);
-
-            _playerInputSystem.AddInput(input);
+            _playerInputSystem.SetInput(input);
             _rotationSystem.SetDeltaTime(Time.deltaTime);
             _movementSystem.SetDeltaTime(Time.deltaTime);
 
@@ -80,18 +81,15 @@ namespace AsteroidsGame.Bootstrap
 
         private void SyncView()
         {
-            var viewsList = new List<ViewData>();
+            _viewsBuffer.Clear();
             var aspect = (GameAspect)_world.Aspect(typeof(GameAspect));
 
-            var it = new ProtoIt(new[] { typeof(EntityIdComponent), typeof(PositionData), typeof(RotationData) });
-            it.Init(_world);
-
-            foreach (var e in it)
+            foreach (var e in _viewIterator)
             {
                 ref var idComp = ref aspect.EntityIdPool.Get(e);
                 ref var p = ref aspect.PositionPool.Get(e);
                 ref var rot = ref aspect.RotationPool.Get(e);
-                viewsList.Add(new ViewData
+                _viewsBuffer.Add(new ViewData
                 {
                     id = idComp.Id,
                     x = p.x,
@@ -100,7 +98,7 @@ namespace AsteroidsGame.Bootstrap
                 });
             }
 
-            _viewUpdater.Apply(viewsList.ToArray());
+            _viewUpdater.Apply(_viewsBuffer);
         }
 
         private void OnDestroy()

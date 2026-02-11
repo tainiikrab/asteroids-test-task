@@ -8,6 +8,7 @@ namespace AsteroidsGame.Logic
         private GameAspect _aspect;
         private float _deltaTime;
         private ProtoWorld _world;
+        private ProtoIt _iterator;
 
         public void SetDeltaTime(float dt)
         {
@@ -18,15 +19,13 @@ namespace AsteroidsGame.Logic
         {
             _world = systems.World();
             _aspect = (GameAspect)_world.Aspect(typeof(GameAspect));
+            _iterator = new ProtoIt(new[] { typeof(PositionData), typeof(VelocityData) });
+            _iterator.Init(_world);
         }
 
         public void Run()
         {
-            var it = new ProtoIt(new[] { typeof(PositionData), typeof(VelocityData) });
-
-            it.Init(_world);
-
-            foreach (var e in it)
+            foreach (var e in _iterator)
             {
                 ref var p = ref _aspect.PositionPool.Get(e);
                 ref var v = ref _aspect.VelocityPool.Get(e);
