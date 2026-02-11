@@ -290,6 +290,13 @@
       "dependencies": {},
       "hash": "f4ce0e9300446547ce8e213318909fcecddc867b"
     },
+    "ru.leopotam.ecsproto-qol": {
+      "version": "https://gitverse.ru/leopotam/ecsproto-qol.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "8bc08acba192dd1bd2e45fee6df85704466f439e"
+    },
     "com.unity.modules.accessibility": {
       "version": "1.0.0",
       "depth": 0,
