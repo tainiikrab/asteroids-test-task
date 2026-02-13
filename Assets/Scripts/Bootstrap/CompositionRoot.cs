@@ -21,80 +21,64 @@ namespace AsteroidsGame.Bootstrap
         private PlayerInputSystem _playerInputSystem;
         private MovementSystem _movementSystem;
         private RotationSystem _rotationSystem;
-
-        private int nextEntityId = 1;
+        private AsteroidSpawnSystem _asteroidSpawnSystem;
 
         private PositionAspect _positionAspect;
         private EntityAspect _entityAspect;
         private RootAspect _rootAspect;
 
+        private UnityDeltaTimeService _deltaTimeService;
+        private SequentialIdGeneratorService _idGeneratorService;
+        [SerializeField] private GlobalConfigService _configService;
+
         private void Awake()
         {
+            // aspects
             _rootAspect = new RootAspect();
-
             _world = new ProtoWorld(_rootAspect);
+
             _positionAspect = _rootAspect.PositionAspect;
             _entityAspect = _rootAspect.EntityAspect;
 
+
+            // systems
             _systems = new ProtoSystems(_world);
-
-            _viewIterator = new ProtoIt(new[]
-                { typeof(EntityIdComponent), typeof(PositionData), typeof(RotationData) });
-            _viewIterator.Init(_world);
-
             _playerInputSystem = new PlayerInputSystem();
             _movementSystem = new MovementSystem();
             _rotationSystem = new RotationSystem();
+            _asteroidSpawnSystem = new AsteroidSpawnSystem();
+            var playerSpawnSystem = new PlayerSpawnSystem();
 
+            // iterators
+            _viewIterator = new ProtoIt(new[]
+                { typeof(EntityIdCmp), typeof(PositionCmp), typeof(RotationCmp) });
+            _viewIterator.Init(_world);
+
+            // services
+            _idGeneratorService = new SequentialIdGeneratorService();
+            _deltaTimeService = new UnityDeltaTimeService();
+
+            // init
             _systems
+                .AddService(_idGeneratorService, typeof(IIdGeneratorService))
+                .AddService(_configService, typeof(IConfigService))
+                .AddService(_deltaTimeService, typeof(IDeltaTimeService))
+                .AddSystem(playerSpawnSystem)
+                .AddSystem(_asteroidSpawnSystem)
                 .AddSystem(_playerInputSystem)
                 .AddSystem(_rotationSystem)
                 .AddSystem(_movementSystem)
                 .Init();
         }
 
-        private void Start()
-        {
-            var entity = CreateEntity();
-            ref var player = ref _entityAspect.PlayerPool.Add(entity);
-        }
-
-
-        private ProtoEntity CreateEntity()
-        {
-            ref var pos = ref _positionAspect.PositionPool.NewEntity(out var entity);
-            pos.x = 0;
-            pos.y = 0;
-
-            ref var vel = ref _positionAspect.VelocityPool.Add(entity);
-            vel.vx = 0;
-            vel.vy = 0;
-
-            ref var rot = ref _positionAspect.RotationPool.Add(entity);
-            rot.angle = 0f;
-
-            ref var ang = ref _positionAspect.AngularVelocityPool.Add(entity);
-            ang.omega = 0f;
-
-            ref var idComp = ref _entityAspect.EntityIdPool.Add(entity);
-            var packed = _world.PackEntity(entity);
-            idComp.Id = nextEntityId++;
-            idComp.Packed = packed;
-
-            return entity;
-        }
-
         private void Update()
         {
-            var dt = Time.deltaTime;
+            _deltaTimeService.SetDeltaTime(Time.deltaTime);
             var input = _inputReader.ReadInput();
             _playerInputSystem.SetInput(input);
 
-            _playerInputSystem.DeltaTime = dt;
-            _movementSystem.DeltaTime = dt;
-            _rotationSystem.DeltaTime = dt;
-
             _systems.Run();
+
             SyncView();
         }
 
@@ -109,11 +93,11 @@ namespace AsteroidsGame.Bootstrap
                 ref var rot = ref _positionAspect.RotationPool.Get(e);
                 _viewsBuffer.Add(new ViewData
                 {
-                    id = idComp.Id,
+                    id = idComp.id,
                     x = p.x,
                     y = p.y,
                     angle = rot.angle,
-                    type = idComp.Type
+                    type = idComp.type
                 });
             }
 

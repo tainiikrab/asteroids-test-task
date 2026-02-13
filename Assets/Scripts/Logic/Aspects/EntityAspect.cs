@@ -14,19 +14,22 @@ namespace AsteroidsGame.Logic
         }
 
 
-        public ProtoPool<EntityIdComponent> EntityIdPool;
-        public ProtoPool<PlayerData> PlayerPool;
+        public ProtoPool<EntityIdCmp> EntityIdPool;
+        public ProtoPool<PlayerCmp> PlayerPool;
+        public ProtoPool<AsteroidCmp> AsteroidPool;
 
         public void Init(ProtoWorld world)
         {
             _world = world;
             _world.AddAspect(this);
 
-            EntityIdPool = new ProtoPool<EntityIdComponent>();
-            PlayerPool = new ProtoPool<PlayerData>();
+            EntityIdPool = new ProtoPool<EntityIdCmp>();
+            PlayerPool = new ProtoPool<PlayerCmp>();
+            AsteroidPool = new ProtoPool<AsteroidCmp>();
 
             _world.AddPool(EntityIdPool);
             _world.AddPool(PlayerPool);
+            _world.AddPool(AsteroidPool);
         }
 
         public void PostInit()

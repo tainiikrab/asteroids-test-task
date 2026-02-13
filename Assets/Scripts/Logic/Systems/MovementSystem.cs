@@ -1,25 +1,36 @@
 ﻿using System;
+using System.Collections.Generic;
 using Leopotam.EcsProto;
 using AsteroidsGame.Contracts;
 
+#if UNITY_EDITOR
+using System.Diagnostics;
+#endif
+
 namespace AsteroidsGame.Logic
 {
-    public sealed class MovementSystem : IProtoInitSystem, IProtoRunSystem, IDeltaTimeUser
+    public sealed class MovementSystem : IProtoInitSystem, IProtoRunSystem
     {
         private PositionAspect _aspect;
-        public float DeltaTime { get; set; }
+
+
         private ProtoWorld _world;
         private ProtoIt _iterator;
 
-        private float _deceleration = 1f;
-
         private const float Epsilon = 0.0001f;
+
+        private IDeltaTimeService _deltaTimeService;
+        private float DeltaTime => _deltaTimeService.DeltaTime;
 
         public void Init(IProtoSystems systems)
         {
             _world = systems.World();
+
+            var svc = systems.Services();
+            _deltaTimeService = svc[typeof(IDeltaTimeService)] as IDeltaTimeService;
+
             _aspect = (PositionAspect)_world.Aspect(typeof(PositionAspect));
-            _iterator = new ProtoIt(new[] { typeof(PositionData), typeof(VelocityData) });
+            _iterator = new ProtoIt(new[] { typeof(PositionCmp), typeof(VelocityCmp) });
             _iterator.Init(_world);
         }
 
@@ -35,13 +46,13 @@ namespace AsteroidsGame.Logic
 
                 if (v.vx != 0f)
                 {
-                    v.vx -= MathF.Sign(v.vx) * _deceleration * DeltaTime;
+                    v.vx -= MathF.Sign(v.vx) * v.deceleration * DeltaTime;
                     if (MathF.Abs(v.vx) < Epsilon) v.vx = 0f;
                 }
 
                 if (v.vy != 0f)
                 {
-                    v.vy -= MathF.Sign(v.vy) * _deceleration * DeltaTime;
+                    v.vy -= MathF.Sign(v.vy) * v.deceleration * DeltaTime;
                     if (MathF.Abs(v.vy) < Epsilon) v.vy = 0f;
                 }
             }

@@ -2,11 +2,16 @@
 using AsteroidsGame.Contracts;
 using Leopotam.EcsProto;
 using Leopotam.EcsProto.QoL;
+
+
+#if UNITY_EDITOR
 using System.Diagnostics;
+#endif
+
 
 namespace AsteroidsGame.Logic
 {
-    public sealed class PlayerInputSystem : IProtoInitSystem, IProtoRunSystem, IDeltaTimeUser
+    public sealed class PlayerInputSystem : IProtoInitSystem, IProtoRunSystem
     {
         private PositionAspect _positionAspect;
         private EntityAspect _entityAspect;
@@ -14,37 +19,45 @@ namespace AsteroidsGame.Logic
         private InputData _currentInput;
         private ProtoIt _iterator;
 
-        private float _maxSpeed = 6f;
-        private float _turnSpeed = 180f;
-        private float _acceleration = 10f;
-
-        public float DeltaTime { get; set; }
+        // private float _maxSpeed = 6f;
+        // private float _turnSpeed = 180f;
+        // private float _acceleration = 10f;
 
         public void SetInput(InputData input)
         {
             _currentInput = input;
         }
 
+        private IConfigService _configService;
+        private IDeltaTimeService _deltaTimeService;
+        private float DeltaTime => _deltaTimeService.DeltaTime;
+
         public void Init(IProtoSystems systems)
         {
             _world = systems.World();
+
+            var svc = systems.Services();
+            _deltaTimeService = svc[typeof(IDeltaTimeService)] as IDeltaTimeService;
+            _configService = svc[typeof(IConfigService)] as IConfigService;
+
+
             _positionAspect = (PositionAspect)_world.Aspect(typeof(PositionAspect));
             _entityAspect = (EntityAspect)_world.Aspect(typeof(EntityAspect));
 
             _iterator = new ProtoIt(new[]
             {
-                typeof(VelocityData),
-                typeof(RotationData),
-                typeof(AngularVelocityData),
-                typeof(PlayerData),
-                typeof(EntityIdComponent)
+                typeof(VelocityCmp),
+                typeof(RotationCmp),
+                typeof(AngularVelocityCmp),
+                typeof(PlayerCmp),
+                typeof(EntityIdCmp)
             });
             _iterator.Init(_world);
 
             foreach (var e in _iterator)
             {
                 ref var entityId = ref _entityAspect.EntityIdPool.Get(e);
-                entityId.Type = EntityType.Player;
+                entityId.type = EntityType.Player;
             }
         }
 
@@ -56,9 +69,13 @@ namespace AsteroidsGame.Logic
                 ref var rot = ref _positionAspect.RotationPool.Get(e);
                 ref var ang = ref _positionAspect.AngularVelocityPool.Get(e);
 
-                ang.omega = _currentInput.turn * _turnSpeed;
+                var rotationSpeed = _configService.PlayerRotationSpeed;
+                var acceleration = _configService.PlayerAcceleration;
+                var maxSpeed = _configService.PlayerSpeed;
 
-                var currentAcceleration = _currentInput.forward * _acceleration;
+                ang.omega = _currentInput.turn * rotationSpeed;
+
+                var currentAcceleration = _currentInput.forward * acceleration;
                 var rad = rot.angle * (Math.PI / 180.0);
                 var dirX = (float)Math.Cos(rad);
                 var dirY = (float)Math.Sin(rad);
@@ -68,14 +85,16 @@ namespace AsteroidsGame.Logic
 
                 //clamp
                 var speedSq = v.vx * v.vx + v.vy * v.vy;
-                var maxSpeedSq = _maxSpeed * _maxSpeed;
+                var maxSpeedSq = maxSpeed * maxSpeed;
 
                 if (speedSq > maxSpeedSq)
                 {
                     var invLength = 1.0f / (float)Math.Sqrt(speedSq);
-                    v.vx = v.vx * invLength * _maxSpeed;
-                    v.vy = v.vy * invLength * _maxSpeed;
+                    v.vx = v.vx * invLength * maxSpeed;
+                    v.vy = v.vy * invLength * maxSpeed;
                 }
+
+                Debug.WriteLine($"{_currentInput.turn}, {rotationSpeed}");
             }
         }
     }

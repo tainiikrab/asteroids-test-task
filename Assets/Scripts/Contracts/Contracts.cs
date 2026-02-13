@@ -8,34 +8,6 @@
         public bool shootBullet;
     }
 
-    public struct PositionData
-    {
-        public float x, y;
-    }
-
-    public struct VelocityData
-    {
-        public float vx, vy;
-    }
-
-    public struct RotationData
-    {
-        public float angle;
-    }
-
-    public struct AngularVelocityData
-    {
-        public float omega;
-    }
-
-    public struct ViewData
-    {
-        public int id;
-        public float x, y;
-        public float angle;
-        public EntityType type;
-    }
-
     public enum EntityType
     {
         Player,
@@ -45,8 +17,17 @@
         Laser
     }
 
-    public struct PlayerData
+    public interface IConfigService
     {
-        public int id;
+        public float PlayerSpeed { get; }
+        public float PlayerRotationSpeed { get; }
+        public float PlayerAcceleration { get; }
+        public float PlayerDeceleration { get; }
+
+        public float AsteroidSpeed { get; }
+        public float AsteroidRotationSpeed { get; }
+        public float AsteroidSpawnInterval { get; }
+        public int AsteroidSpawnAmount { get; }
+        public float AsteroidRandomnessWeight { get; }
     }
 }

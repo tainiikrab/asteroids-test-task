@@ -13,10 +13,10 @@ namespace AsteroidsGame.Logic
             return _world;
         }
 
-        public ProtoPool<PositionData> PositionPool;
-        public ProtoPool<VelocityData> VelocityPool;
-        public ProtoPool<RotationData> RotationPool;
-        public ProtoPool<AngularVelocityData> AngularVelocityPool;
+        public ProtoPool<PositionCmp> PositionPool;
+        public ProtoPool<VelocityCmp> VelocityPool;
+        public ProtoPool<RotationCmp> RotationPool;
+        public ProtoPool<AngularVelocityCmp> AngularVelocityPool;
 
 
         public void Init(ProtoWorld world)
@@ -24,10 +24,10 @@ namespace AsteroidsGame.Logic
             _world = world;
             _world.AddAspect(this);
 
-            PositionPool = new ProtoPool<PositionData>();
-            VelocityPool = new ProtoPool<VelocityData>();
-            RotationPool = new ProtoPool<RotationData>();
-            AngularVelocityPool = new ProtoPool<AngularVelocityData>();
+            PositionPool = new ProtoPool<PositionCmp>();
+            VelocityPool = new ProtoPool<VelocityCmp>();
+            RotationPool = new ProtoPool<RotationCmp>();
+            AngularVelocityPool = new ProtoPool<AngularVelocityCmp>();
 
             _world.AddPool(PositionPool);
             _world.AddPool(VelocityPool);
