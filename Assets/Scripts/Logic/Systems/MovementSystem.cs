@@ -1,4 +1,6 @@
-﻿namespace AsteroidsGame.Logic
+﻿using AsteroidsGame.Contracts;
+
+namespace AsteroidsGame.Logic
 {
     using System;
     using Leopotam.EcsProto;
@@ -13,7 +15,9 @@
         private const float Epsilon = 0.0001f;
 
         private IDeltaTimeService _deltaTimeService;
+        private IGameViewSizeService _viewSizeService;
         private float DeltaTime => _deltaTimeService.DeltaTime;
+        private float _screenWrapPadding;
 
         public void Init(IProtoSystems systems)
         {
@@ -21,6 +25,9 @@
 
             var svc = systems.Services();
             _deltaTimeService = svc[typeof(IDeltaTimeService)] as IDeltaTimeService;
+            _viewSizeService = svc[typeof(IGameViewSizeService)] as IGameViewSizeService;
+            var gameConfig = svc[typeof(IConfigService)] as IConfigService;
+            _screenWrapPadding = gameConfig?.ScreenWrapPadding ?? 0f;
 
             _aspect = (PositionAspect)_world.Aspect(typeof(PositionAspect));
             _iterator = new ProtoIt(new[] { typeof(PositionCmp), typeof(VelocityCmp) });
@@ -36,6 +43,15 @@
 
                 p.x += v.vx * DeltaTime;
                 p.y += v.vy * DeltaTime;
+                
+                var hw = _viewSizeService?.HalfWidth ?? 0f;
+                var hh = _viewSizeService?.HalfHeight ?? 0f;
+                
+                if (hw > 0f)
+                    p.x = Wrap(p.x, -hw - _screenWrapPadding, hw + _screenWrapPadding);
+
+                if (hh > 0f)
+                    p.y = Wrap(p.y, -hh - _screenWrapPadding, hh + _screenWrapPadding);
 
                 if (v.vx != 0f)
                 {
@@ -49,6 +65,14 @@
                     if (MathF.Abs(v.vy) < Epsilon) v.vy = 0f;
                 }
             }
+        }
+        private static float Wrap(float value, float min, float max)
+        {
+            var range = max - min;
+            if (range <= 0f) return value;
+            var shifted = value - min;
+            var mod = shifted - MathF.Floor(shifted / range) * range;
+            return min + mod;
         }
     }
 }

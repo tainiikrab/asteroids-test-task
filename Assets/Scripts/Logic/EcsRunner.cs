@@ -8,14 +8,26 @@
         private readonly IDeltaTimeControllerService _deltaTimeService;
         private readonly IInputReader _inputReader;
         private readonly IInputControllerService _inputService;
+        private readonly IGameViewSizeControllerService _gameViewSizeService;
 
 
-        public EcsRunner(IProtoSystems systems, IDeltaTimeControllerService deltaTimeService, IInputReader inputReader, IInputControllerService inputService)
+        public EcsRunner(IProtoSystems systems, IInputReader inputReader)
         {
             _systems = systems;
-            _deltaTimeService = deltaTimeService;
             _inputReader = inputReader;
-            _inputService = inputService;
+            var svc = systems.Services();
+            
+            _deltaTimeService = svc[typeof(IDeltaTimeService)] as IDeltaTimeControllerService;
+            
+            _inputService = svc[typeof(IInputService)] as IInputControllerService;
+            
+            _gameViewSizeService = svc[typeof(IGameViewSizeService)] as IGameViewSizeControllerService;
+
+            
+            // _deltaTimeService = deltaTimeService;
+            // _inputReader = inputReader;
+            // _inputService = inputService;
+            // _gameViewSizeService = gameViewSizeService;
         }
         
         public void Tick(float deltaTime)
@@ -26,10 +38,15 @@
             
             _systems.Run();
         }
+        public void UpdateScreenSize(float width, float height)
+        {
+            _gameViewSizeService.SetSize(width, height);
+        }
     }
 
     public interface IEcsRunner
     {
         void Tick(float deltaTime);
+        void UpdateScreenSize(float width, float height);
     }
 }

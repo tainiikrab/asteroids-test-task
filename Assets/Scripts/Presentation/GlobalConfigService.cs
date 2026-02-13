@@ -17,9 +17,11 @@ namespace AsteroidsGame.Presentation
 
         [SerializeField] private float _asteroidSpeed = 10f;
         [SerializeField] private float _asteroidRotationSpeed = 10f;
-        [SerializeField] private float _asteroidSpawnRate = 10f;
+        [SerializeField] private float _asteroidSpawnInterval = 10f;
         [SerializeField] private int _asteroidSpawnAmount = 10;
         [SerializeField] private float _asteroidRandomnessWeight = 0.3f;
+        
+        [SerializeField] private float _screenWrapPadding = 1f;
 
         public float PlayerSpeed => _playerSpeed;
         public float PlayerRotationSpeed => _playerRotationSpeed;
@@ -28,8 +30,10 @@ namespace AsteroidsGame.Presentation
 
         public float AsteroidSpeed => _asteroidSpeed;
         public float AsteroidRotationSpeed => _asteroidRotationSpeed;
-        public float AsteroidSpawnInterval => _asteroidSpawnRate;
+        public float AsteroidSpawnInterval => _asteroidSpawnInterval;
         public int AsteroidSpawnAmount => _asteroidSpawnAmount;
         public float AsteroidRandomnessWeight => _asteroidRandomnessWeight;
+        
+        public float ScreenWrapPadding => _screenWrapPadding;
     }
 }

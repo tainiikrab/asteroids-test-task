@@ -12,5 +12,7 @@
         public float AsteroidSpawnInterval { get; }
         public int AsteroidSpawnAmount { get; }
         public float AsteroidRandomnessWeight { get; }
+        
+        public float ScreenWrapPadding { get; }
     }
 }

@@ -391,9 +391,10 @@ MonoBehaviour:
     _playerDeceleration: 6
     _asteroidSpeed: 3
     _asteroidRotationSpeed: 180
-    _asteroidSpawnRate: 1
+    _asteroidSpawnInterval: 1
     _asteroidSpawnAmount: 2
     _asteroidRandomnessWeight: 0.3
+    _screenWrapPadding: 0.5
   _viewUpdater: {fileID: 1177438939}
 --- !u!1 &1177438937
 GameObject:

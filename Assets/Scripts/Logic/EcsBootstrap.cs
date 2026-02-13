@@ -7,18 +7,13 @@ namespace AsteroidsGame.Logic
     public class EcsBootstrap : IEcsBootstrap
     {
         private readonly IConfigService _configService;
-        private readonly IDeltaTimeService _deltaTimeService;
-        private readonly IInputService _inputService;
-        
         
         public ProtoWorld World { get; private set; }
         public IProtoSystems Systems { get; private set; }
 
-        public EcsBootstrap(IDeltaTimeService deltaTimeService, IConfigService configService, IInputService inputService)
+        public EcsBootstrap(IConfigService configService)
         {
-            _deltaTimeService = deltaTimeService;
             _configService = configService;
-            _inputService = inputService;
         }
 
         public void Init()
@@ -37,13 +32,17 @@ namespace AsteroidsGame.Logic
 
             // services
             var idGeneratorService = new SequentialIdGeneratorService();
+            var gameViewSizeService = new GameViewSizeService();
+            var inputService = new InputService();
+            var deltaTimeService = new DeltaTimeService();
 
             // init
             Systems
                 .AddService(idGeneratorService, typeof(IIdGeneratorService))
-                .AddService(_deltaTimeService, typeof(IDeltaTimeService))
+                .AddService(gameViewSizeService, typeof(IGameViewSizeService))
+                .AddService(deltaTimeService, typeof(IDeltaTimeService))
+                .AddService(inputService, typeof(IInputService))
                 .AddService(_configService, typeof(IConfigService))
-                .AddService(_inputService, typeof(IInputService))
                 .AddSystem(playerSpawnSystem)
                 .AddSystem(asteroidSpawnSystem)
                 .AddSystem(playerInputSystem)

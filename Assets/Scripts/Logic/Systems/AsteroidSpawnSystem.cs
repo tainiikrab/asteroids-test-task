@@ -50,6 +50,8 @@
 
             _spawnTimer += DeltaTime;
 
+            if (spawnInterval == 0 || spawnAmount == 0) return;
+            
             if (_spawnTimer >= spawnInterval)
             {
                 _spawnTimer = 0;
