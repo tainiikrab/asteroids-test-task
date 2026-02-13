@@ -6,7 +6,8 @@ namespace AsteroidsGame.Logic
     using Leopotam.EcsProto;
     public sealed class MovementSystem : IProtoInitSystem, IProtoRunSystem
     {
-        private PositionAspect _aspect;
+        private PositionAspect _positionAspect;
+        private EntityAspect _entityAspect;
 
 
         private ProtoWorld _world;
@@ -27,9 +28,11 @@ namespace AsteroidsGame.Logic
             _deltaTimeService = svc[typeof(IDeltaTimeService)] as IDeltaTimeService;
             _viewSizeService = svc[typeof(IGameViewSizeService)] as IGameViewSizeService;
             var gameConfig = svc[typeof(IConfigService)] as IConfigService;
-            _screenWrapPadding = gameConfig?.ScreenWrapPadding ?? 0f;
+            _screenWrapPadding = gameConfig?.ScreenWrapMargin ?? 0f;
 
-            _aspect = (PositionAspect)_world.Aspect(typeof(PositionAspect));
+            _positionAspect = (PositionAspect)_world.Aspect(typeof(PositionAspect));
+            _entityAspect = (EntityAspect)_world.Aspect(typeof(EntityAspect));
+            
             _iterator = new ProtoIt(new[] { typeof(PositionCmp), typeof(VelocityCmp) });
             _iterator.Init(_world);
         }
@@ -38,8 +41,8 @@ namespace AsteroidsGame.Logic
         {
             foreach (var e in _iterator)
             {
-                ref var p = ref _aspect.PositionPool.Get(e);
-                ref var v = ref _aspect.VelocityPool.Get(e);
+                ref var p = ref _positionAspect.PositionPool.Get(e);
+                ref var v = ref _positionAspect.VelocityPool.Get(e);
 
                 p.x += v.vx * DeltaTime;
                 p.y += v.vy * DeltaTime;
@@ -47,12 +50,22 @@ namespace AsteroidsGame.Logic
                 var hw = _viewSizeService?.HalfWidth ?? 0f;
                 var hh = _viewSizeService?.HalfHeight ?? 0f;
                 
+                var wrapped = false;
+
                 if (hw > 0f)
-                    p.x = Wrap(p.x, -hw - _screenWrapPadding, hw + _screenWrapPadding);
+                {
+                    p.x = TryWrap(p.x, -hw - _screenWrapPadding, hw + _screenWrapPadding, out var wrappedW);
+                    wrapped |= wrappedW;
+                }
 
                 if (hh > 0f)
-                    p.y = Wrap(p.y, -hh - _screenWrapPadding, hh + _screenWrapPadding);
-
+                {
+                    p.y = TryWrap(p.y, -hh - _screenWrapPadding, hh + _screenWrapPadding, out var wrappedH);
+                    wrapped |= wrappedH;
+                }
+                if (wrapped) CountExit(e);
+                
+                
                 if (v.vx != 0f)
                 {
                     v.vx -= MathF.Sign(v.vx) * v.deceleration * DeltaTime;
@@ -66,13 +79,28 @@ namespace AsteroidsGame.Logic
                 }
             }
         }
-        private static float Wrap(float value, float min, float max)
+
+        private void CountExit(ProtoEntity entity)
         {
-            var range = max - min;
-            if (range <= 0f) return value;
-            var shifted = value - min;
-            var mod = shifted - MathF.Floor(shifted / range) * range;
-            return min + mod;
+            if (_entityAspect.TeleportCounterPool.Has(entity))
+            {
+                ref var counter = ref _entityAspect.TeleportCounterPool.Get(entity);
+                counter.teleportationCount++;
+            }
+        }
+        private static float TryWrap(float value, float min, float max, out bool wrapped)
+        {
+            float range = max - min;
+            if (range <= 0f || value >= min && value <= max)
+            {
+                wrapped = false;
+                return value;
+            }
+            wrapped = true;
+
+            float t = (value - min) % range;
+            if (t < 0f) t += range;
+            return min + t;
         }
     }
 }

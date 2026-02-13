@@ -29,7 +29,6 @@
                     transform = GetFromPool(v.type);
                     _map[v.id] = transform;
 
-                    // Debug.Log($"Instantiated {v.type} with id {v.id}");
                 }
 
                 transform.position = new Vector2(v.x, v.y);

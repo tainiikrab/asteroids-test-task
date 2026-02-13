@@ -27,8 +27,11 @@
     {
     }
 
-    public struct AsteroidCmp
+    public struct TeleportCounterCmp
     {
+        public int teleportationCount;
+        public int teleportationLimit;
+        
     }
 
     public struct EntityIdCmp

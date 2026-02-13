@@ -22,6 +22,8 @@ namespace AsteroidsGame.Presentation
         [SerializeField] private float _asteroidRandomnessWeight = 0.3f;
         
         [SerializeField] private float _screenWrapPadding = 1f;
+        
+        [SerializeField] private int _asteroidTeleportationLimit = 3;
 
         public float PlayerSpeed => _playerSpeed;
         public float PlayerRotationSpeed => _playerRotationSpeed;
@@ -34,6 +36,8 @@ namespace AsteroidsGame.Presentation
         public int AsteroidSpawnAmount => _asteroidSpawnAmount;
         public float AsteroidRandomnessWeight => _asteroidRandomnessWeight;
         
-        public float ScreenWrapPadding => _screenWrapPadding;
+        public float ScreenWrapMargin => _screenWrapPadding;
+        
+        public int AsteroidTeleportationLimit => _asteroidTeleportationLimit;
     }
 }

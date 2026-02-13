@@ -1,8 +1,11 @@
 ﻿
+
+
 namespace AsteroidsGame.Logic
 {
     using AsteroidsGame.Contracts;
     using Leopotam.EcsProto;
+    using AsteroidsGame.Logic.Modules;
 
     public class EcsBootstrap : IEcsBootstrap
     {
@@ -18,36 +21,16 @@ namespace AsteroidsGame.Logic
 
         public void Init()
         {
-            // world
             var rootAspect = new RootAspect();
-            World = new ProtoWorld(rootAspect); 
+            World = new ProtoWorld(rootAspect);
             
-            // systems
             Systems = new ProtoSystems(World);
-            var playerInputSystem = new PlayerInputSystem();
-            var movementSystem = new MovementSystem();
-            var rotationSystem = new RotationSystem();
-            var asteroidSpawnSystem = new AsteroidSpawnSystem();
-            var playerSpawnSystem = new PlayerSpawnSystem();
 
-            // services
-            var idGeneratorService = new SequentialIdGeneratorService();
-            var gameViewSizeService = new GameViewSizeService();
-            var inputService = new InputService();
-            var deltaTimeService = new DeltaTimeService();
-
-            // init
             Systems
-                .AddService(idGeneratorService, typeof(IIdGeneratorService))
-                .AddService(gameViewSizeService, typeof(IGameViewSizeService))
-                .AddService(deltaTimeService, typeof(IDeltaTimeService))
-                .AddService(inputService, typeof(IInputService))
-                .AddService(_configService, typeof(IConfigService))
-                .AddSystem(playerSpawnSystem)
-                .AddSystem(asteroidSpawnSystem)
-                .AddSystem(playerInputSystem)
-                .AddSystem(rotationSystem)
-                .AddSystem(movementSystem)
+                .AddModule(new CoreModule(_configService))
+                .AddModule(new SpawnModule())
+                .AddModule(new PlayerModule())
+                .AddModule(new MovementModule())
                 .Init();
         }
 

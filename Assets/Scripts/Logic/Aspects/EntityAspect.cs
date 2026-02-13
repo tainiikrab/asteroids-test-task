@@ -15,7 +15,7 @@ namespace AsteroidsGame.Logic
 
         public ProtoPool<EntityIdCmp> EntityIdPool;
         public ProtoPool<PlayerCmp> PlayerPool;
-        public ProtoPool<AsteroidCmp> AsteroidPool;
+        public ProtoPool<TeleportCounterCmp> TeleportCounterPool;
 
         public void Init(ProtoWorld world)
         {
@@ -24,11 +24,11 @@ namespace AsteroidsGame.Logic
 
             EntityIdPool = new ProtoPool<EntityIdCmp>();
             PlayerPool = new ProtoPool<PlayerCmp>();
-            AsteroidPool = new ProtoPool<AsteroidCmp>();
+            TeleportCounterPool = new ProtoPool<TeleportCounterCmp>();
 
             _world.AddPool(EntityIdPool);
             _world.AddPool(PlayerPool);
-            _world.AddPool(AsteroidPool);
+            _world.AddPool(TeleportCounterPool);
         }
 
         public void PostInit()

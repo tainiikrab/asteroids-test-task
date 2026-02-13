@@ -13,6 +13,7 @@
         public int AsteroidSpawnAmount { get; }
         public float AsteroidRandomnessWeight { get; }
         
-        public float ScreenWrapPadding { get; }
+        public float ScreenWrapMargin { get; }
+        public int AsteroidTeleportationLimit { get; }
     }
 }
