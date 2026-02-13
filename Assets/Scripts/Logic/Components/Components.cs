@@ -1,8 +1,7 @@
-﻿using AsteroidsGame.Contracts;
-using Leopotam.EcsProto.QoL;
-
-namespace AsteroidsGame.Logic
+﻿namespace AsteroidsGame.Logic
 {
+    using AsteroidsGame.Contracts;
+    using Leopotam.EcsProto.QoL;
     public struct PositionCmp
     {
         public float x, y;
@@ -39,7 +38,7 @@ namespace AsteroidsGame.Logic
         public EntityType type;
     }
 
-    public struct NeedsIdCmp
-    {
-    }
+    // public struct NeedsIdCmp
+    // {
+    // }
 }

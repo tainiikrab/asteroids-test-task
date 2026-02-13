@@ -1,10 +1,9 @@
-﻿using UnityEngine;
-using UnityEngine.InputSystem;
-using AsteroidsGame.Contracts;
-
-namespace AsteroidsGame.Presentation
+﻿namespace AsteroidsGame.Presentation
 {
-    public class UnityInputReader : MonoBehaviour, IInputReader
+    using UnityEngine;
+    using UnityEngine.InputSystem;
+    using AsteroidsGame.Contracts;
+    public class UnityInputReader : IInputReader
     {
         public PlayerControls playerControls;
 
@@ -13,13 +12,14 @@ namespace AsteroidsGame.Presentation
         private bool _laserPressed = false;
         private InputAction.CallbackContext _lastContext;
 
-        private void Awake()
+        public UnityInputReader()
         {
             playerControls = new PlayerControls();
             playerControls.Enable();
+            Enable();
         }
 
-        private void OnEnable()
+        public void Enable()
         {
             playerControls.Ship.Move.performed += OnMove;
             playerControls.Ship.Move.canceled += OnMove;
@@ -28,7 +28,7 @@ namespace AsteroidsGame.Presentation
             playerControls.Ship.ShootLaser.performed += OnShootLaser;
         }
 
-        private void OnDisable()
+        public void Disable()
         {
             playerControls.Disable();
 
@@ -70,9 +70,5 @@ namespace AsteroidsGame.Presentation
             return data;
         }
     }
-
-    public interface IInputReader
-    {
-        InputData ReadInput();
-    }
+    
 }

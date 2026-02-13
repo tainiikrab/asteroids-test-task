@@ -1,10 +1,9 @@
-﻿using System;
-using UnityEngine;
-using AsteroidsGame.Contracts;
-using System.Collections.Generic;
-
-namespace AsteroidsGame.Presentation
+﻿namespace AsteroidsGame.Presentation
 {
+    using System;
+    using UnityEngine;
+    using AsteroidsGame.Contracts;
+    using System.Collections.Generic;
     public class UnityViewUpdater : MonoBehaviour, IViewUpdater
     {
         private readonly Dictionary<int, Transform> _map = new();
@@ -87,10 +86,5 @@ namespace AsteroidsGame.Presentation
                 _asteroidPool.Push(entityTransform);
         }
     }
-
-
-    public interface IViewUpdater
-    {
-        void Apply(IReadOnlyList<ViewData> views);
-    }
+    
 }

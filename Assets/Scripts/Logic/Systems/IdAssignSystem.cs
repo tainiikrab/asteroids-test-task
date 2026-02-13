@@ -1,7 +1,6 @@
-﻿using Leopotam.EcsProto;
-
-namespace AsteroidsGame.Logic
+﻿namespace AsteroidsGame.Logic
 {
+    using Leopotam.EcsProto;
     public class IdAssignSystem : IProtoInitSystem, IProtoRunSystem
     {
         private ProtoWorld _world;

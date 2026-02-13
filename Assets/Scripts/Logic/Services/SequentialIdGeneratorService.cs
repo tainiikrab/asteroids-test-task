@@ -4,14 +4,14 @@
     {
         private int _next = 0;
 
-        public int Next()
+        public int GetNextId()
         {
             return _next++;
         }
     }
-
     public interface IIdGeneratorService
     {
-        int Next();
+        int GetNextId();
     }
+
 }

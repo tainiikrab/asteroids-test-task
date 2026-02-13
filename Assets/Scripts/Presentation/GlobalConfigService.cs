@@ -1,9 +1,11 @@
-﻿using System;
-using AsteroidsGame.Contracts;
-using UnityEngine;
+﻿
 
 namespace AsteroidsGame.Presentation
 {
+    using System;
+    using AsteroidsGame.Contracts;
+    using UnityEngine;
+    
     [Serializable]
     public class GlobalConfigService : IConfigService
     {

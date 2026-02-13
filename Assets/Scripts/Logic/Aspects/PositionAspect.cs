@@ -1,9 +1,8 @@
-﻿using Leopotam.EcsProto;
-using Leopotam.EcsProto.QoL;
-using AsteroidsGame.Contracts;
+﻿
 
 namespace AsteroidsGame.Logic
 {
+    using Leopotam.EcsProto;
     public sealed class PositionAspect : IProtoAspect
     {
         private ProtoWorld _world;

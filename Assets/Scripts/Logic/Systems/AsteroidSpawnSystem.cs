@@ -1,9 +1,9 @@
-﻿using System;
-using Leopotam.EcsProto;
-using AsteroidsGame.Contracts;
-
-namespace AsteroidsGame.Logic
+﻿namespace AsteroidsGame.Logic
 {
+    using System;
+    using Leopotam.EcsProto;
+    using AsteroidsGame.Contracts;
+
     public sealed class AsteroidSpawnSystem : IProtoInitSystem, IProtoRunSystem
     {
         private ProtoWorld _world;
@@ -80,7 +80,7 @@ namespace AsteroidsGame.Logic
 
                     ref var entityIdData = ref _entityAspect.EntityIdPool.Add(asteroidEntity);
                     entityIdData.type = EntityType.Asteroid;
-                    entityIdData.id = _idGeneratorService.Next();
+                    entityIdData.id = _idGeneratorService.GetNextId();
                 }
             }
         }

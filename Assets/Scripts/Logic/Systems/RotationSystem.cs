@@ -1,9 +1,8 @@
-using AsteroidsGame.Contracts;
-using Leopotam.EcsProto;
-using Leopotam.EcsProto.QoL;
+
 
 namespace AsteroidsGame.Logic
 {
+    using Leopotam.EcsProto;
     public sealed class RotationSystem : IProtoInitSystem, IProtoRunSystem
     {
         private PositionAspect _aspect;

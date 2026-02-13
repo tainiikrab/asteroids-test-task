@@ -1,6 +1,6 @@
 ﻿namespace AsteroidsGame.Logic
 {
-    public class UnityDeltaTimeService : IDeltaTimeService
+    public class DeltaTimeService : IDeltaTimeControllerService
     {
         public float DeltaTime { get; private set; }
 
@@ -9,7 +9,10 @@
             DeltaTime = deltaTime;
         }
     }
-
+    public interface IDeltaTimeControllerService : IDeltaTimeService
+    {
+        public void SetDeltaTime(float deltaTime);
+    }
     public interface IDeltaTimeService
     {
         public float DeltaTime { get; }

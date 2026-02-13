@@ -1,14 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using Leopotam.EcsProto;
-using AsteroidsGame.Contracts;
-
-#if UNITY_EDITOR
-using System.Diagnostics;
-#endif
-
-namespace AsteroidsGame.Logic
+﻿namespace AsteroidsGame.Logic
 {
+    using System;
+    using Leopotam.EcsProto;
     public sealed class MovementSystem : IProtoInitSystem, IProtoRunSystem
     {
         private PositionAspect _aspect;
