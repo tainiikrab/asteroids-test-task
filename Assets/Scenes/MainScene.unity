@@ -385,17 +385,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Bootstrap::AsteroidsGame.CompositionRoot.CompositionRoot
   _globalConfigService:
-    _playerSpeed: 6
-    _playerRotationSpeed: 250
-    _playerAcceleration: 20
-    _playerDeceleration: 6
-    _asteroidSpeed: 2
-    _asteroidRotationSpeed: 180
-    _asteroidSpawnInterval: 3
-    _asteroidSpawnAmount: 2
-    _asteroidRandomnessWeight: 0.4
-    _screenWrapPadding: 0.5
-    _asteroidTeleportationLimit: 3
+    _playerConfig:
+      <Speed>k__BackingField: 6
+      <RotationSpeed>k__BackingField: 250
+      <Acceleration>k__BackingField: 20
+      <Deceleration>k__BackingField: 6
+      <ColliderRadius>k__BackingField: 0
+    _asteroidConfig:
+      <Speed>k__BackingField: 2
+      <RotationSpeed>k__BackingField: 140
+      <SpawnInterval>k__BackingField: 3
+      <SpawnAmount>k__BackingField: 2
+      <RandomnessWeight>k__BackingField: 0.4
+      <TeleportationLimit>k__BackingField: 2
+    _worldConfig:
+      <ScreenWrapMargin>k__BackingField: 0.5
   _viewUpdater: {fileID: 1177438939}
 --- !u!1 &1177438937
 GameObject:

@@ -9,35 +9,36 @@ namespace AsteroidsGame.Presentation
     [Serializable]
     public class GlobalConfigService : IConfigService
     {
-        [SerializeField] private float _playerSpeed = 6f;
+        [SerializeField] private PlayerConfig _playerConfig;
+        [SerializeField] private AsteroidConfig _asteroidConfig;
+        [SerializeField] private WorldConfig _worldConfig;
 
-        [SerializeField] private float _playerRotationSpeed = 180f;
-        [SerializeField] private float _playerAcceleration = 10f;
-        [SerializeField] private float _playerDeceleration = 1f;
-
-        [SerializeField] private float _asteroidSpeed = 10f;
-        [SerializeField] private float _asteroidRotationSpeed = 10f;
-        [SerializeField] private float _asteroidSpawnInterval = 10f;
-        [SerializeField] private int _asteroidSpawnAmount = 10;
-        [SerializeField] private float _asteroidRandomnessWeight = 0.3f;
-        
-        [SerializeField] private float _screenWrapPadding = 1f;
-        
-        [SerializeField] private int _asteroidTeleportationLimit = 3;
-
-        public float PlayerSpeed => _playerSpeed;
-        public float PlayerRotationSpeed => _playerRotationSpeed;
-        public float PlayerAcceleration => _playerAcceleration;
-        public float PlayerDeceleration => _playerDeceleration;
-
-        public float AsteroidSpeed => _asteroidSpeed;
-        public float AsteroidRotationSpeed => _asteroidRotationSpeed;
-        public float AsteroidSpawnInterval => _asteroidSpawnInterval;
-        public int AsteroidSpawnAmount => _asteroidSpawnAmount;
-        public float AsteroidRandomnessWeight => _asteroidRandomnessWeight;
-        
-        public float ScreenWrapMargin => _screenWrapPadding;
-        
-        public int AsteroidTeleportationLimit => _asteroidTeleportationLimit;
+        public IPlayerConfig PlayerConfig => _playerConfig;
+        public IAsteroidConfig AsteroidConfig => _asteroidConfig;
+        public IWorldConfig WorldConfig => _worldConfig;
+    }
+    [Serializable]
+    public struct PlayerConfig : IPlayerConfig
+    {
+        [field: SerializeField] public float Speed { get; set; }
+        [field: SerializeField] public float RotationSpeed { get; set; }
+        [field: SerializeField] public float Acceleration { get; set; }
+        [field: SerializeField] public float Deceleration { get; set; }
+        [field: SerializeField] public float ColliderRadius { get; set; }
+    }
+    [Serializable]
+    public struct AsteroidConfig : IAsteroidConfig
+    {
+        [field: SerializeField] public float Speed { get; set; }
+        [field: SerializeField] public float RotationSpeed { get; set; }
+        [field: SerializeField] public float SpawnInterval { get; set; }
+        [field: SerializeField] public int SpawnAmount { get; set; }
+        [field: SerializeField] public float RandomnessWeight { get; set; }
+        [field: SerializeField] public int TeleportationLimit { get; set; }
+    }
+    [Serializable]
+    public struct WorldConfig : IWorldConfig
+    {
+        [field: SerializeField] public float ScreenWrapMargin { get; set; }
     }
 }

@@ -28,7 +28,7 @@ namespace AsteroidsGame.Logic
             _deltaTimeService = svc[typeof(IDeltaTimeService)] as IDeltaTimeService;
             _viewSizeService = svc[typeof(IGameViewSizeService)] as IGameViewSizeService;
             var gameConfig = svc[typeof(IConfigService)] as IConfigService;
-            _screenWrapPadding = gameConfig?.ScreenWrapMargin ?? 0f;
+            _screenWrapPadding = gameConfig?.WorldConfig.ScreenWrapMargin ?? 0f;
 
             _positionAspect = (PositionAspect)_world.Aspect(typeof(PositionAspect));
             _entityAspect = (EntityAspect)_world.Aspect(typeof(EntityAspect));

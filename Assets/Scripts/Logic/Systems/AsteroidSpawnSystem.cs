@@ -38,7 +38,7 @@
             _entityAspect = (EntityAspect)_world.Aspect(typeof(EntityAspect));
             _positionAspect = (PositionAspect)_world.Aspect(typeof(PositionAspect));
         
-            _spawnTimer = _configService.AsteroidSpawnInterval;
+            _spawnTimer = _configService.AsteroidConfig.SpawnInterval;
             
         }
 
@@ -47,8 +47,8 @@
         private float RandomNormalizedFloat => ((float)_random.NextDouble() - 0.5f) * 2f;
         public void Run()
         {
-            var spawnInterval = _configService.AsteroidSpawnInterval;
-            var spawnAmount = _configService.AsteroidSpawnAmount;
+            var spawnInterval = _configService.AsteroidConfig.SpawnInterval;
+            var spawnAmount = _configService.AsteroidConfig.SpawnAmount;
             
             if (spawnInterval == 0 || spawnAmount == 0) return;
             
@@ -56,14 +56,14 @@
             
             if (_spawnTimer >= spawnInterval)
             {
-                var baseSpeed = _configService.AsteroidSpeed;
-                var rotationSpeed = _configService.AsteroidRotationSpeed;
-                var randomnessWeight = _configService.AsteroidRandomnessWeight;
+                var baseSpeed = _configService.AsteroidConfig.Speed;
+                var rotationSpeed = _configService.AsteroidConfig.RotationSpeed;
+                var randomnessWeight = _configService.AsteroidConfig.RandomnessWeight;
                 _spawnTimer = 0;
                 for (var i = 0; i < spawnAmount; i++)
                 {
                     ref var teleportCounter = ref _entityAspect.TeleportCounterPool.NewEntity(out var asteroidEntity);
-                    teleportCounter.teleportationLimit = _configService.AsteroidTeleportationLimit;
+                    teleportCounter.teleportationLimit = _configService.AsteroidConfig.TeleportationLimit;
 
                     ref var positionData = ref _positionAspect.PositionPool.Add(asteroidEntity);
                     
@@ -98,7 +98,7 @@
         {
             float halfWidth = _viewSizeService.HalfWidth;
             float halfHeight = _viewSizeService.HalfHeight;
-            float margin = _configService.ScreenWrapMargin;
+            float margin = _configService.WorldConfig.ScreenWrapMargin;
 
             bool horizontal = (_random.NextDouble() < 0.5);
 

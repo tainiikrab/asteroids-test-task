@@ -36,7 +36,7 @@
             ref var velocityData = ref _positionAspect.VelocityPool.Add(playerEntity);
             velocityData.vx = 0;
             velocityData.vy = 0;
-            velocityData.deceleration = _configService.PlayerDeceleration;
+            velocityData.deceleration = _configService.PlayerConfig.Deceleration;
 
             ref var rotationData = ref _positionAspect.RotationPool.Add(playerEntity);
             rotationData.angle = 0f;

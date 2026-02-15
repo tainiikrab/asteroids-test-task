@@ -56,9 +56,9 @@
                 ref var rot = ref _positionAspect.RotationPool.Get(e);
                 ref var ang = ref _positionAspect.AngularVelocityPool.Get(e);
 
-                var rotationSpeed = _configService.PlayerRotationSpeed;
-                var acceleration = _configService.PlayerAcceleration;
-                var maxSpeed = _configService.PlayerSpeed;
+                var rotationSpeed = _configService.PlayerConfig.RotationSpeed;
+                var acceleration = _configService.PlayerConfig.Acceleration;
+                var maxSpeed = _configService.PlayerConfig.Speed;
 
                 ang.omega = _currentInput.turn * rotationSpeed;
 
