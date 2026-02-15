@@ -55,7 +55,9 @@ namespace AsteroidsGame.CompositionRoot
         }
         void OnDestroy()
         {
+            if (_bootstrap == null) return;
             _bootstrap.Destroy();
+            _bootstrap = null;
         }
     }
 }

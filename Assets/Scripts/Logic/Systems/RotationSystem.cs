@@ -5,7 +5,7 @@ namespace AsteroidsGame.Logic
     using Leopotam.EcsProto;
     public sealed class RotationSystem : IProtoInitSystem, IProtoRunSystem
     {
-        private PositionAspect _aspect;
+        private TransformAspect _aspect;
         private ProtoWorld _world;
         private ProtoIt _iterator;
 
@@ -19,7 +19,7 @@ namespace AsteroidsGame.Logic
 
             var svc = systems.Services();
             _deltaTimeService = svc[typeof(IDeltaTimeService)] as IDeltaTimeService;
-            _aspect = (PositionAspect)_world.Aspect(typeof(PositionAspect));
+            _aspect = (TransformAspect)_world.Aspect(typeof(TransformAspect));
             _iterator = new ProtoIt(new[] { typeof(RotationCmp), typeof(AngularVelocityCmp) });
             _iterator.Init(_world);
         }

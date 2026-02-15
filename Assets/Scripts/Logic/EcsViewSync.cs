@@ -18,7 +18,7 @@
         {
             _viewUpdater = viewUpdater;
             var entityAspect = world.Aspect(typeof(EntityAspect)) as EntityAspect;
-            var positionAspect = world.Aspect(typeof(PositionAspect)) as PositionAspect;
+            var positionAspect = world.Aspect(typeof(TransformAspect)) as TransformAspect;
             
             _entityIdPool = entityAspect?.EntityIdPool;
             _positionPool = positionAspect?.PositionPool;

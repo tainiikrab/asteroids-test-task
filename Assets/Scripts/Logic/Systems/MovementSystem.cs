@@ -6,7 +6,7 @@ namespace AsteroidsGame.Logic
     using Leopotam.EcsProto;
     public sealed class MovementSystem : IProtoInitSystem, IProtoRunSystem
     {
-        private PositionAspect _positionAspect;
+        private TransformAspect _transformAspect;
         private EntityAspect _entityAspect;
 
 
@@ -30,7 +30,7 @@ namespace AsteroidsGame.Logic
             var gameConfig = svc[typeof(IConfigService)] as IConfigService;
             _screenWrapPadding = gameConfig?.WorldConfig.ScreenWrapMargin ?? 0f;
 
-            _positionAspect = (PositionAspect)_world.Aspect(typeof(PositionAspect));
+            _transformAspect = (TransformAspect)_world.Aspect(typeof(TransformAspect));
             _entityAspect = (EntityAspect)_world.Aspect(typeof(EntityAspect));
             
             _iterator = new ProtoIt(new[] { typeof(PositionCmp), typeof(VelocityCmp) });
@@ -41,8 +41,8 @@ namespace AsteroidsGame.Logic
         {
             foreach (var e in _iterator)
             {
-                ref var p = ref _positionAspect.PositionPool.Get(e);
-                ref var v = ref _positionAspect.VelocityPool.Get(e);
+                ref var p = ref _transformAspect.PositionPool.Get(e);
+                ref var v = ref _transformAspect.VelocityPool.Get(e);
 
                 p.x += v.vx * DeltaTime;
                 p.y += v.vy * DeltaTime;
@@ -82,9 +82,9 @@ namespace AsteroidsGame.Logic
 
         private void CountExit(ProtoEntity entity)
         {
-            if (_entityAspect.TeleportCounterPool.Has(entity))
+            if (_transformAspect.TeleportCounterPool.Has(entity))
             {
-                ref var counter = ref _entityAspect.TeleportCounterPool.Get(entity);
+                ref var counter = ref _transformAspect.TeleportCounterPool.Get(entity);
                 counter.teleportationCount++;
             }
         }

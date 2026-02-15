@@ -31,6 +31,8 @@ namespace AsteroidsGame.Logic
                 .AddModule(new SpawnModule())
                 .AddModule(new PlayerModule())
                 .AddModule(new MovementModule())
+                .AddModule(new CollisionModule())
+                .AddModule(new DestroyModule())
                 .Init();
         }
 

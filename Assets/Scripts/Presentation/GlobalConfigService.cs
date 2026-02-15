@@ -35,6 +35,7 @@ namespace AsteroidsGame.Presentation
         [field: SerializeField] public int SpawnAmount { get; set; }
         [field: SerializeField] public float RandomnessWeight { get; set; }
         [field: SerializeField] public int TeleportationLimit { get; set; }
+        [field: SerializeField] public float ColliderRadius { get; set; }
     }
     [Serializable]
     public struct WorldConfig : IWorldConfig

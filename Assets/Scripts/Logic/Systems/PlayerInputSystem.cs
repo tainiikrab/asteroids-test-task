@@ -5,7 +5,7 @@
     using Leopotam.EcsProto;
     public sealed class PlayerInputSystem : IProtoInitSystem, IProtoRunSystem
     {
-        private PositionAspect _positionAspect;
+        private TransformAspect _transformAspect;
         private EntityAspect _entityAspect;
         private ProtoWorld _world;
         private InputData _currentInput;
@@ -26,7 +26,7 @@
             _inputService = svc[typeof(IInputService)] as IInputService;
 
 
-            _positionAspect = (PositionAspect)_world.Aspect(typeof(PositionAspect));
+            _transformAspect = (TransformAspect)_world.Aspect(typeof(TransformAspect));
             _entityAspect = (EntityAspect)_world.Aspect(typeof(EntityAspect));
 
             _iterator = new ProtoIt(new[]
@@ -52,9 +52,9 @@
             
             foreach (var e in _iterator)
             {
-                ref var v = ref _positionAspect.VelocityPool.Get(e);
-                ref var rot = ref _positionAspect.RotationPool.Get(e);
-                ref var ang = ref _positionAspect.AngularVelocityPool.Get(e);
+                ref var v = ref _transformAspect.VelocityPool.Get(e);
+                ref var rot = ref _transformAspect.RotationPool.Get(e);
+                ref var ang = ref _transformAspect.AngularVelocityPool.Get(e);
 
                 var rotationSpeed = _configService.PlayerConfig.RotationSpeed;
                 var acceleration = _configService.PlayerConfig.Acceleration;

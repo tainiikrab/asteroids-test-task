@@ -23,9 +23,7 @@
         public float omega;
     }
 
-    public struct PlayerCmp
-    {
-    }
+    public struct PlayerCmp { }
 
     public struct TeleportCounterCmp
     {
@@ -41,7 +39,13 @@
         public EntityType type;
     }
 
-    // public struct NeedsIdCmp
-    // {
-    // }
+    public struct ColliderCmp {
+        public float radius;
+    }
+    public struct CollisionSensorCmp { }
+    public struct CollisionEventCmp {
+        public ProtoPackedEntity SensorEntity;
+        public ProtoPackedEntity OtherEntity;
+    }
+    public struct DestroyTagCmp { }
 }

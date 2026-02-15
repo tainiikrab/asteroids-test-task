@@ -13,7 +13,8 @@
 
 
         private EntityAspect _entityAspect;
-        private PositionAspect _positionAspect;
+        private TransformAspect _transformAspect;
+        private CollisionAspect _collisionAspect;
 
         private readonly Random _random = new();
 
@@ -36,7 +37,8 @@
             _viewSizeService = svc[typeof(IGameViewSizeService)] as IGameViewSizeService;
             
             _entityAspect = (EntityAspect)_world.Aspect(typeof(EntityAspect));
-            _positionAspect = (PositionAspect)_world.Aspect(typeof(PositionAspect));
+            _transformAspect = (TransformAspect)_world.Aspect(typeof(TransformAspect));
+            _collisionAspect = (CollisionAspect)_world.Aspect(typeof(CollisionAspect));
         
             _spawnTimer = _configService.AsteroidConfig.SpawnInterval;
             
@@ -62,21 +64,21 @@
                 _spawnTimer = 0;
                 for (var i = 0; i < spawnAmount; i++)
                 {
-                    ref var teleportCounter = ref _entityAspect.TeleportCounterPool.NewEntity(out var asteroidEntity);
+                    ref var teleportCounter = ref _transformAspect.TeleportCounterPool.NewEntity(out var asteroidEntity);
                     teleportCounter.teleportationLimit = _configService.AsteroidConfig.TeleportationLimit;
 
-                    ref var positionData = ref _positionAspect.PositionPool.Add(asteroidEntity);
+                    ref var positionData = ref _transformAspect.PositionPool.Add(asteroidEntity);
                     
                     var randomAngle = MathF.PI * 2f * (float)_random.NextDouble();
 
                     (positionData.x, positionData.y) = CalculateRandomPosition();
                     
-                    ref var rotationData = ref _positionAspect.RotationPool.Add(asteroidEntity);
+                    ref var rotationData = ref _transformAspect.RotationPool.Add(asteroidEntity);
                     rotationData.angle = randomAngle;
 
                     var dirX = MathF.Cos(randomAngle);
                     var dirY = MathF.Sin(randomAngle);
-                    ref var velocityData = ref _positionAspect.VelocityPool.Add(asteroidEntity);
+                    ref var velocityData = ref _transformAspect.VelocityPool.Add(asteroidEntity);
 
                     var finalSpeed = baseSpeed * (1 + RandomNormalizedFloat * randomnessWeight);
                     velocityData.vx = dirX * finalSpeed;
@@ -84,12 +86,15 @@
 
                     velocityData.deceleration = 0f;
 
-                    ref var angularVelocityData = ref _positionAspect.AngularVelocityPool.Add(asteroidEntity);
+                    ref var angularVelocityData = ref _transformAspect.AngularVelocityPool.Add(asteroidEntity);
                     angularVelocityData.omega = RandomSign * rotationSpeed * (1 + RandomNormalizedFloat * randomnessWeight);
 
                     ref var entityIdData = ref _entityAspect.EntityIdPool.Add(asteroidEntity);
                     entityIdData.type = EntityType.Asteroid;
                     entityIdData.id = _idGeneratorService.GetNextId();
+                    
+                    ref var collider = ref _collisionAspect.ColliderPool.Add(asteroidEntity);
+                    collider.radius = _configService.AsteroidConfig.ColliderRadius;
                 }
             }
         }

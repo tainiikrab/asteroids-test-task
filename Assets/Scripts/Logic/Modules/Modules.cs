@@ -47,8 +47,7 @@
         {
             systems
                 .AddSystem(new RotationSystem())
-                .AddSystem(new MovementSystem())
-                .AddSystem(new TeleportCounterCleanupSystem());
+                .AddSystem(new MovementSystem());
         }
 
         public IProtoAspect[] Aspects() => null;
@@ -60,6 +59,29 @@
         public void Init(IProtoSystems systems)
         {
             systems.AddSystem(new AsteroidSpawnSystem());
+        }
+
+        public IProtoAspect[] Aspects() => null;
+        public Type[] Dependencies() => new Type[] { typeof(CoreModule) };
+    }
+    public class CollisionModule : IProtoModule
+    {
+        public void Init(IProtoSystems systems)
+        {
+            systems.AddSystem(new CollisionDetectionSystem());
+            systems.AddSystem(new CollisionResolutionSystem());
+            
+        }
+
+        public IProtoAspect[] Aspects() => null;
+        public Type[] Dependencies() => new Type[] { typeof(CoreModule) };
+    }
+    public class DestroyModule : IProtoModule
+    {
+        public void Init(IProtoSystems systems)
+        {
+            systems.AddSystem(new TeleportCounterCleanupSystem());
+            systems.AddSystem(new DestroyByTagSystem());
         }
 
         public IProtoAspect[] Aspects() => null;

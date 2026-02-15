@@ -8,7 +8,8 @@ namespace AsteroidsGame.Logic
         private ProtoWorld _world;
 
         public EntityAspect EntityAspect { get; private set; }
-        public PositionAspect PositionAspect { get; private set; }
+        public TransformAspect TransformAspect { get; private set; }
+        public CollisionAspect CollisionAspect { get; private set; }
 
         public ProtoWorld World()
         {
@@ -20,13 +21,16 @@ namespace AsteroidsGame.Logic
         public void Init(ProtoWorld world)
         {
             EntityAspect = new EntityAspect();
-            PositionAspect = new PositionAspect();
+            TransformAspect = new TransformAspect();
+            CollisionAspect = new CollisionAspect();
 
             EntityAspect.Init(world);
-            PositionAspect.Init(world);
+            TransformAspect.Init(world);
+            CollisionAspect.Init(world);
 
             EntityAspect.PostInit();
-            PositionAspect.PostInit();
+            TransformAspect.PostInit();
+            CollisionAspect.PostInit();
 
             world.AddAspect(this);
 

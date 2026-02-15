@@ -25,6 +25,7 @@
         public int SpawnAmount { get; }
         public float RandomnessWeight { get; }
         public int TeleportationLimit { get; }
+        public float ColliderRadius { get; }
     }
     public interface IWorldConfig
     {
