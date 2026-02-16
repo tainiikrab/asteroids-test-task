@@ -51,5 +51,6 @@ namespace AsteroidsGame.Presentation
         [field: SerializeField] public float Speed { get; set; }
         [field: SerializeField] public float ShotInterval { get; set; }
         [field: SerializeField] public float ColliderRadius { get; set; }
+        [field: SerializeField] public int TeleportationLimit { get; set; }
     }
 }

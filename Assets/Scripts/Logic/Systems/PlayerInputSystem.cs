@@ -1,8 +1,9 @@
 ﻿namespace AsteroidsGame.Logic
 {
     using System;
-    using AsteroidsGame.Contracts;
+    using Contracts;
     using Leopotam.EcsProto;
+
     public sealed class PlayerInputSystem : IProtoInitSystem, IProtoRunSystem
     {
         private TransformAspect _transformAspect;
@@ -10,7 +11,7 @@
         private ProtoWorld _world;
         private InputData _currentInput;
         private ProtoIt _playerIterator;
-        
+
         private IConfigService _configService;
         private IDeltaTimeService _deltaTimeService;
         private IInputService _inputService;
@@ -49,7 +50,7 @@
         public void Run()
         {
             _currentInput = _inputService.GetInput();
-            
+
             foreach (var playerEntity in _playerIterator)
             {
                 ref var v = ref _transformAspect.VelocityPool.Get(playerEntity);
@@ -81,16 +82,16 @@
                     v.y = v.y * invLength * maxSpeed;
                 }
 
+                ref var playerComponent = ref _entityAspect.PlayerPool.Get(playerEntity);
+
                 if (_currentInput.shootBullet)
                 {
-                    ref var playerComponent = ref _entityAspect.PlayerPool.Get(playerEntity);
                     playerComponent.isShootingBullet = true;
+                    return;
                 }
-                else if (_currentInput.shootLaser)
-                {
-                    ref var playerComponent = ref _entityAspect.PlayerPool.Get(playerEntity);
-                    playerComponent.isShootingLaser = true;
-                }
+                playerComponent.isShootingBullet = false;
+
+                if (_currentInput.shootLaser) playerComponent.isShootingLaser = true;
             }
         }
     }

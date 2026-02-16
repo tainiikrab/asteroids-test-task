@@ -22,7 +22,7 @@ namespace AsteroidsGame.Logic
             foreach (var entity in _iterator)
             {
                 ref var counter = ref _transformAspect.TeleportCounterPool.Get(entity);
-                if (counter.teleportationCount > counter.teleportationLimit)
+                if (counter.teleportationCount > counter.teleportationLimit && !_entityAspect.DestroyTagPool.Has(entity))
                 {
                     ref var _ = ref _entityAspect.DestroyTagPool.Add(entity);
                 }

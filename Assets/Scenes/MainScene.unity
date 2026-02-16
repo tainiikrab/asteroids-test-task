@@ -403,8 +403,9 @@ MonoBehaviour:
       <ScreenWrapMargin>k__BackingField: 0.5
     _bulletConfig:
       <Speed>k__BackingField: 10
-      <ShotInterval>k__BackingField: 0.1
+      <ShotInterval>k__BackingField: 0.5
       <ColliderRadius>k__BackingField: 0.1
+      <TeleportationLimit>k__BackingField: 0
   _viewUpdater: {fileID: 1177438939}
 --- !u!1 &762159307
 GameObject:
@@ -504,8 +505,8 @@ MonoBehaviour:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
+  - {fileID: 762159309}
   - {fileID: 519420032}
   - {fileID: 619394802}
   - {fileID: 1177438938}
   - {fileID: 750947961}
-  - {fileID: 762159309}

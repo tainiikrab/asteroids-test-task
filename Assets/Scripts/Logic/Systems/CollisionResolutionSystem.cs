@@ -1,19 +1,20 @@
 ﻿// Assets/Scripts/Logic/CollisionResolutionSystem.cs
+
 using Leopotam.EcsProto;
 using Leopotam.EcsProto.QoL;
 
 namespace AsteroidsGame.Logic
 {
-    public sealed class CollisionResolutionSystem : IProtoInitSystem, IProtoRunSystem {
+    public sealed class CollisionResolutionSystem : IProtoInitSystem, IProtoRunSystem
+    {
+        private CollisionAspect _collisionAspect;
+        private EntityAspect _entityAspect;
 
+        private ProtoWorld _world;
+        private ProtoIt _eventIterator;
 
-        CollisionAspect _collisionAspect;
-        EntityAspect _entityAspect;
-
-        ProtoWorld _world;
-        ProtoIt _eventIterator;
-
-        public void Init(IProtoSystems systems) {
+        public void Init(IProtoSystems systems)
+        {
             _world = systems.World();
 
             _collisionAspect = (CollisionAspect)_world.Aspect(typeof(CollisionAspect));
@@ -25,31 +26,44 @@ namespace AsteroidsGame.Logic
 
         public void Run()
         {
-            foreach (ProtoEntity eventEntity in _eventIterator)
+            foreach (var eventEntity in _eventIterator)
             {
-                ref var collisionEvent =
-                    ref _collisionAspect.CollisionEventPool.Get(eventEntity);
-
-                bool sensorOk = collisionEvent.SensorEntity.TryUnpack(_world, out ProtoEntity sensor);
-                bool otherOk  = collisionEvent.OtherEntity.TryUnpack(_world, out ProtoEntity other);
-
-                if (sensorOk && otherOk &&
-                    (IsOwner(sensor, collisionEvent.OtherEntity) || IsOwner(other, collisionEvent.SensorEntity)))
-                {
-                    _collisionAspect.CollisionEventPool.Del(eventEntity);
-                    continue;
-                }
-
-                if (sensorOk && !_entityAspect.DestroyTagPool.Has(sensor))
-                    _entityAspect.DestroyTagPool.Add(sensor);
-
-                if (otherOk && !_entityAspect.DestroyTagPool.Has(other))
-                    _entityAspect.DestroyTagPool.Add(other);
+                var collisionEvent =
+                    _collisionAspect.CollisionEventPool.Get(eventEntity);
 
                 _collisionAspect.CollisionEventPool.Del(eventEntity);
+
+                if (!collisionEvent.SensorEntity.TryUnpack(_world, out var sensor) ||
+                    !collisionEvent.OtherEntity.TryUnpack(_world, out var other))
+                    continue;
+
+                if (ShouldIgnoreCollision(sensor, other, collisionEvent)) continue;
+
+                if (!_entityAspect.DestroyTagPool.Has(sensor))
+                    _entityAspect.DestroyTagPool.Add(sensor);
+
+                if (!_entityAspect.DestroyTagPool.Has(other))
+                    _entityAspect.DestroyTagPool.Add(other);
             }
         }
-        bool IsOwner(ProtoEntity bulletEntity, ProtoPackedEntity target)
+
+        private bool ShouldIgnoreCollision(
+            ProtoEntity sensor,
+            ProtoEntity other,
+            in CollisionEventCmp collisionEvent)
+        {
+            if (IsOwner(sensor, collisionEvent.OtherEntity) ||
+                IsOwner(other, collisionEvent.SensorEntity))
+                return true;
+
+            if (_entityAspect.BulletPool.Has(sensor) &&
+                _entityAspect.BulletPool.Has(other))
+                return true;
+
+            return false;
+        }
+
+        private bool IsOwner(ProtoEntity bulletEntity, ProtoPackedEntity target)
         {
             if (!_entityAspect.BulletPool.Has(bulletEntity))
                 return false;

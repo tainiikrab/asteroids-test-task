@@ -11,10 +11,12 @@ namespace AsteroidsGame.CompositionRoot
         private IEcsBootstrap _bootstrap;
         private IEcsRunner _runner;
         private IViewSync _viewSync;
-        
+
+        private IInputReader _inputReader;
 
         [SerializeField] private GlobalConfigService _globalConfigService;
         [SerializeField] private UnityViewUpdater _viewUpdater;
+        
         private float _cachedW, _cachedH;
         private Camera _camera;
         private const float Epsilon = 0.01f;
@@ -24,8 +26,8 @@ namespace AsteroidsGame.CompositionRoot
             _bootstrap = new EcsBootstrap(_globalConfigService);
             _bootstrap.Init();
             
-            IInputReader inputReader = new UnityInputReader();
-            _runner = new EcsRunner(_bootstrap.Systems, inputReader);
+             _inputReader = new UnityInputReader();
+            _runner = new EcsRunner(_bootstrap.Systems, _inputReader);
             
             _viewSync = new EcsViewSync(_bootstrap.World, _viewUpdater);
 
@@ -55,6 +57,8 @@ namespace AsteroidsGame.CompositionRoot
         }
         void OnDestroy()
         {
+            _inputReader.Disable();
+            _inputReader = null;
             if (_bootstrap == null) return;
             _bootstrap.Destroy();
             _bootstrap = null;

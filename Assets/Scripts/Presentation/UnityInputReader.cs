@@ -24,29 +24,26 @@
             playerControls.Ship.Move.performed += OnMove;
             playerControls.Ship.Move.canceled += OnMove;
 
-            playerControls.Ship.ShootBullet.performed += OnShootBullet;
+            playerControls.Ship.ShootBullet.started += OnShootStarted;
+            playerControls.Ship.ShootBullet.canceled += OnShootCanceled;
+            
             playerControls.Ship.ShootLaser.performed += OnShootLaser;
         }
 
-        public void Disable()
-        {
-            playerControls.Disable();
 
-            playerControls.Ship.Move.performed -= OnMove;
-            playerControls.Ship.Move.canceled -= OnMove;
-
-            playerControls.Ship.ShootBullet.performed -= OnShootBullet;
-            playerControls.Ship.ShootLaser.performed -= OnShootLaser;
-        }
 
         private void OnMove(InputAction.CallbackContext context)
         {
             _moveValue = context.ReadValue<Vector2>();
         }
 
-        private void OnShootBullet(InputAction.CallbackContext context)
+        private void OnShootStarted(InputAction.CallbackContext context)
         {
             _bulletPressed = true;
+        }
+        private void OnShootCanceled(InputAction.CallbackContext context)
+        {
+            _bulletPressed = false;
         }
 
         private void OnShootLaser(InputAction.CallbackContext context)
@@ -65,10 +62,22 @@
             };
 
             _laserPressed = false;
-            _bulletPressed = false;
 
             return data;
         }
+        public void Disable()
+        {
+            playerControls.Disable();
+
+            playerControls.Ship.Move.performed -= OnMove;
+            playerControls.Ship.Move.canceled -= OnMove;
+
+            playerControls.Ship.ShootBullet.started -= OnShootStarted;
+            playerControls.Ship.ShootBullet.canceled -= OnShootCanceled;
+            
+            playerControls.Ship.ShootLaser.performed -= OnShootLaser;
+        }
     }
+    
     
 }

@@ -38,5 +38,6 @@
         public float Speed { get; }
         public float ShotInterval { get; }
         public float ColliderRadius { get; }
+        public int TeleportationLimit { get; }
     }
 }

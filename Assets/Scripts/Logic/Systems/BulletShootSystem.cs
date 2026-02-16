@@ -19,6 +19,7 @@ namespace AsteroidsGame.Logic
 
         private ProtoWorld _world;
         private ProtoIt _eventIterator;
+        
 
         public void Init(IProtoSystems systems)
         {
@@ -91,6 +92,9 @@ namespace AsteroidsGame.Logic
             
             ref var bulletComponent = ref _entityAspect.BulletPool.Add(bulletEntity);
             bulletComponent.owner = _world.PackEntity(playerEntity);
+            
+            ref var teleportCounter = ref _transformAspect.TeleportCounterPool.Add(bulletEntity);
+            teleportCounter.teleportationLimit = _configService.BulletConfig.TeleportationLimit;
             
         }
 
