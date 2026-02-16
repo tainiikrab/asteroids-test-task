@@ -9,7 +9,7 @@
     {
         private IConfigService _configService;
         private IDeltaTimeService _deltaTimeService;
-        private IAsteroidSpawnService _asteroidSpawnService;
+        private IEntitySpawnService _asteroidSpawnService;
         private IGameViewSizeService _viewSizeService;
         private IRandomService _randomService;
 
@@ -20,7 +20,7 @@
             var src = systems.Services();
             _deltaTimeService = src[typeof(IDeltaTimeService)] as IDeltaTimeService;
             _configService = src[typeof(IConfigService)] as IConfigService;
-            _asteroidSpawnService = src[typeof(IAsteroidSpawnService)] as IAsteroidSpawnService;
+            _asteroidSpawnService = src[typeof(IEntitySpawnService)] as IEntitySpawnService;
             _viewSizeService = src[typeof(IGameViewSizeService)] as IGameViewSizeService;
             _randomService = src[typeof(IRandomService)] as IRandomService;
 

@@ -412,6 +412,7 @@ MonoBehaviour:
       <RotationSpeedMultiplier>k__BackingField: 1.3
       <SpawnScatter>k__BackingField: 0.2
       <ColliderRadius>k__BackingField: 0.25
+      <TeleportationLimit>k__BackingField: 1
   _viewUpdater: {fileID: 1177438939}
 --- !u!1 &762159307
 GameObject:

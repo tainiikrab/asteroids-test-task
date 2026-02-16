@@ -15,7 +15,7 @@ namespace AsteroidsGame.Logic
         private TransformAspect _transformAspect;
         private CollisionAspect _collisionAspect;
 
-        private IAsteroidSpawnService _asteroidSpawnService;
+        private IEntitySpawnService _entitySpawnService;
         private IConfigService _configService;
         private IRandomService _randomService;
 
@@ -27,7 +27,7 @@ namespace AsteroidsGame.Logic
             _collisionAspect = (CollisionAspect)_world.Aspect(typeof(CollisionAspect));
 
             var svc = systems.Services();
-            _asteroidSpawnService = svc[typeof(IAsteroidSpawnService)] as IAsteroidSpawnService;
+            _entitySpawnService = svc[typeof(IEntitySpawnService)] as IEntitySpawnService;
             _configService = svc[typeof(IConfigService)] as IConfigService;
             _randomService = svc[typeof(IRandomService)] as IRandomService;
 
@@ -59,26 +59,26 @@ namespace AsteroidsGame.Logic
                     var x = parentX + scatter * _randomService.RandomNormalizedFloat;
                     var y = parentY + scatter * _randomService.RandomNormalizedFloat;
 
-                    var fragmentEntity = _asteroidSpawnService.SpawnAsteroid(x, y);
+                    var fragmentEntity = _entitySpawnService.SpawnAsteroidFragment(x, y);
 
-                    ref var fragmentComponent = ref _entityAspect.AsteroidPool.Get(fragmentEntity);
-                    fragmentComponent.isFragment = true;
-
-                    ref var velocityComponent = ref _transformAspect.VelocityPool.Get(fragmentEntity);
-                    velocityComponent.x = parentVelocityX * (speedMultiplier + _randomService.RandomNormalizedFloat *
-                        _configService.AsteroidConfig.RandomnessWeight);
-                    velocityComponent.y = parentVelocityY * (speedMultiplier + _randomService.RandomNormalizedFloat *
-                        _configService.AsteroidConfig.RandomnessWeight);
-
-                    ref var angularVelocityComponent = ref _transformAspect.AngularVelocityPool.Get(fragmentEntity);
-                    angularVelocityComponent.omega = parentAngularVelocityComponent.omega *
-                                                     _configService.AsteroidFragmentationConfig.RotationSpeedMultiplier;
-
-                    ref var colliderComponent = ref _collisionAspect.ColliderPool.Get(fragmentEntity);
-                    colliderComponent.radius = _configService.AsteroidFragmentationConfig.ColliderRadius;
-
-                    ref var entityComponent = ref _entityAspect.EntityIdPool.Get(fragmentEntity);
-                    entityComponent.type = EntityType.AsteroidFragment;
+                    // ref var fragmentComponent = ref _entityAspect.AsteroidPool.Get(fragmentEntity);
+                    // fragmentComponent.isFragment = true;
+                    //
+                    // ref var velocityComponent = ref _transformAspect.VelocityPool.Get(fragmentEntity);
+                    // velocityComponent.x = parentVelocityX * (speedMultiplier + _randomService.RandomNormalizedFloat *
+                    //     _configService.AsteroidConfig.RandomnessWeight);
+                    // velocityComponent.y = parentVelocityY * (speedMultiplier + _randomService.RandomNormalizedFloat *
+                    //     _configService.AsteroidConfig.RandomnessWeight);
+                    //
+                    // ref var angularVelocityComponent = ref _transformAspect.AngularVelocityPool.Get(fragmentEntity);
+                    // angularVelocityComponent.omega = parentAngularVelocityComponent.omega *
+                    //                                  _configService.AsteroidFragmentationConfig.RotationSpeedMultiplier;
+                    //
+                    // ref var colliderComponent = ref _collisionAspect.ColliderPool.Get(fragmentEntity);
+                    // colliderComponent.radius = _configService.AsteroidFragmentationConfig.ColliderRadius;
+                    //
+                    // ref var entityComponent = ref _entityAspect.EntityIdPool.Get(fragmentEntity);
+                    // entityComponent.type = EntityType.AsteroidFragment;
                 }
             }
         }

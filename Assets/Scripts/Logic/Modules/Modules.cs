@@ -99,7 +99,7 @@
     {
         public void Init(IProtoSystems systems)
         {
-            systems.AddService(new AsteroidSpawnService(systems), typeof(IAsteroidSpawnService));
+            systems.AddService(new EntitySpawnService(systems), typeof(IEntitySpawnService));
             systems.AddSystem(new AsteroidSpawnSystem());
             systems.AddSystem(new AsteroidFragmentationSystem());
         }

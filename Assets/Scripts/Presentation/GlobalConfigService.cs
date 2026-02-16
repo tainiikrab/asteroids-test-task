@@ -65,5 +65,6 @@
         [field: SerializeField] public float RotationSpeedMultiplier { get; set; }
         [field: SerializeField] public float SpawnScatter { get; set; }
         [field: SerializeField] public float ColliderRadius { get; set; }
+        [field: SerializeField] public int TeleportationLimit { get; set; }
     }
 }

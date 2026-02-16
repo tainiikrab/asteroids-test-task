@@ -15,6 +15,7 @@ namespace AsteroidsGame.Logic
         private IConfigService _configService;
         private IDeltaTimeService _deltaTimeService;
         private IIdGeneratorService _idGeneratorService;
+        private IEntitySpawnService _entitySpawnService;
 
         private ProtoWorld _world;
         private ProtoIt _eventIterator;
@@ -28,6 +29,7 @@ namespace AsteroidsGame.Logic
             _configService = svc[typeof(IConfigService)] as IConfigService;
             _deltaTimeService = svc[typeof(IDeltaTimeService)] as IDeltaTimeService;
             _idGeneratorService = svc[typeof(IIdGeneratorService)] as IIdGeneratorService;
+            _entitySpawnService = svc[typeof(IEntitySpawnService)] as IEntitySpawnService;
 
 
             _entityAspect = (EntityAspect)_world.Aspect(typeof(EntityAspect));
@@ -60,39 +62,40 @@ namespace AsteroidsGame.Logic
 
         private void SpawnBullet(ProtoEntity playerEntity)
         {
-            var playerPosition = _transformAspect.PositionPool.Get(playerEntity);
-            var playerVelocity = _transformAspect.VelocityPool.Get(playerEntity);
-            var playerRotation = _transformAspect.RotationPool.Get(playerEntity);
-
-            ref var positon = ref _transformAspect.PositionPool.NewEntity(out var bulletEntity);
-            positon.x = playerPosition.x;
-            positon.y = playerPosition.y;
-
-            ref var velocity = ref _transformAspect.VelocityPool.Add(bulletEntity);
-
-            var angleRad = playerRotation.angle * (MathF.PI / 180f);
-            var dirX = MathF.Cos(angleRad);
-            var dirY = MathF.Sin(angleRad);
-            velocity.x = playerVelocity.x + dirX * _configService.BulletConfig.Speed;
-            velocity.y = playerVelocity.y + dirY * _configService.BulletConfig.Speed;
-
-            ref var rotation = ref _transformAspect.RotationPool.Add(bulletEntity);
-            rotation.angle = playerRotation.angle;
-
-            ref var collider = ref _collisionAspect.ColliderPool.Add(bulletEntity);
-            collider.radius = _configService.BulletConfig.ColliderRadius;
-
-            ref var collisionSensor = ref _collisionAspect.CollisionSensorPool.Add(bulletEntity);
-
-            ref var entityId = ref _entityAspect.EntityIdPool.Add(bulletEntity);
-            entityId.id = _idGeneratorService.GetNextId();
-            entityId.type = EntityType.Bullet;
-
-            ref var bulletComponent = ref _entityAspect.BulletPool.Add(bulletEntity);
-            bulletComponent.owner = _world.PackEntity(playerEntity);
-
-            ref var teleportCounter = ref _transformAspect.TeleportCounterPool.Add(bulletEntity);
-            teleportCounter.teleportationLimit = _configService.BulletConfig.TeleportationLimit;
+            _entitySpawnService.SpawnBulletFromPlayer(playerEntity);
+            // var playerPosition = _transformAspect.PositionPool.Get(playerEntity);
+            // var playerVelocity = _transformAspect.VelocityPool.Get(playerEntity);
+            // var playerRotation = _transformAspect.RotationPool.Get(playerEntity);
+            //
+            // ref var positon = ref _transformAspect.PositionPool.NewEntity(out var bulletEntity);
+            // positon.x = playerPosition.x;
+            // positon.y = playerPosition.y;
+            //
+            // ref var velocity = ref _transformAspect.VelocityPool.Add(bulletEntity);
+            //
+            // var angleRad = playerRotation.angle * (MathF.PI / 180f);
+            // var dirX = MathF.Cos(angleRad);
+            // var dirY = MathF.Sin(angleRad);
+            // velocity.x = playerVelocity.x + dirX * _configService.BulletConfig.Speed;
+            // velocity.y = playerVelocity.y + dirY * _configService.BulletConfig.Speed;
+            //
+            // ref var rotation = ref _transformAspect.RotationPool.Add(bulletEntity);
+            // rotation.angle = playerRotation.angle;
+            //
+            // ref var collider = ref _collisionAspect.ColliderPool.Add(bulletEntity);
+            // collider.radius = _configService.BulletConfig.ColliderRadius;
+            //
+            // ref var collisionSensor = ref _collisionAspect.CollisionSensorPool.Add(bulletEntity);
+            //
+            // ref var entityId = ref _entityAspect.EntityIdPool.Add(bulletEntity);
+            // entityId.id = _idGeneratorService.GetNextId();
+            // entityId.type = EntityType.Bullet;
+            //
+            // ref var bulletComponent = ref _entityAspect.BulletPool.Add(bulletEntity);
+            // bulletComponent.owner = _world.PackEntity(playerEntity);
+            //
+            // ref var teleportCounter = ref _transformAspect.TeleportCounterPool.Add(bulletEntity);
+            // teleportCounter.teleportationLimit = _configService.BulletConfig.TeleportationLimit;
         }
     }
 }

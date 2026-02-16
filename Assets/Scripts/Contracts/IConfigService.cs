@@ -36,6 +36,7 @@
         public float RotationSpeedMultiplier { get; }
         public float SpawnScatter { get; }
         public float ColliderRadius { get; }
+        public int TeleportationLimit { get; }
     }
 
     public interface IWorldConfig
