@@ -1,8 +1,7 @@
-﻿
-
-namespace AsteroidsGame.Logic
+﻿namespace AsteroidsGame.Logic
 {
     using Leopotam.EcsProto;
+
     public sealed class TransformAspect : IProtoAspect
     {
         private ProtoWorld _world;
@@ -12,23 +11,17 @@ namespace AsteroidsGame.Logic
             return _world;
         }
 
-        public ProtoPool<PositionCmp> PositionPool;
-        public ProtoPool<VelocityCmp> VelocityPool;
-        public ProtoPool<RotationCmp> RotationPool;
-        public ProtoPool<AngularVelocityCmp> AngularVelocityPool;
-        public ProtoPool<TeleportCounterCmp> TeleportCounterPool;
+        public readonly ProtoPool<PositionCmp> PositionPool = new();
+        public readonly ProtoPool<VelocityCmp> VelocityPool = new();
+        public readonly ProtoPool<RotationCmp> RotationPool = new();
+        public readonly ProtoPool<AngularVelocityCmp> AngularVelocityPool = new();
+        public readonly ProtoPool<TeleportCounterCmp> TeleportCounterPool = new();
 
 
         public void Init(ProtoWorld world)
         {
             _world = world;
             _world.AddAspect(this);
-
-            PositionPool = new ProtoPool<PositionCmp>();
-            VelocityPool = new ProtoPool<VelocityCmp>();
-            RotationPool = new ProtoPool<RotationCmp>();
-            AngularVelocityPool = new ProtoPool<AngularVelocityCmp>();
-            TeleportCounterPool = new ProtoPool<TeleportCounterCmp>();
 
             _world.AddPool(PositionPool);
             _world.AddPool(VelocityPool);

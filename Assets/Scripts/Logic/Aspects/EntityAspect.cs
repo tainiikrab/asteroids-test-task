@@ -1,5 +1,4 @@
-﻿
-namespace AsteroidsGame.Logic
+﻿namespace AsteroidsGame.Logic
 {
     using Leopotam.EcsProto;
 
@@ -13,27 +12,23 @@ namespace AsteroidsGame.Logic
         }
 
 
-        public ProtoPool<EntityIdCmp> EntityIdPool;
-        public ProtoPool<PlayerCmp> PlayerPool;
-        public ProtoPool<DestroyTagCmp> DestroyTagPool;
-        public ProtoPool<BulletCmp> BulletPool;
-      
+        public readonly ProtoPool<EntityIdCmp> EntityIdPool = new();
+        public readonly ProtoPool<PlayerCmp> PlayerPool = new();
+        public readonly ProtoPool<DestroyTagCmp> DestroyTagPool = new();
+        public readonly ProtoPool<BulletCmp> BulletPool = new();
+        public readonly ProtoPool<AsteroidCmp> AsteroidPool = new();
+
 
         public void Init(ProtoWorld world)
         {
             _world = world;
             _world.AddAspect(this);
 
-            EntityIdPool = new ProtoPool<EntityIdCmp>();
-            PlayerPool = new ProtoPool<PlayerCmp>();
-            DestroyTagPool = new ProtoPool<DestroyTagCmp>();
-            BulletPool = new ProtoPool<BulletCmp>();
-            
             _world.AddPool(EntityIdPool);
             _world.AddPool(PlayerPool);
             _world.AddPool(DestroyTagPool);
             _world.AddPool(BulletPool);
-    
+            _world.AddPool(AsteroidPool);
         }
 
         public void PostInit()

@@ -1,7 +1,8 @@
 ﻿namespace AsteroidsGame.Logic
 {
-    using AsteroidsGame.Contracts;
+    using Contracts;
     using Leopotam.EcsProto.QoL;
+
     public struct PositionCmp
     {
         public float x, y;
@@ -36,7 +37,6 @@
     {
         public int teleportationCount;
         public int teleportationLimit;
-        
     }
 
     public struct EntityIdCmp
@@ -46,18 +46,32 @@
         public EntityType type;
     }
 
-    public struct ColliderCmp {
+    public struct ColliderCmp
+    {
         public float radius;
     }
-    public struct CollisionSensorCmp { }
-    public struct CollisionEventCmp {
+
+    public struct CollisionSensorCmp
+    {
+    }
+
+    public struct CollisionEventCmp
+    {
         public ProtoPackedEntity SensorEntity;
         public ProtoPackedEntity OtherEntity;
     }
-    public struct DestroyTagCmp { }
+
+    public struct DestroyTagCmp
+    {
+    }
 
     public struct BulletCmp
     {
         public ProtoPackedEntity owner;
+    }
+
+    public struct AsteroidCmp
+    {
+        public bool isFragment;
     }
 }

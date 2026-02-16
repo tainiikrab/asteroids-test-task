@@ -1,7 +1,7 @@
 ﻿namespace AsteroidsGame.Logic.Modules
 {
     using System;
-    using AsteroidsGame.Contracts;
+    using Contracts;
     using Leopotam.EcsProto;
 
     public class CoreModule : IProtoModule
@@ -19,11 +19,38 @@
                 .AddService(new SequentialIdGeneratorService(), typeof(IIdGeneratorService))
                 .AddService(new GameViewSizeService(), typeof(IGameViewSizeService))
                 .AddService(new DeltaTimeService(), typeof(IDeltaTimeService))
+                .AddService(new RandomService(), typeof(IRandomService))
                 .AddService(_configService, typeof(IConfigService));
         }
 
-        public IProtoAspect[] Aspects() => null;
-        public Type[] Dependencies() => null;
+        public IProtoAspect[] Aspects()
+        {
+            return null;
+        }
+
+        public Type[] Dependencies()
+        {
+            return null;
+        }
+    }
+
+    public class SpawnModule : IProtoModule
+    {
+        public void Init(IProtoSystems systems)
+        {
+            systems.AddService(new AsteroidSpawnService(systems), typeof(IAsteroidSpawnService));
+            systems.AddSystem(new AsteroidSpawnSystem());
+        }
+
+        public IProtoAspect[] Aspects()
+        {
+            return null;
+        }
+
+        public Type[] Dependencies()
+        {
+            return new Type[] { typeof(CoreModule) };
+        }
     }
 
     public class PlayerModule : IProtoModule
@@ -37,8 +64,15 @@
                 .AddSystem(new BulletShootSystem());
         }
 
-        public IProtoAspect[] Aspects() => null;
-        public Type[] Dependencies() => new Type[] { typeof(CoreModule) };
+        public IProtoAspect[] Aspects()
+        {
+            return null;
+        }
+
+        public Type[] Dependencies()
+        {
+            return new Type[] { typeof(CoreModule) };
+        }
     }
 
 
@@ -51,32 +85,36 @@
                 .AddSystem(new MovementSystem());
         }
 
-        public IProtoAspect[] Aspects() => null;
-        public Type[] Dependencies() => new Type[] { typeof(CoreModule) };
-    }
-
-    public class SpawnModule : IProtoModule
-    {
-        public void Init(IProtoSystems systems)
+        public IProtoAspect[] Aspects()
         {
-            systems.AddSystem(new AsteroidSpawnSystem());
+            return null;
         }
 
-        public IProtoAspect[] Aspects() => null;
-        public Type[] Dependencies() => new Type[] { typeof(CoreModule) };
+        public Type[] Dependencies()
+        {
+            return new Type[] { typeof(CoreModule) };
+        }
     }
+
     public class CollisionModule : IProtoModule
     {
         public void Init(IProtoSystems systems)
         {
             systems.AddSystem(new CollisionDetectionSystem());
             systems.AddSystem(new CollisionResolutionSystem());
-            
         }
 
-        public IProtoAspect[] Aspects() => null;
-        public Type[] Dependencies() => new Type[] { typeof(CoreModule) };
+        public IProtoAspect[] Aspects()
+        {
+            return null;
+        }
+
+        public Type[] Dependencies()
+        {
+            return new Type[] { typeof(CoreModule) };
+        }
     }
+
     public class DestroyModule : IProtoModule
     {
         public void Init(IProtoSystems systems)
@@ -85,7 +123,14 @@
             systems.AddSystem(new DestroyByTagSystem());
         }
 
-        public IProtoAspect[] Aspects() => null;
-        public Type[] Dependencies() => new Type[] { typeof(CoreModule) };
+        public IProtoAspect[] Aspects()
+        {
+            return null;
+        }
+
+        public Type[] Dependencies()
+        {
+            return new Type[] { typeof(CoreModule) };
+        }
     }
 }

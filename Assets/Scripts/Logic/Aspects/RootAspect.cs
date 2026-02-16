@@ -1,15 +1,14 @@
-﻿
-
-namespace AsteroidsGame.Logic
+﻿namespace AsteroidsGame.Logic
 {
     using Leopotam.EcsProto;
+
     public sealed class RootAspect : IProtoAspect
     {
         private ProtoWorld _world;
 
-        public EntityAspect EntityAspect { get; private set; }
-        public TransformAspect TransformAspect { get; private set; }
-        public CollisionAspect CollisionAspect { get; private set; }
+        public readonly EntityAspect EntityAspect = new();
+        public readonly TransformAspect TransformAspect = new();
+        public readonly CollisionAspect CollisionAspect = new();
 
         public ProtoWorld World()
         {
@@ -17,13 +16,8 @@ namespace AsteroidsGame.Logic
         }
 
 
-
         public void Init(ProtoWorld world)
         {
-            EntityAspect = new EntityAspect();
-            TransformAspect = new TransformAspect();
-            CollisionAspect = new CollisionAspect();
-
             EntityAspect.Init(world);
             TransformAspect.Init(world);
             CollisionAspect.Init(world);
@@ -33,7 +27,6 @@ namespace AsteroidsGame.Logic
             CollisionAspect.PostInit();
 
             world.AddAspect(this);
-
         }
 
         public void PostInit()

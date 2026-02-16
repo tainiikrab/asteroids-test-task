@@ -387,7 +387,7 @@ MonoBehaviour:
   _globalConfigService:
     _playerConfig:
       <Speed>k__BackingField: 6
-      <RotationSpeed>k__BackingField: 250
+      <RotationSpeed>k__BackingField: 200
       <Acceleration>k__BackingField: 20
       <Deceleration>k__BackingField: 6
       <ColliderRadius>k__BackingField: 0.5
@@ -395,9 +395,9 @@ MonoBehaviour:
       <Speed>k__BackingField: 2
       <RotationSpeed>k__BackingField: 140
       <SpawnInterval>k__BackingField: 3
-      <SpawnAmount>k__BackingField: 2
-      <RandomnessWeight>k__BackingField: 0.4
-      <TeleportationLimit>k__BackingField: 3
+      <SpawnAmount>k__BackingField: 3
+      <RandomnessWeight>k__BackingField: 0.8
+      <TeleportationLimit>k__BackingField: 4
       <ColliderRadius>k__BackingField: 0.5
     _worldConfig:
       <ScreenWrapMargin>k__BackingField: 0.5
