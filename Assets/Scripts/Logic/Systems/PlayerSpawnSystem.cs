@@ -36,8 +36,8 @@
             positionData.y = 0;
 
             ref var velocityData = ref _transformAspect.VelocityPool.Add(playerEntity);
-            velocityData.vx = 0;
-            velocityData.vy = 0;
+            velocityData.x = 0;
+            velocityData.y = 0;
             velocityData.deceleration = _configService.PlayerConfig.Deceleration;
 
             ref var rotationData = ref _transformAspect.RotationPool.Add(playerEntity);
@@ -52,6 +52,10 @@
             entityIdComponent.packedEntity = packed;
 
             ref var player = ref _entityAspect.PlayerPool.Add(playerEntity);
+            player.bulletIntervalTime = _configService.BulletConfig.ShotInterval;
+            
+            //TODO
+            // player.laserIntervalTime = _configService.LaserConfig.ShotInterval;
             
             ref var collider = ref _collisionAspect.ColliderPool.Add(playerEntity);
             collider.radius = _configService.PlayerConfig.ColliderRadius;

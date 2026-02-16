@@ -6,16 +6,16 @@
 
     public sealed class CollisionDetectionSystem : IProtoInitSystem, IProtoRunSystem {
         
-        EntityAspect _entityAspect;
-        TransformAspect _transformAspect;
-        CollisionAspect _collisionAspect;
+        private EntityAspect _entityAspect;
+        private TransformAspect _transformAspect;
+        private CollisionAspect _collisionAspect;
         
-        ProtoWorld _world;
+        private ProtoWorld _world;
         
-        ProtoIt _sensorIterator;  
-        ProtoIt _colliderIterator; 
+        private ProtoIt _sensorIterator;  
+        private ProtoIt _colliderIterator; 
         
-        readonly List<ProtoEntity> _collidersCache = new List<ProtoEntity>(128);
+        private readonly List<ProtoEntity> _collidersCache = new List<ProtoEntity>(128);
 
         public void Init(IProtoSystems systems) {
             _world = systems.World();
@@ -60,6 +60,7 @@
                     }
                 }
             }
+
         }
     }
 }

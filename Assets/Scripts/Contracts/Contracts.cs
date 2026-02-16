@@ -4,8 +4,9 @@
     {
         public float forward;
         public float turn;
-        public bool shootLaser;
+        
         public bool shootBullet;
+        public bool shootLaser;
     }
 
     public enum EntityType

@@ -401,6 +401,10 @@ MonoBehaviour:
       <ColliderRadius>k__BackingField: 0.5
     _worldConfig:
       <ScreenWrapMargin>k__BackingField: 0.5
+    _bulletConfig:
+      <Speed>k__BackingField: 10
+      <ShotInterval>k__BackingField: 0.1
+      <ColliderRadius>k__BackingField: 0.1
   _viewUpdater: {fileID: 1177438939}
 --- !u!1 &762159307
 GameObject:
@@ -431,6 +435,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63922452498d4f87b23cc33d98bb033b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DebugSceneReloader
+  _speedUpFactor: 5
+  _defaultFps: 160
+  _loweredFps: 30
 --- !u!4 &762159309
 Transform:
   m_ObjectHideFlags: 0
@@ -492,6 +499,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Presentation::ViewUpdater
   _playerPrefab: {fileID: 1261205590432863462, guid: d6e0b9abcfdce9140852ff161c9eeda4, type: 3}
   _asteroidPrefab: {fileID: 8466312166580735564, guid: d7a7d2c0c32cc12478adb1a297e32045, type: 3}
+  _bulletPrefab: {fileID: 1476215203325078756, guid: 49bf74d592a7f5b4aae43ee89de80c7e, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

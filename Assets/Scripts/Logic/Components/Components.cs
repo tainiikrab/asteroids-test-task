@@ -9,7 +9,7 @@
 
     public struct VelocityCmp
     {
-        public float vx, vy;
+        public float x, y;
         public float deceleration;
     }
 
@@ -23,7 +23,14 @@
         public float omega;
     }
 
-    public struct PlayerCmp { }
+    public struct PlayerCmp
+    {
+        public bool isShootingBullet;
+        public bool isShootingLaser;
+
+        public float bulletIntervalTime;
+        public float laserIntervalTime;
+    }
 
     public struct TeleportCounterCmp
     {
@@ -48,4 +55,9 @@
         public ProtoPackedEntity OtherEntity;
     }
     public struct DestroyTagCmp { }
+
+    public struct BulletCmp
+    {
+        public ProtoPackedEntity owner;
+    }
 }

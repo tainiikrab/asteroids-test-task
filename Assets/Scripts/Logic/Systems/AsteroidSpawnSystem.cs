@@ -81,8 +81,8 @@
                     ref var velocityData = ref _transformAspect.VelocityPool.Add(asteroidEntity);
 
                     var finalSpeed = baseSpeed * (1 + RandomNormalizedFloat * randomnessWeight);
-                    velocityData.vx = dirX * finalSpeed;
-                    velocityData.vy = dirY * finalSpeed;
+                    velocityData.x = dirX * finalSpeed;
+                    velocityData.y = dirY * finalSpeed;
 
                     velocityData.deceleration = 0f;
 

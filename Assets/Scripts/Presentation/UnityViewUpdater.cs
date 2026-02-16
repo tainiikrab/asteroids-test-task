@@ -12,9 +12,15 @@
 
         [SerializeField] private GameObject _playerPrefab;
         [SerializeField] private GameObject _asteroidPrefab;
+        [SerializeField] private GameObject _bulletPrefab;
 
         private readonly Stack<Transform> _playerPool = new();
         private readonly Stack<Transform> _asteroidPool = new();
+        private readonly Stack<Transform> _bulletPool = new();
+        
+        private const string PlayerTag = "Player";
+        private const string AsteroidTag = "Asteroid";
+        private const string BulletTag = "Bullet";
 
         public void Apply(IReadOnlyList<ViewData> views)
         {
@@ -45,6 +51,7 @@
             {
                 EntityType.Player => _playerPool,
                 EntityType.Asteroid => _asteroidPool,
+                EntityType.Bullet => _bulletPool,
                 _ => throw new ArgumentOutOfRangeException()
             };
 
@@ -55,7 +62,13 @@
                 return t;
             }
 
-            var prefab = type == EntityType.Player ? _playerPrefab : _asteroidPrefab;
+            var prefab = type switch
+            {
+                EntityType.Player => _playerPrefab,
+                EntityType.Asteroid => _asteroidPrefab,
+                EntityType.Bullet => _bulletPrefab,
+                _ => throw new ArgumentOutOfRangeException()
+            };
             return Instantiate(prefab).transform;
         }
 
@@ -79,10 +92,12 @@
         {
             entityTransform.gameObject.SetActive(false);
 
-            if (entityTransform.CompareTag("Player"))
+            if (entityTransform.CompareTag(PlayerTag))
                 _playerPool.Push(entityTransform);
-            else
+            else if (entityTransform.CompareTag(AsteroidTag))
                 _asteroidPool.Push(entityTransform);
+            else if (entityTransform.CompareTag(BulletTag))
+                _bulletPool.Push(entityTransform);
         }
     }
     

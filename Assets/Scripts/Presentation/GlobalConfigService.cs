@@ -12,10 +12,12 @@ namespace AsteroidsGame.Presentation
         [SerializeField] private PlayerConfig _playerConfig;
         [SerializeField] private AsteroidConfig _asteroidConfig;
         [SerializeField] private WorldConfig _worldConfig;
+        [SerializeField] private BulletConfig _bulletConfig;
 
         public IPlayerConfig PlayerConfig => _playerConfig;
         public IAsteroidConfig AsteroidConfig => _asteroidConfig;
         public IWorldConfig WorldConfig => _worldConfig;
+        public IBulletConfig BulletConfig => _bulletConfig;
     }
     [Serializable]
     public struct PlayerConfig : IPlayerConfig
@@ -41,5 +43,13 @@ namespace AsteroidsGame.Presentation
     public struct WorldConfig : IWorldConfig
     {
         [field: SerializeField] public float ScreenWrapMargin { get; set; }
+    }
+    
+    [Serializable]
+    public struct BulletConfig : IBulletConfig
+    {
+        [field: SerializeField] public float Speed { get; set; }
+        [field: SerializeField] public float ShotInterval { get; set; }
+        [field: SerializeField] public float ColliderRadius { get; set; }
     }
 }

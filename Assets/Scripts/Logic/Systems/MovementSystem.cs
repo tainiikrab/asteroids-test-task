@@ -44,8 +44,8 @@ namespace AsteroidsGame.Logic
                 ref var p = ref _transformAspect.PositionPool.Get(e);
                 ref var v = ref _transformAspect.VelocityPool.Get(e);
 
-                p.x += v.vx * DeltaTime;
-                p.y += v.vy * DeltaTime;
+                p.x += v.x * DeltaTime;
+                p.y += v.y * DeltaTime;
                 
                 var hw = _viewSizeService?.HalfWidth ?? 0f;
                 var hh = _viewSizeService?.HalfHeight ?? 0f;
@@ -66,16 +66,16 @@ namespace AsteroidsGame.Logic
                 if (wrapped) CountExit(e);
                 
                 
-                if (v.vx != 0f)
+                if (v.x != 0f)
                 {
-                    v.vx -= MathF.Sign(v.vx) * v.deceleration * DeltaTime;
-                    if (MathF.Abs(v.vx) < Epsilon) v.vx = 0f;
+                    v.x -= MathF.Sign(v.x) * v.deceleration * DeltaTime;
+                    if (MathF.Abs(v.x) < Epsilon) v.x = 0f;
                 }
 
-                if (v.vy != 0f)
+                if (v.y != 0f)
                 {
-                    v.vy -= MathF.Sign(v.vy) * v.deceleration * DeltaTime;
-                    if (MathF.Abs(v.vy) < Epsilon) v.vy = 0f;
+                    v.y -= MathF.Sign(v.y) * v.deceleration * DeltaTime;
+                    if (MathF.Abs(v.y) < Epsilon) v.y = 0f;
                 }
             }
         }

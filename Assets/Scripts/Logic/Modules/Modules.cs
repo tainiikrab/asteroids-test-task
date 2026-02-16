@@ -33,7 +33,8 @@
             systems
                 .AddService(new InputService(), typeof(IInputService))
                 .AddSystem(new PlayerSpawnSystem())
-                .AddSystem(new PlayerInputSystem());
+                .AddSystem(new PlayerInputSystem())
+                .AddSystem(new BulletShootSystem());
         }
 
         public IProtoAspect[] Aspects() => null;

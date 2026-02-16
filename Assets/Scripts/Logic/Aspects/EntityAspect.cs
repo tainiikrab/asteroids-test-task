@@ -16,6 +16,7 @@ namespace AsteroidsGame.Logic
         public ProtoPool<EntityIdCmp> EntityIdPool;
         public ProtoPool<PlayerCmp> PlayerPool;
         public ProtoPool<DestroyTagCmp> DestroyTagPool;
+        public ProtoPool<BulletCmp> BulletPool;
       
 
         public void Init(ProtoWorld world)
@@ -26,10 +27,12 @@ namespace AsteroidsGame.Logic
             EntityIdPool = new ProtoPool<EntityIdCmp>();
             PlayerPool = new ProtoPool<PlayerCmp>();
             DestroyTagPool = new ProtoPool<DestroyTagCmp>();
+            BulletPool = new ProtoPool<BulletCmp>();
             
             _world.AddPool(EntityIdPool);
             _world.AddPool(PlayerPool);
             _world.AddPool(DestroyTagPool);
+            _world.AddPool(BulletPool);
     
         }
 
