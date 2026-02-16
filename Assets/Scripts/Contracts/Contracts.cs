@@ -4,7 +4,7 @@
     {
         public float forward;
         public float turn;
-        
+
         public bool shootBullet;
         public bool shootLaser;
     }
@@ -13,15 +13,16 @@
     {
         Player,
         Asteroid,
+        AsteroidFragment,
         Saucer,
         Bullet,
         Laser
     }
+
     public interface IInputReader
     {
         InputData ReadInput();
         void Enable();
         void Disable();
     }
-    
 }

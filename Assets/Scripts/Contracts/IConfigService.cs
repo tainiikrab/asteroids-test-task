@@ -1,11 +1,11 @@
 ﻿namespace AsteroidsGame.Contracts
 {
-
     public interface IConfigService
     {
+        public IWorldConfig WorldConfig { get; }
         public IPlayerConfig PlayerConfig { get; }
         public IAsteroidConfig AsteroidConfig { get; }
-        public IWorldConfig WorldConfig { get; }
+        public IAsteroidFragmentationConfig AsteroidFragmentationConfig { get; }
         public IBulletConfig BulletConfig { get; }
     }
 
@@ -16,8 +16,8 @@
         public float Acceleration { get; }
         public float Deceleration { get; }
         public float ColliderRadius { get; }
-        
     }
+
     public interface IAsteroidConfig
     {
         public float Speed { get; }
@@ -28,6 +28,16 @@
         public int TeleportationLimit { get; }
         public float ColliderRadius { get; }
     }
+
+    public interface IAsteroidFragmentationConfig
+    {
+        public int SpawnCount { get; }
+        public float SpeedMultiplier { get; }
+        public float RotationSpeedMultiplier { get; }
+        public float SpawnScatter { get; }
+        public float ColliderRadius { get; }
+    }
+
     public interface IWorldConfig
     {
         public float ScreenWrapMargin { get; }

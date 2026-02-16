@@ -34,25 +34,6 @@
         }
     }
 
-    public class SpawnModule : IProtoModule
-    {
-        public void Init(IProtoSystems systems)
-        {
-            systems.AddService(new AsteroidSpawnService(systems), typeof(IAsteroidSpawnService));
-            systems.AddSystem(new AsteroidSpawnSystem());
-        }
-
-        public IProtoAspect[] Aspects()
-        {
-            return null;
-        }
-
-        public Type[] Dependencies()
-        {
-            return new Type[] { typeof(CoreModule) };
-        }
-    }
-
     public class PlayerModule : IProtoModule
     {
         public void Init(IProtoSystems systems)
@@ -74,7 +55,6 @@
             return new Type[] { typeof(CoreModule) };
         }
     }
-
 
     public class MovementModule : IProtoModule
     {
@@ -102,6 +82,26 @@
         {
             systems.AddSystem(new CollisionDetectionSystem());
             systems.AddSystem(new CollisionResolutionSystem());
+        }
+
+        public IProtoAspect[] Aspects()
+        {
+            return null;
+        }
+
+        public Type[] Dependencies()
+        {
+            return new Type[] { typeof(CoreModule) };
+        }
+    }
+
+    public class SpawnModule : IProtoModule
+    {
+        public void Init(IProtoSystems systems)
+        {
+            systems.AddService(new AsteroidSpawnService(systems), typeof(IAsteroidSpawnService));
+            systems.AddSystem(new AsteroidSpawnSystem());
+            systems.AddSystem(new AsteroidFragmentationSystem());
         }
 
         public IProtoAspect[] Aspects()

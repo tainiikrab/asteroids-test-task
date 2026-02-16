@@ -60,8 +60,9 @@ namespace AsteroidsGame.Logic
 
         private void SpawnBullet(ProtoEntity playerEntity)
         {
-            ref var playerPosition = ref _transformAspect.PositionPool.Get(playerEntity);
-            ref var playerRotation = ref _transformAspect.RotationPool.Get(playerEntity);
+            var playerPosition = _transformAspect.PositionPool.Get(playerEntity);
+            var playerVelocity = _transformAspect.VelocityPool.Get(playerEntity);
+            var playerRotation = _transformAspect.RotationPool.Get(playerEntity);
 
             ref var positon = ref _transformAspect.PositionPool.NewEntity(out var bulletEntity);
             positon.x = playerPosition.x;
@@ -72,8 +73,8 @@ namespace AsteroidsGame.Logic
             var angleRad = playerRotation.angle * (MathF.PI / 180f);
             var dirX = MathF.Cos(angleRad);
             var dirY = MathF.Sin(angleRad);
-            velocity.x = dirX * _configService.BulletConfig.Speed;
-            velocity.y = dirY * _configService.BulletConfig.Speed;
+            velocity.x = playerVelocity.x + dirX * _configService.BulletConfig.Speed;
+            velocity.y = playerVelocity.y + dirY * _configService.BulletConfig.Speed;
 
             ref var rotation = ref _transformAspect.RotationPool.Add(bulletEntity);
             rotation.angle = playerRotation.angle;

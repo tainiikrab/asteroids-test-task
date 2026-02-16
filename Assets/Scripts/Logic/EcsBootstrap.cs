@@ -1,16 +1,13 @@
-﻿
-
-
-namespace AsteroidsGame.Logic
+﻿namespace AsteroidsGame.Logic
 {
-    using AsteroidsGame.Contracts;
+    using Contracts;
     using Leopotam.EcsProto;
-    using AsteroidsGame.Logic.Modules;
+    using Modules;
 
     public class EcsBootstrap : IEcsBootstrap
     {
         private readonly IConfigService _configService;
-        
+
         public ProtoWorld World { get; private set; }
         public IProtoSystems Systems { get; private set; }
 
@@ -23,15 +20,15 @@ namespace AsteroidsGame.Logic
         {
             var rootAspect = new RootAspect();
             World = new ProtoWorld(rootAspect);
-            
+
             Systems = new ProtoSystems(World);
 
             Systems
                 .AddModule(new CoreModule(_configService))
-                .AddModule(new SpawnModule())
                 .AddModule(new PlayerModule())
                 .AddModule(new MovementModule())
                 .AddModule(new CollisionModule())
+                .AddModule(new SpawnModule())
                 .AddModule(new DestroyModule())
                 .Init();
         }
@@ -44,7 +41,7 @@ namespace AsteroidsGame.Logic
             World = null;
         }
     }
-    
+
     public interface IEcsBootstrap
     {
         void Init();
@@ -52,5 +49,4 @@ namespace AsteroidsGame.Logic
         ProtoWorld World { get; }
         IProtoSystems Systems { get; }
     }
-    
 }

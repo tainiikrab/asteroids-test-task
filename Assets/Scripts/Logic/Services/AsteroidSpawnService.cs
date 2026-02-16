@@ -1,4 +1,6 @@
-﻿namespace AsteroidsGame.Logic
+﻿using Leopotam.EcsProto.QoL;
+
+namespace AsteroidsGame.Logic
 {
     using Leopotam.EcsProto;
     using System;
@@ -14,15 +16,16 @@
         private readonly IConfigService _configService;
         private readonly IRandomService _randomService;
 
+        private ProtoWorld _world;
 
         public AsteroidSpawnService(IProtoSystems systems)
         {
             var svc = systems.Services();
-            var world = systems.World();
+            _world = systems.World();
 
-            _transformAspect = (TransformAspect)world.Aspect(typeof(TransformAspect));
-            _collisionAspect = (CollisionAspect)world.Aspect(typeof(CollisionAspect));
-            _entityAspect = (EntityAspect)world.Aspect(typeof(EntityAspect));
+            _transformAspect = (TransformAspect)_world.Aspect(typeof(TransformAspect));
+            _collisionAspect = (CollisionAspect)_world.Aspect(typeof(CollisionAspect));
+            _entityAspect = (EntityAspect)_world.Aspect(typeof(EntityAspect));
 
             _idGeneratorService = svc[typeof(IIdGeneratorService)] as IIdGeneratorService;
             _configService = svc[typeof(IConfigService)] as IConfigService;
@@ -32,7 +35,6 @@
         public ProtoEntity SpawnAsteroid(float x, float y)
         {
             var config = _configService.AsteroidConfig;
-
             ref var teleportCounter =
                 ref _transformAspect.TeleportCounterPool.NewEntity(out var asteroidEntity);
             teleportCounter.teleportationLimit = config.TeleportationLimit;

@@ -125,8 +125,30 @@
                 },
                 {
                     "name": "",
+                    "id": "b2da9f4d-a143-4ed2-80db-0618f44d6445",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "ShootBullet",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "c4f70bdc-945d-4097-9c0f-316320bfb08a",
                     "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "ShootLaser",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "0b899159-e431-433e-8afa-9299fd9028db",
+                    "path": "<Keyboard>/shift",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
@@ -1173,7 +1195,7 @@
                 {
                     "name": "",
                     "id": "7f981ac8-170e-4fc4-9221-09822889291f",
-                    "path": "<Keyboard>/space",
+                    "path": "<Keyboard>/t",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard&Mouse",

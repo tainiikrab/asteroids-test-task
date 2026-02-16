@@ -2,8 +2,9 @@
 {
     using System;
     using UnityEngine;
-    using AsteroidsGame.Contracts;
+    using Contracts;
     using System.Collections.Generic;
+
     public class UnityViewUpdater : MonoBehaviour, IViewUpdater
     {
         private readonly Dictionary<int, Transform> _map = new();
@@ -12,14 +13,17 @@
 
         [SerializeField] private GameObject _playerPrefab;
         [SerializeField] private GameObject _asteroidPrefab;
+        [SerializeField] private GameObject _asteroidFragmentPrefab;
         [SerializeField] private GameObject _bulletPrefab;
 
         private readonly Stack<Transform> _playerPool = new();
         private readonly Stack<Transform> _asteroidPool = new();
+        private readonly Stack<Transform> _asteroidFragmentPool = new();
         private readonly Stack<Transform> _bulletPool = new();
-        
+
         private const string PlayerTag = "Player";
         private const string AsteroidTag = "Asteroid";
+        private const string AsteroidFragmentTag = "AsteroidFragment";
         private const string BulletTag = "Bullet";
 
         public void Apply(IReadOnlyList<ViewData> views)
@@ -30,15 +34,14 @@
             {
                 _seenIds.Add(v.id);
 
-                if (!_map.TryGetValue(v.id, out var transform))
+                if (!_map.TryGetValue(v.id, out var entityTransform))
                 {
-                    transform = GetFromPool(v.type);
-                    _map[v.id] = transform;
-
+                    entityTransform = GetFromPool(v.type);
+                    _map[v.id] = entityTransform;
                 }
 
-                transform.position = new Vector2(v.x, v.y);
-                transform.rotation = Quaternion.Euler(0f, 0f, v.angle);
+                entityTransform.position = new Vector2(v.x, v.y);
+                entityTransform.rotation = Quaternion.Euler(0f, 0f, v.angle);
             }
 
             if (_map.Count > _seenIds.Count)
@@ -51,6 +54,7 @@
             {
                 EntityType.Player => _playerPool,
                 EntityType.Asteroid => _asteroidPool,
+                EntityType.AsteroidFragment => _asteroidFragmentPool,
                 EntityType.Bullet => _bulletPool,
                 _ => throw new ArgumentOutOfRangeException()
             };
@@ -66,6 +70,7 @@
             {
                 EntityType.Player => _playerPrefab,
                 EntityType.Asteroid => _asteroidPrefab,
+                EntityType.AsteroidFragment => _asteroidFragmentPrefab,
                 EntityType.Bullet => _bulletPrefab,
                 _ => throw new ArgumentOutOfRangeException()
             };
@@ -96,9 +101,10 @@
                 _playerPool.Push(entityTransform);
             else if (entityTransform.CompareTag(AsteroidTag))
                 _asteroidPool.Push(entityTransform);
+            else if (entityTransform.CompareTag(AsteroidFragmentTag))
+                _asteroidFragmentPool.Push(entityTransform);
             else if (entityTransform.CompareTag(BulletTag))
                 _bulletPool.Push(entityTransform);
         }
     }
-    
 }
