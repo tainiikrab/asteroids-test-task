@@ -74,4 +74,9 @@
     {
         public bool isFragment;
     }
+
+    public struct FollowerCmp
+    {
+        public ProtoPackedEntity Target;
+    }
 }

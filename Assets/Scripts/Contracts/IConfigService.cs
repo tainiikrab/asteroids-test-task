@@ -7,6 +7,7 @@
         public IAsteroidConfig AsteroidConfig { get; }
         public IAsteroidFragmentationConfig AsteroidFragmentationConfig { get; }
         public IBulletConfig BulletConfig { get; }
+        public ISaucerConfig SaucerConfig { get; }
     }
 
     public interface IPlayerConfig
@@ -48,6 +49,18 @@
         public float Speed { get; }
         public float ShotInterval { get; }
         public float ColliderRadius { get; }
+        public int TeleportationLimit { get; }
+    }
+
+    public interface ISaucerConfig
+    {
+        public float Speed { get; }
+        public float Acceleration { get; }
+        public float TurnSpeed { get; }
+        public float SpawnInterval { get; }
+        public int SpawnAmount { get; }
+        public float ColliderRadius { get; }
+
         public int TeleportationLimit { get; }
     }
 }

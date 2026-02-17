@@ -12,12 +12,14 @@
         [SerializeField] private BulletConfig _bulletConfig;
         [SerializeField] private AsteroidConfig _asteroidConfig;
         [SerializeField] private AsteroidFragmentationConfig _asteroidFragmentationConfig;
+        [SerializeField] private SaucerConfig _saucerConfig;
 
         public IWorldConfig WorldConfig => _worldConfig;
         public IPlayerConfig PlayerConfig => _playerConfig;
         public IAsteroidConfig AsteroidConfig => _asteroidConfig;
         public IBulletConfig BulletConfig => _bulletConfig;
         public IAsteroidFragmentationConfig AsteroidFragmentationConfig => _asteroidFragmentationConfig;
+        public ISaucerConfig SaucerConfig => _saucerConfig;
     }
 
     [Serializable]
@@ -65,5 +67,18 @@
         [field: SerializeField] public float RotationSpeedMultiplier { get; set; }
         [field: SerializeField] public float SpawnScatter { get; set; }
         [field: SerializeField] public float ColliderRadius { get; set; }
+    }
+
+    [Serializable]
+    public struct SaucerConfig : ISaucerConfig
+    {
+        [field: SerializeField] public float Speed { get; set; }
+        [field: SerializeField] public float ColliderRadius { get; set; }
+        [field: SerializeField] public float SpawnInterval { get; set; }
+        [field: SerializeField] public int SpawnAmount { get; set; }
+        [field: SerializeField] public int TeleportationLimit { get; set; }
+
+        [field: SerializeField] public float TurnSpeed { get; set; }
+        [field: SerializeField] public float Acceleration { get; set; }
     }
 }

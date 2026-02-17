@@ -16,11 +16,11 @@
         public void Init(IProtoSystems systems)
         {
             systems
+                .AddService(_configService, typeof(IConfigService))
                 .AddService(new SequentialIdGeneratorService(), typeof(IIdGeneratorService))
                 .AddService(new GameViewSizeService(), typeof(IGameViewSizeService))
                 .AddService(new DeltaTimeService(), typeof(IDeltaTimeService))
-                .AddService(new RandomService(), typeof(IRandomService))
-                .AddService(_configService, typeof(IConfigService));
+                .AddService(new RandomService(systems), typeof(IRandomService));
         }
 
         public IProtoAspect[] Aspects()
@@ -62,7 +62,8 @@
         {
             systems
                 .AddSystem(new RotationSystem())
-                .AddSystem(new MovementSystem());
+                .AddSystem(new MovementSystem())
+                .AddSystem(new SaucerHomingSystem());
         }
 
         public IProtoAspect[] Aspects()
@@ -99,9 +100,10 @@
     {
         public void Init(IProtoSystems systems)
         {
-            systems.AddService(new AsteroidSpawnService(systems), typeof(IAsteroidSpawnService));
+            systems.AddService(new ObstacleSpawnService(systems), typeof(IObstacleSpawnService));
             systems.AddSystem(new AsteroidSpawnSystem());
             systems.AddSystem(new AsteroidFragmentationSystem());
+            systems.AddSystem(new SaucerSpawnSystem());
         }
 
         public IProtoAspect[] Aspects()

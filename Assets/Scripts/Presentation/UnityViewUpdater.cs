@@ -15,16 +15,19 @@
         [SerializeField] private GameObject _asteroidPrefab;
         [SerializeField] private GameObject _asteroidFragmentPrefab;
         [SerializeField] private GameObject _bulletPrefab;
+        [SerializeField] private GameObject _saucerPrefab;
 
         private readonly Stack<Transform> _playerPool = new();
         private readonly Stack<Transform> _asteroidPool = new();
         private readonly Stack<Transform> _asteroidFragmentPool = new();
         private readonly Stack<Transform> _bulletPool = new();
+        private readonly Stack<Transform> _saucerPool = new();
 
         private const string PlayerTag = "Player";
         private const string AsteroidTag = "Asteroid";
         private const string AsteroidFragmentTag = "AsteroidFragment";
         private const string BulletTag = "Bullet";
+        private const string SaucerTag = "Saucer";
 
         public void Apply(IReadOnlyList<ViewData> views)
         {
@@ -56,6 +59,7 @@
                 EntityType.Asteroid => _asteroidPool,
                 EntityType.AsteroidFragment => _asteroidFragmentPool,
                 EntityType.Bullet => _bulletPool,
+                EntityType.Saucer => _saucerPool,
                 _ => throw new ArgumentOutOfRangeException()
             };
 
@@ -72,6 +76,7 @@
                 EntityType.Asteroid => _asteroidPrefab,
                 EntityType.AsteroidFragment => _asteroidFragmentPrefab,
                 EntityType.Bullet => _bulletPrefab,
+                EntityType.Saucer => _saucerPrefab,
                 _ => throw new ArgumentOutOfRangeException()
             };
             return Instantiate(prefab).transform;
@@ -97,14 +102,27 @@
         {
             entityTransform.gameObject.SetActive(false);
 
-            if (entityTransform.CompareTag(PlayerTag))
-                _playerPool.Push(entityTransform);
-            else if (entityTransform.CompareTag(AsteroidTag))
-                _asteroidPool.Push(entityTransform);
-            else if (entityTransform.CompareTag(AsteroidFragmentTag))
-                _asteroidFragmentPool.Push(entityTransform);
-            else if (entityTransform.CompareTag(BulletTag))
-                _bulletPool.Push(entityTransform);
+            switch (entityTransform.tag)
+            {
+                case PlayerTag:
+                    _playerPool.Push(entityTransform);
+                    break;
+
+                case AsteroidTag:
+                    _asteroidPool.Push(entityTransform);
+                    break;
+
+                case AsteroidFragmentTag:
+                    _asteroidFragmentPool.Push(entityTransform);
+                    break;
+
+                case BulletTag:
+                    _bulletPool.Push(entityTransform);
+                    break;
+                case SaucerTag:
+                    _saucerPool.Push(entityTransform);
+                    break;
+            }
         }
     }
 }

@@ -15,7 +15,7 @@ namespace AsteroidsGame.Logic
         private TransformAspect _transformAspect;
         private CollisionAspect _collisionAspect;
 
-        private IAsteroidSpawnService _asteroidSpawnService;
+        private IObstacleSpawnService _obstacleSpawnService;
         private IConfigService _configService;
         private IRandomService _randomService;
 
@@ -27,7 +27,7 @@ namespace AsteroidsGame.Logic
             _collisionAspect = (CollisionAspect)_world.Aspect(typeof(CollisionAspect));
 
             var svc = systems.Services();
-            _asteroidSpawnService = svc[typeof(IAsteroidSpawnService)] as IAsteroidSpawnService;
+            _obstacleSpawnService = svc[typeof(IObstacleSpawnService)] as IObstacleSpawnService;
             _configService = svc[typeof(IConfigService)] as IConfigService;
             _randomService = svc[typeof(IRandomService)] as IRandomService;
 
@@ -59,7 +59,7 @@ namespace AsteroidsGame.Logic
                     var x = parentX + scatter * _randomService.RandomNormalizedFloat;
                     var y = parentY + scatter * _randomService.RandomNormalizedFloat;
 
-                    var fragmentEntity = _asteroidSpawnService.SpawnAsteroid(x, y);
+                    var fragmentEntity = _obstacleSpawnService.SpawnAsteroid(x, y);
 
                     ref var fragmentComponent = ref _entityAspect.AsteroidPool.Get(fragmentEntity);
                     fragmentComponent.isFragment = true;
