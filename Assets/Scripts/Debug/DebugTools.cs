@@ -1,9 +1,10 @@
-﻿#if UNITY_EDITOR
+﻿#if UNITY_EDITOR || DEVELOPMENT_BUILD
+
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
 
-public sealed class DebugTools : MonoBehaviour
+public class DebugTools : MonoBehaviour
 {
     private PlayerControls _playerControls;
 
@@ -40,6 +41,7 @@ public sealed class DebugTools : MonoBehaviour
     }
 
     private bool isSceneReloaded = false;
+
     private void OnReload(InputAction.CallbackContext ctx)
     {
         if (isSceneReloaded)
