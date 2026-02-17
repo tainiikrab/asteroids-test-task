@@ -1,13 +1,11 @@
-﻿// Assets/Scripts/Logic/CollisionResolutionSystem.cs
-
-using System;
-using AsteroidsGame.Contracts;
-using Leopotam.EcsProto;
-using Leopotam.EcsProto.QoL;
-
-namespace AsteroidsGame.Logic
+﻿namespace AsteroidsGame.Logic
 {
-    public sealed class BulletShootSystem : IProtoInitSystem, IProtoRunSystem
+    using System;
+    using AsteroidsGame.Contracts;
+    using Leopotam.EcsProto;
+    using Leopotam.EcsProto.QoL;
+
+    public sealed class BulletSpawnSystem : IProtoInitSystem, IProtoRunSystem
     {
         private EntityAspect _entityAspect;
         private TransformAspect _transformAspect;
@@ -79,17 +77,17 @@ namespace AsteroidsGame.Logic
             ref var rotation = ref _transformAspect.RotationPool.Add(bulletEntity);
             rotation.angle = playerRotation.angle;
 
-            ref var collider = ref _collisionAspect.ColliderPool.Add(bulletEntity);
+            ref var collider = ref _collisionAspect.CircleColliderPool.Add(bulletEntity);
             collider.radius = _configService.BulletConfig.ColliderRadius;
 
-            ref var collisionSensor = ref _collisionAspect.CollisionSensorPool.Add(bulletEntity);
+            ref var _ = ref _collisionAspect.CollisionSensorPool.Add(bulletEntity);
 
             ref var entityId = ref _entityAspect.EntityIdPool.Add(bulletEntity);
             entityId.id = _idGeneratorService.GetNextId();
             entityId.type = EntityType.Bullet;
 
-            ref var bulletComponent = ref _entityAspect.BulletPool.Add(bulletEntity);
-            bulletComponent.owner = _world.PackEntity(playerEntity);
+            ref var childComponent = ref _entityAspect.ChildPool.Add(bulletEntity);
+            childComponent.parent = _world.PackEntity(playerEntity);
 
             ref var teleportCounter = ref _transformAspect.TeleportCounterPool.Add(bulletEntity);
             teleportCounter.teleportationLimit = _configService.BulletConfig.TeleportationLimit;

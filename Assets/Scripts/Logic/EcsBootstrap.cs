@@ -29,6 +29,7 @@
                 .AddModule(new MovementModule())
                 .AddModule(new CollisionModule())
                 .AddModule(new SpawnModule())
+                .AddSystem(new ChildFollowSystem())
                 .AddModule(new DestroyModule())
                 .Init();
         }

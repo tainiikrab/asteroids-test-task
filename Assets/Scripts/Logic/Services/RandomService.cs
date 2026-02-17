@@ -1,9 +1,8 @@
-﻿using AsteroidsGame.Contracts;
-using Leopotam.EcsProto;
-
-namespace AsteroidsGame.Logic
+﻿namespace AsteroidsGame.Logic
 {
     using System;
+    using AsteroidsGame.Contracts;
+    using Leopotam.EcsProto;
 
     public class RandomService : IRandomService
     {

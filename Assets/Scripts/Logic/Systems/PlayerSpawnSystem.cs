@@ -53,13 +53,10 @@
 
             ref var player = ref _entityAspect.PlayerPool.Add(playerEntity);
             player.bulletIntervalTime = _configService.BulletConfig.ShotInterval;
-            
-            //TODO
-            // player.laserIntervalTime = _configService.LaserConfig.ShotInterval;
-            
-            ref var collider = ref _collisionAspect.ColliderPool.Add(playerEntity);
+
+            ref var collider = ref _collisionAspect.CircleColliderPool.Add(playerEntity);
             collider.radius = _configService.PlayerConfig.ColliderRadius;
-            
+
             ref var collisionSensor = ref _collisionAspect.CollisionSensorPool.Add(playerEntity);
         }
     }

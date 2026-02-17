@@ -1,6 +1,4 @@
-﻿// Assets/Scripts/Logic/CollisionResolutionSystem.cs
-
-using Leopotam.EcsProto;
+﻿using Leopotam.EcsProto;
 using Leopotam.EcsProto.QoL;
 
 namespace AsteroidsGame.Logic
@@ -37,7 +35,16 @@ namespace AsteroidsGame.Logic
                     !collisionEvent.OtherEntity.TryUnpack(_world, out var other))
                     continue;
 
-                if (ShouldIgnoreCollision(sensor, other, collisionEvent)) continue;
+                if (ShouldIgnoreCollision(sensor, other, collisionEvent))
+                    continue;
+
+                if (_collisionAspect.LaserColliderPool.Has(sensor))
+                {
+                    if (!_entityAspect.DestroyTagPool.Has(other))
+                        _entityAspect.DestroyTagPool.Add(other);
+
+                    continue;
+                }
 
                 if (!_entityAspect.DestroyTagPool.Has(sensor))
                     _entityAspect.DestroyTagPool.Add(sensor);
@@ -56,8 +63,8 @@ namespace AsteroidsGame.Logic
                 IsOwner(other, collisionEvent.SensorEntity))
                 return true;
 
-            if (_entityAspect.BulletPool.Has(sensor) &&
-                _entityAspect.BulletPool.Has(other))
+            if (_entityAspect.ChildPool.Has(sensor) &&
+                _entityAspect.ChildPool.Has(other))
                 return true;
 
             return false;
@@ -65,11 +72,11 @@ namespace AsteroidsGame.Logic
 
         private bool IsOwner(ProtoEntity bulletEntity, ProtoPackedEntity target)
         {
-            if (!_entityAspect.BulletPool.Has(bulletEntity))
+            if (!_entityAspect.ChildPool.Has(bulletEntity))
                 return false;
 
-            ref var bullet = ref _entityAspect.BulletPool.Get(bulletEntity);
-            return bullet.owner == target;
+            ref var bullet = ref _entityAspect.ChildPool.Get(bulletEntity);
+            return bullet.parent == target;
         }
     }
 }

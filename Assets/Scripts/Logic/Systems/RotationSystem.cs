@@ -1,11 +1,13 @@
-
+using Leopotam.EcsProto.QoL;
 
 namespace AsteroidsGame.Logic
 {
     using Leopotam.EcsProto;
+
     public sealed class RotationSystem : IProtoInitSystem, IProtoRunSystem
     {
-        private TransformAspect _aspect;
+        private TransformAspect _transformAspect;
+        private EntityAspect _entityAspect;
         private ProtoWorld _world;
         private ProtoIt _iterator;
 
@@ -19,19 +21,36 @@ namespace AsteroidsGame.Logic
 
             var svc = systems.Services();
             _deltaTimeService = svc[typeof(IDeltaTimeService)] as IDeltaTimeService;
-            _aspect = (TransformAspect)_world.Aspect(typeof(TransformAspect));
+            _transformAspect = (TransformAspect)_world.Aspect(typeof(TransformAspect));
+            _entityAspect = (EntityAspect)_world.Aspect(typeof(EntityAspect));
             _iterator = new ProtoIt(new[] { typeof(RotationCmp), typeof(AngularVelocityCmp) });
             _iterator.Init(_world);
         }
 
         public void Run()
         {
-            foreach (var e in _iterator)
+            foreach (var entity in _iterator)
             {
-                ref var rot = ref _aspect.RotationPool.Get(e);
-                ref var ang = ref _aspect.AngularVelocityPool.Get(e);
+                ref var rotation = ref _transformAspect.RotationPool.Get(entity);
 
-                rot.angle -= ang.omega * DeltaTime;
+                if (_entityAspect.ChildPool.Has(entity))
+                {
+                    var child = _entityAspect.ChildPool.Get(entity);
+                    if (child.followsParent)
+                    {
+                        var parent = child.parent;
+                        if (parent.TryUnpack(_world, out var parentEntity))
+                        {
+                            rotation.angle = _transformAspect.RotationPool.Get(parentEntity).angle;
+                            continue;
+                        }
+                    }
+                }
+
+                ref var angularVelocity = ref _transformAspect.AngularVelocityPool.Get(entity);
+
+
+                rotation.angle -= angularVelocity.omega * DeltaTime;
             }
         }
     }

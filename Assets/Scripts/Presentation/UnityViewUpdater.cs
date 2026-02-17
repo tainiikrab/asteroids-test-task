@@ -16,18 +16,21 @@
         [SerializeField] private GameObject _asteroidFragmentPrefab;
         [SerializeField] private GameObject _bulletPrefab;
         [SerializeField] private GameObject _saucerPrefab;
+        [SerializeField] private GameObject _laserPrefab;
 
         private readonly Stack<Transform> _playerPool = new();
         private readonly Stack<Transform> _asteroidPool = new();
         private readonly Stack<Transform> _asteroidFragmentPool = new();
         private readonly Stack<Transform> _bulletPool = new();
         private readonly Stack<Transform> _saucerPool = new();
+        private readonly Stack<Transform> _laserPool = new();
 
         private const string PlayerTag = "Player";
         private const string AsteroidTag = "Asteroid";
         private const string AsteroidFragmentTag = "AsteroidFragment";
         private const string BulletTag = "Bullet";
         private const string SaucerTag = "Saucer";
+        private const string LaserTag = "Laser";
 
         public void Apply(IReadOnlyList<ViewData> views)
         {
@@ -60,6 +63,7 @@
                 EntityType.AsteroidFragment => _asteroidFragmentPool,
                 EntityType.Bullet => _bulletPool,
                 EntityType.Saucer => _saucerPool,
+                EntityType.Laser => _laserPool,
                 _ => throw new ArgumentOutOfRangeException()
             };
 
@@ -77,6 +81,7 @@
                 EntityType.AsteroidFragment => _asteroidFragmentPrefab,
                 EntityType.Bullet => _bulletPrefab,
                 EntityType.Saucer => _saucerPrefab,
+                EntityType.Laser => _laserPrefab,
                 _ => throw new ArgumentOutOfRangeException()
             };
             return Instantiate(prefab).transform;
@@ -107,7 +112,6 @@
                 case PlayerTag:
                     _playerPool.Push(entityTransform);
                     break;
-
                 case AsteroidTag:
                     _asteroidPool.Push(entityTransform);
                     break;
@@ -121,6 +125,9 @@
                     break;
                 case SaucerTag:
                     _saucerPool.Push(entityTransform);
+                    break;
+                case LaserTag:
+                    _laserPool.Push(entityTransform);
                     break;
             }
         }

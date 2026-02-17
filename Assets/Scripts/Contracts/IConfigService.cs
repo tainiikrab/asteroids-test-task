@@ -5,8 +5,9 @@
         public IWorldConfig WorldConfig { get; }
         public IPlayerConfig PlayerConfig { get; }
         public IAsteroidConfig AsteroidConfig { get; }
-        public IAsteroidFragmentationConfig AsteroidFragmentationConfig { get; }
+        public IAsteroidFragmentConfig AsteroidFragmentConfig { get; }
         public IBulletConfig BulletConfig { get; }
+        public ILaserConfig LaserConfig { get; }
         public ISaucerConfig SaucerConfig { get; }
     }
 
@@ -30,7 +31,7 @@
         public float ColliderRadius { get; }
     }
 
-    public interface IAsteroidFragmentationConfig
+    public interface IAsteroidFragmentConfig
     {
         public int SpawnCount { get; }
         public float SpeedMultiplier { get; }
@@ -50,6 +51,14 @@
         public float ShotInterval { get; }
         public float ColliderRadius { get; }
         public int TeleportationLimit { get; }
+    }
+
+    public interface ILaserConfig
+    {
+        public float ShotInterval { get; }
+        public float ColliderRadius { get; }
+        public float Duration { get; }
+        public int MaxLasers { get; }
     }
 
     public interface ISaucerConfig

@@ -66,7 +66,7 @@ namespace AsteroidsGame.Logic
             entityIdData.type = EntityType.Asteroid;
             entityIdData.id = _idGeneratorService.GetNextId();
 
-            ref var collider = ref _collisionAspect.ColliderPool.Add(asteroidEntity);
+            ref var collider = ref _collisionAspect.CircleColliderPool.Add(asteroidEntity);
             collider.radius = config.ColliderRadius;
 
             ref var asteroidData = ref _entityAspect.AsteroidPool.Add(asteroidEntity);
@@ -115,7 +115,7 @@ namespace AsteroidsGame.Logic
             entityIdData.type = EntityType.Saucer;
             entityIdData.id = _idGeneratorService.GetNextId();
 
-            ref var collider = ref _collisionAspect.ColliderPool.Add(saucerEntity);
+            ref var collider = ref _collisionAspect.CircleColliderPool.Add(saucerEntity);
             collider.radius = config.ColliderRadius;
 
             ref var saucerData = ref _entityAspect.FollowerPool.Add(saucerEntity);

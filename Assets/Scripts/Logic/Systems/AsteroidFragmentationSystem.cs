@@ -45,14 +45,14 @@ namespace AsteroidsGame.Logic
                 var parentPositionComponent = _transformAspect.PositionPool.Get(asteroidEntity);
                 var parentVelocityComponent = _transformAspect.VelocityPool.Get(asteroidEntity);
                 var parentAngularVelocityComponent = _transformAspect.AngularVelocityPool.Get(asteroidEntity);
-                var fragmentCount = _configService.AsteroidFragmentationConfig.SpawnCount;
+                var fragmentCount = _configService.AsteroidFragmentConfig.SpawnCount;
 
                 var parentX = parentPositionComponent.x;
                 var parentY = parentPositionComponent.y;
                 var parentVelocityX = parentVelocityComponent.x;
                 var parentVelocityY = parentVelocityComponent.y;
-                var scatter = _configService.AsteroidFragmentationConfig.SpawnScatter;
-                var speedMultiplier = _configService.AsteroidFragmentationConfig.SpeedMultiplier;
+                var scatter = _configService.AsteroidFragmentConfig.SpawnScatter;
+                var speedMultiplier = _configService.AsteroidFragmentConfig.SpeedMultiplier;
 
                 for (var i = 0; i < fragmentCount; i++)
                 {
@@ -72,10 +72,10 @@ namespace AsteroidsGame.Logic
 
                     ref var angularVelocityComponent = ref _transformAspect.AngularVelocityPool.Get(fragmentEntity);
                     angularVelocityComponent.omega = parentAngularVelocityComponent.omega *
-                                                     _configService.AsteroidFragmentationConfig.RotationSpeedMultiplier;
+                                                     _configService.AsteroidFragmentConfig.RotationSpeedMultiplier;
 
-                    ref var colliderComponent = ref _collisionAspect.ColliderPool.Get(fragmentEntity);
-                    colliderComponent.radius = _configService.AsteroidFragmentationConfig.ColliderRadius;
+                    ref var colliderComponent = ref _collisionAspect.CircleColliderPool.Get(fragmentEntity);
+                    colliderComponent.radius = _configService.AsteroidFragmentConfig.ColliderRadius;
 
                     ref var entityComponent = ref _entityAspect.EntityIdPool.Get(fragmentEntity);
                     entityComponent.type = EntityType.AsteroidFragment;

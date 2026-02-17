@@ -30,7 +30,11 @@
         public bool isShootingLaser;
 
         public float bulletIntervalTime;
+
         public float laserIntervalTime;
+        public int laserCount;
+
+        public float timeSinceLaserShot;
     }
 
     public struct TeleportCounterCmp
@@ -46,7 +50,12 @@
         public EntityType type;
     }
 
-    public struct ColliderCmp
+    public struct CircleColliderCmp
+    {
+        public float radius;
+    }
+
+    public struct LaserColliderCmp
     {
         public float radius;
     }
@@ -65,9 +74,10 @@
     {
     }
 
-    public struct BulletCmp
+    public struct ChildCmp
     {
-        public ProtoPackedEntity owner;
+        public ProtoPackedEntity parent;
+        public bool followsParent;
     }
 
     public struct AsteroidCmp
@@ -78,5 +88,11 @@
     public struct FollowerCmp
     {
         public ProtoPackedEntity Target;
+    }
+
+    public struct TimerCmp
+    {
+        public float time;
+        public float interval;
     }
 }

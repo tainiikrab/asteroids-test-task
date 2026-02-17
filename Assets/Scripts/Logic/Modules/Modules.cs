@@ -41,8 +41,7 @@
             systems
                 .AddService(new InputService(), typeof(IInputService))
                 .AddSystem(new PlayerSpawnSystem())
-                .AddSystem(new PlayerInputSystem())
-                .AddSystem(new BulletShootSystem());
+                .AddSystem(new PlayerInputSystem());
         }
 
         public IProtoAspect[] Aspects()
@@ -81,8 +80,10 @@
     {
         public void Init(IProtoSystems systems)
         {
-            systems.AddSystem(new CollisionDetectionSystem());
-            systems.AddSystem(new CollisionResolutionSystem());
+            systems
+                .AddSystem(new CollisionDetectionSystem())
+                .AddSystem(new LaserCollisionSystem())
+                .AddSystem(new CollisionResolutionSystem());
         }
 
         public IProtoAspect[] Aspects()
@@ -100,10 +101,13 @@
     {
         public void Init(IProtoSystems systems)
         {
-            systems.AddService(new ObstacleSpawnService(systems), typeof(IObstacleSpawnService));
-            systems.AddSystem(new AsteroidSpawnSystem());
-            systems.AddSystem(new AsteroidFragmentationSystem());
-            systems.AddSystem(new SaucerSpawnSystem());
+            systems
+                .AddService(new ObstacleSpawnService(systems), typeof(IObstacleSpawnService))
+                .AddSystem(new AsteroidSpawnSystem())
+                .AddSystem(new AsteroidFragmentationSystem())
+                .AddSystem(new SaucerSpawnSystem())
+                .AddSystem(new BulletSpawnSystem())
+                .AddSystem(new LaserSpawnSystem());
         }
 
         public IProtoAspect[] Aspects()
@@ -121,8 +125,10 @@
     {
         public void Init(IProtoSystems systems)
         {
-            systems.AddSystem(new TeleportCounterCleanupSystem());
-            systems.AddSystem(new DestroyByTagSystem());
+            systems
+                .AddSystem(new TeleportCounterCleanupSystem())
+                .AddSystem(new TimerCleanupSystem())
+                .AddSystem(new DestroyByTagSystem());
         }
 
         public IProtoAspect[] Aspects()

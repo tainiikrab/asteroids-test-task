@@ -11,23 +11,20 @@
             return _world;
         }
 
-
-        public ProtoPool<ColliderCmp> ColliderPool;
-        public ProtoPool<CollisionSensorCmp> CollisionSensorPool;
-        public ProtoPool<CollisionEventCmp> CollisionEventPool;
+        public readonly ProtoPool<CircleColliderCmp> CircleColliderPool = new();
+        public readonly ProtoPool<CollisionSensorCmp> CollisionSensorPool = new();
+        public readonly ProtoPool<CollisionEventCmp> CollisionEventPool = new();
+        public readonly ProtoPool<LaserColliderCmp> LaserColliderPool = new();
 
         public void Init(ProtoWorld world)
         {
             _world = world;
             _world.AddAspect(this);
 
-            ColliderPool = new ProtoPool<ColliderCmp>();
-            CollisionSensorPool = new ProtoPool<CollisionSensorCmp>();
-            CollisionEventPool = new ProtoPool<CollisionEventCmp>();
-            
-            _world.AddPool(ColliderPool);
+            _world.AddPool(CircleColliderPool);
             _world.AddPool(CollisionSensorPool);
             _world.AddPool(CollisionEventPool);
+            _world.AddPool(LaserColliderPool);
         }
 
         public void PostInit()

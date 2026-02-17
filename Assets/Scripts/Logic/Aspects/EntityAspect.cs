@@ -15,9 +15,10 @@
         public readonly ProtoPool<EntityIdCmp> EntityIdPool = new();
         public readonly ProtoPool<PlayerCmp> PlayerPool = new();
         public readonly ProtoPool<DestroyTagCmp> DestroyTagPool = new();
-        public readonly ProtoPool<BulletCmp> BulletPool = new();
+        public readonly ProtoPool<ChildCmp> ChildPool = new();
         public readonly ProtoPool<AsteroidCmp> AsteroidPool = new();
         public readonly ProtoPool<FollowerCmp> FollowerPool = new();
+        public readonly ProtoPool<TimerCmp> TimerPool = new();
 
 
         public void Init(ProtoWorld world)
@@ -28,9 +29,10 @@
             _world.AddPool(EntityIdPool);
             _world.AddPool(PlayerPool);
             _world.AddPool(DestroyTagPool);
-            _world.AddPool(BulletPool);
+            _world.AddPool(ChildPool);
             _world.AddPool(AsteroidPool);
             _world.AddPool(FollowerPool);
+            _world.AddPool(TimerPool);
         }
 
         public void PostInit()
