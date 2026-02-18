@@ -32,7 +32,7 @@
         private const string SaucerTag = "Saucer";
         private const string LaserTag = "Laser";
 
-        public void Apply(IReadOnlyList<ViewData> views)
+        public void UpdateView(IReadOnlyList<ViewData> views)
         {
             _seenIds.Clear();
 

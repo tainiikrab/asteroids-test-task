@@ -10,11 +10,13 @@
         private IEcsBootstrap _bootstrap;
         private IEcsRunner _runner;
         private IViewSync _viewSync;
+        private IShipUiSync _shipUiSync;
 
         private IInputReader _inputReader;
 
         [SerializeField] private UnityGlobalConfigService _unityGlobalConfigService;
         [SerializeField] private UnityViewUpdater _viewUpdater;
+        [SerializeField] private UnityShipUiUpdater _shipUiUpdater;
 
         private float _cachedW, _cachedH;
         private Camera _camera;
@@ -29,6 +31,7 @@
             _runner = new EcsRunner(_bootstrap.Systems, _inputReader);
 
             _viewSync = new EcsViewSync(_bootstrap.World, _viewUpdater);
+            _shipUiSync = new EcsShipUiSync( _bootstrap.World, _shipUiUpdater, _unityGlobalConfigService.LaserConfig.ShotCooldown);
 
             _camera = Camera.main;
         }
@@ -39,6 +42,7 @@
 
             _runner.Tick(Time.deltaTime);
             _viewSync.SyncView();
+            _shipUiSync.Sync();
         }
 
 

@@ -52,7 +52,7 @@
             entityIdComponent.packedEntity = packed;
 
             ref var player = ref _entityAspect.PlayerPool.Add(playerEntity);
-            player.bulletIntervalTime = _configService.BulletConfig.ShotInterval;
+            player.bulletReloadTimer = _configService.BulletConfig.ShotCooldown;
 
             ref var collider = ref _collisionAspect.CircleColliderPool.Add(playerEntity);
             collider.radius = _configService.PlayerConfig.ColliderRadius;

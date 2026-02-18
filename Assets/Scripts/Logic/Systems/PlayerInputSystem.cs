@@ -87,8 +87,9 @@
                 if (_currentInput.shootBullet)
                 {
                     playerComponent.isShootingBullet = true;
-                    return;
+                    continue;
                 }
+
                 playerComponent.isShootingBullet = false;
 
                 if (_currentInput.shootLaser) playerComponent.isShootingLaser = true;

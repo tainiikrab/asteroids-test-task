@@ -41,19 +41,22 @@
             var deltaTime = _deltaTimeService.DeltaTime;
 
             var laserConfig = _configService.LaserConfig;
-            var shotInterval = laserConfig.ShotInterval;
+            var shotInterval = laserConfig.ShotCooldown;
             var maxLasers = laserConfig.MaxLasers;
 
             foreach (var playerEntity in _eventIterator)
             {
                 ref var p = ref _entityAspect.PlayerPool.Get(playerEntity);
 
-                p.laserIntervalTime += deltaTime;
+                if (p.laserCount < maxLasers)
+                    p.laserReloadTimer += deltaTime;
+                else
+                    p.laserReloadTimer = 0f;
                 p.timeSinceLaserShot += deltaTime;
 
-                if (p.laserIntervalTime >= shotInterval)
+                if (p.laserReloadTimer >= shotInterval)
                 {
-                    p.laserIntervalTime -= shotInterval;
+                    p.laserReloadTimer -= shotInterval;
                     var nextCount = p.laserCount + 1;
                     p.laserCount = nextCount > maxLasers ? maxLasers : nextCount;
                 }

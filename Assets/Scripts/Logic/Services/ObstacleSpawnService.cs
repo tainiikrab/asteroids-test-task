@@ -44,7 +44,7 @@ namespace AsteroidsGame.Logic
 
 
             ref var rotationData = ref _transformAspect.RotationPool.Add(asteroidEntity);
-            var randomAngle = _randomService.RandomAngleDegrees;
+            var randomAngle = _randomService.RandomAngleRad;
             rotationData.angle = randomAngle;
 
             var dirX = MathF.Cos(randomAngle);
@@ -98,7 +98,7 @@ namespace AsteroidsGame.Logic
             }
             else
             {
-                var randomAngle = _randomService.RandomAngleDegrees;
+                var randomAngle = _randomService.RandomAngleRad;
                 rotationData.angle = randomAngle;
 
                 var dirX = MathF.Cos(randomAngle);

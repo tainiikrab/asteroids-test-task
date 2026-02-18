@@ -43,15 +43,15 @@
                 ref var playerComponent =
                     ref _entityAspect.PlayerPool.Get(playerEntity);
 
-                playerComponent.bulletIntervalTime += _deltaTimeService.DeltaTime;
+                playerComponent.bulletReloadTimer += _deltaTimeService.DeltaTime;
 
-                if (playerComponent.bulletIntervalTime < _configService.BulletConfig.ShotInterval) return;
+                if (playerComponent.bulletReloadTimer < _configService.BulletConfig.ShotCooldown) return;
 
                 if (playerComponent.isShootingBullet)
                 {
                     SpawnBullet(playerEntity);
                     playerComponent.isShootingBullet = false;
-                    playerComponent.bulletIntervalTime = 0f;
+                    playerComponent.bulletReloadTimer = 0f;
                 }
             }
         }

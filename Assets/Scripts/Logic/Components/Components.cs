@@ -29,9 +29,9 @@
         public bool isShootingBullet;
         public bool isShootingLaser;
 
-        public float bulletIntervalTime;
+        public float bulletReloadTimer;
+        public float laserReloadTimer;
 
-        public float laserIntervalTime;
         public int laserCount;
 
         public float timeSinceLaserShot;

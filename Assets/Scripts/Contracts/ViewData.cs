@@ -1,10 +1,12 @@
 ﻿namespace AsteroidsGame.Contracts
 {
     using System.Collections.Generic;
+
     public interface IViewUpdater
     {
-        void Apply(IReadOnlyList<ViewData> views);
+        void UpdateView(IReadOnlyList<ViewData> views);
     }
+
     public struct ViewData
     {
         public int id;

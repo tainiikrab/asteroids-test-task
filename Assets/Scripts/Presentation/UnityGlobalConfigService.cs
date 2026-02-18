@@ -44,7 +44,7 @@
     public sealed class BulletConfig : IBulletConfig
     {
         [field: SerializeField] public float Speed { get; set; } = 10f;
-        [field: SerializeField] public float ShotInterval { get; set; } = 0.15f;
+        [field: SerializeField] public float ShotCooldown { get; set; } = 0.15f;
         [field: SerializeField] public float ColliderRadius { get; set; } = 0.27f;
         [field: SerializeField] public int TeleportationLimit { get; set; } = 0;
     }
@@ -52,7 +52,7 @@
     [Serializable]
     public sealed class LaserConfig : ILaserConfig
     {
-        [field: SerializeField] public float ShotInterval { get; set; } = 3f;
+        [field: SerializeField] public float ShotCooldown { get; set; } = 3f;
         [field: SerializeField] public float ColliderRadius { get; set; } = 0.5f;
         [field: SerializeField] public float Duration { get; set; } = 2f;
         [field: SerializeField] public int MaxLasers { get; set; } = 3;

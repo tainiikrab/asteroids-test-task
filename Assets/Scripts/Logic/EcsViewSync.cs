@@ -48,7 +48,7 @@
                 });
             }
 
-            _viewUpdater.Apply(_viewsBuffer);
+            _viewUpdater.UpdateView(_viewsBuffer);
         }
     }
 

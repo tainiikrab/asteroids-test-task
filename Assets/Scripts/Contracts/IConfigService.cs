@@ -48,14 +48,14 @@
     public interface IBulletConfig
     {
         public float Speed { get; }
-        public float ShotInterval { get; }
+        public float ShotCooldown { get; }
         public float ColliderRadius { get; }
         public int TeleportationLimit { get; }
     }
 
     public interface ILaserConfig
     {
-        public float ShotInterval { get; }
+        public float ShotCooldown { get; }
         public float ColliderRadius { get; }
         public float Duration { get; }
         public int MaxLasers { get; }
