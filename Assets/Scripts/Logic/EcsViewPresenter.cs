@@ -3,33 +3,34 @@
     using System.Collections.Generic;
     using AsteroidsGame.Contracts;
     using Leopotam.EcsProto;
-    public class EcsViewSync : IViewSync
+
+    public class EcsGamePresenter : IGamePresenter
     {
-        private readonly IViewUpdater _viewUpdater;
+        private readonly IGameView _gameView;
 
         private readonly ProtoIt _viewIterator;
         private readonly List<ViewData> _viewsBuffer = new();
-        
+
         private readonly ProtoPool<EntityIdCmp> _entityIdPool;
         private readonly ProtoPool<PositionCmp> _positionPool;
         private readonly ProtoPool<RotationCmp> _rotationPool;
-        
-        public EcsViewSync(ProtoWorld world, IViewUpdater viewUpdater)
+
+        public EcsGamePresenter(ProtoWorld world, IGameView gameView)
         {
-            _viewUpdater = viewUpdater;
+            _gameView = gameView;
             var entityAspect = world.Aspect(typeof(EntityAspect)) as EntityAspect;
             var positionAspect = world.Aspect(typeof(TransformAspect)) as TransformAspect;
-            
+
             _entityIdPool = entityAspect?.EntityIdPool;
             _positionPool = positionAspect?.PositionPool;
             _rotationPool = positionAspect?.RotationPool;
-            
+
             _viewIterator = new ProtoIt(new[]
                 { typeof(EntityIdCmp), typeof(PositionCmp), typeof(RotationCmp) });
             _viewIterator.Init(world);
         }
-        
-        public void SyncView()
+
+        public void UpdateGame()
         {
             _viewsBuffer.Clear();
 
@@ -48,12 +49,12 @@
                 });
             }
 
-            _viewUpdater.UpdateView(_viewsBuffer);
+            _gameView.RenderGame(_viewsBuffer);
         }
     }
 
-    public interface IViewSync
+    public interface IGamePresenter
     {
-        void SyncView();
+        void UpdateGame();
     }
 }

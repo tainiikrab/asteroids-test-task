@@ -4,9 +4,9 @@ namespace AsteroidsGame.Logic
     using AsteroidsGame.Contracts;
     using Leopotam.EcsProto;
 
-    public sealed class EcsShipUiSync : IShipUiSync
+    public sealed class EcsShipUiPresenter : IShipUiPresenter
     {
-        private readonly IShipUiUpdater _uiUpdater;
+        private readonly IShipUiView _uiView;
         private readonly float _laserInterval;
 
         private readonly ProtoIt _playerIterator;
@@ -15,9 +15,9 @@ namespace AsteroidsGame.Logic
         private readonly ProtoPool<RotationCmp> _rotationPool;
         private readonly ProtoPool<VelocityCmp> _velocityPool;
 
-        public EcsShipUiSync(ProtoWorld world, IShipUiUpdater uiUpdater, float laserInterval)
+        public EcsShipUiPresenter(ProtoWorld world, IShipUiView uiView, float laserInterval)
         {
-            _uiUpdater = uiUpdater;
+            _uiView = uiView;
             _laserInterval = laserInterval;
 
             var entityAspect = world.Aspect(typeof(EntityAspect)) as EntityAspect;
@@ -35,9 +35,9 @@ namespace AsteroidsGame.Logic
             _playerIterator.Init(world);
         }
 
-        public void Sync()
+        public void UpdateUI()
         {
-            if (_uiUpdater == null)
+            if (_uiView == null)
                 return;
 
             foreach (var entity in _playerIterator)
@@ -52,7 +52,7 @@ namespace AsteroidsGame.Logic
                 if (cooldown < 0f)
                     cooldown = 0f;
 
-                _uiUpdater.UpdateUI(new ShipUiData
+                _uiView.RenderUI(new ShipUiData
                 {
                     health = 1,
                     x = position.x,
@@ -65,12 +65,12 @@ namespace AsteroidsGame.Logic
                 return;
             }
 
-            _uiUpdater.UpdateUI(new ShipUiData());
+            _uiView.RenderUI(new ShipUiData());
         }
     }
 
-    public interface IShipUiSync
+    public interface IShipUiPresenter
     {
-        void Sync();
+        void UpdateUI();
     }
 }

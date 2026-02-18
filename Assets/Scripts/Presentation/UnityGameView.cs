@@ -5,7 +5,7 @@
     using Contracts;
     using System.Collections.Generic;
 
-    public class UnityViewUpdater : MonoBehaviour, IViewUpdater
+    public class UnityGameView : MonoBehaviour, IGameView
     {
         private readonly Dictionary<int, Transform> _map = new();
         private readonly HashSet<int> _seenIds = new();
@@ -17,6 +17,7 @@
         [SerializeField] private GameObject _bulletPrefab;
         [SerializeField] private GameObject _saucerPrefab;
         [SerializeField] private GameObject _laserPrefab;
+
 
         private readonly Stack<Transform> _playerPool = new();
         private readonly Stack<Transform> _asteroidPool = new();
@@ -32,7 +33,7 @@
         private const string SaucerTag = "Saucer";
         private const string LaserTag = "Laser";
 
-        public void UpdateView(IReadOnlyList<ViewData> views)
+        public void RenderGame(IReadOnlyList<ViewData> views)
         {
             _seenIds.Clear();
 
@@ -84,7 +85,7 @@
                 EntityType.Laser => _laserPrefab,
                 _ => throw new ArgumentOutOfRangeException()
             };
-            return Instantiate(prefab).transform;
+            return Instantiate(prefab, transform).transform;
         }
 
         private void CleanupRemoved()
@@ -130,6 +131,16 @@
                     _laserPool.Push(entityTransform);
                     break;
             }
+        }
+
+        public void Clear()
+        {
+            foreach (var kv in _map)
+                ReturnToPool(kv.Value);
+
+            _map.Clear();
+            _seenIds.Clear();
+            _toRemove.Clear();
         }
     }
 }

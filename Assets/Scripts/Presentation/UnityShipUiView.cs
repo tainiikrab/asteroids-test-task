@@ -7,7 +7,7 @@ namespace AsteroidsGame.Presentation
     using UnityEngine;
     using TMPro;
 
-    public sealed class UnityShipUiUpdater : MonoBehaviour, IShipUiUpdater
+    public sealed class UnityShipUiView : MonoBehaviour, IShipUiView
     {
         [SerializeField] private TextMeshProUGUI _healthLabel;
         [SerializeField] private TextMeshProUGUI _coordinatesLabel;
@@ -29,7 +29,7 @@ namespace AsteroidsGame.Presentation
 
         [SerializeField] private float _epsilon = 0.01f;
 
-        public void UpdateUI(in ShipUiData data)
+        public void RenderUI(in ShipUiData data)
         {
             if (data.health != _lastHealth)
             {

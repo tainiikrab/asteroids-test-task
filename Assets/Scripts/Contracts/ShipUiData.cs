@@ -11,8 +11,8 @@ namespace AsteroidsGame.Contracts
         public float laserCooldown;
     }
 
-    public interface IShipUiUpdater
+    public interface IShipUiView
     {
-        void UpdateUI(in ShipUiData data);
+        void RenderUI(in ShipUiData data);
     }
 }

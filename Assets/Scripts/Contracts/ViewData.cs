@@ -2,9 +2,11 @@
 {
     using System.Collections.Generic;
 
-    public interface IViewUpdater
+    public interface IGameView
     {
-        void UpdateView(IReadOnlyList<ViewData> views);
+        void RenderGame(IReadOnlyList<ViewData> views);
+
+        void Clear();
     }
 
     public struct ViewData

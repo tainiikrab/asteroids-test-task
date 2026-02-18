@@ -50,6 +50,7 @@
             var packed = _world.PackEntity(playerEntity);
             entityIdComponent.id = _idGeneratorService.GetNextId();
             entityIdComponent.packedEntity = packed;
+            entityIdComponent.type = EntityType.Player;
 
             ref var player = ref _entityAspect.PlayerPool.Add(playerEntity);
             player.bulletReloadTimer = _configService.BulletConfig.ShotCooldown;
