@@ -95,8 +95,9 @@
         public void RestartGame()
         {
             _bootstrap.Destroy();
-            Init();
             _gameView.Clear();
+
+            Init();
         }
     }
 }

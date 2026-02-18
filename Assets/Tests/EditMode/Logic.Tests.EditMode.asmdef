@@ -1,0 +1,24 @@
+{
+    "name": "Logic.Tests.EditMode",
+    "rootNamespace": "",
+    "references": [
+        "Logic",
+        "Contracts",
+        "Leopotam.EcsProto",
+        "Leopotam.EcsProto.QoL"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": true,
+    "optionalUnityReferences": [
+        "TestAssemblies"
+    ]
+}

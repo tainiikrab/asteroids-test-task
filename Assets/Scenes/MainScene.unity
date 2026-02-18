@@ -949,7 +949,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6614746471362859465, guid: aae09c5d0a9e240409479eb096112e40, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -7.879058
+      value: -7.65
       objectReference: {fileID: 0}
     - target: {fileID: 6614746471362859465, guid: aae09c5d0a9e240409479eb096112e40, type: 3}
       propertyPath: m_LocalPosition.y
@@ -3596,6 +3596,18 @@ PrefabInstance:
       propertyPath: _unityGlobalConfigService._bulletConfig.<ColliderRadius>k__BackingField
       value: 0.35
       objectReference: {fileID: 0}
+    - target: {fileID: 1621533174496838242, guid: 7687d2978d3497b4fa3d2165b3b49ef2, type: 3}
+      propertyPath: _unityGlobalConfigService._playerConfig.<ColliderRadius>k__BackingField
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1621533174496838242, guid: 7687d2978d3497b4fa3d2165b3b49ef2, type: 3}
+      propertyPath: _unityGlobalConfigService._asteroidConfig.<ColliderRadius>k__BackingField
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1621533174496838242, guid: 7687d2978d3497b4fa3d2165b3b49ef2, type: 3}
+      propertyPath: _unityGlobalConfigService._asteroidFragmentConfig.<ColliderRadius>k__BackingField
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 4070972327102453035, guid: 7687d2978d3497b4fa3d2165b3b49ef2, type: 3}
       propertyPath: m_Name
       value: CompositionRoot
@@ -3666,7 +3678,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5524617629470448101, guid: 9b78bfb3c7ec55248a1da7f1242cc6f2, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5615954541822999936, guid: 9b78bfb3c7ec55248a1da7f1242cc6f2, type: 3}
       propertyPath: m_Pivot.x
@@ -3762,7 +3774,7 @@ SceneRoots:
   - {fileID: 762159309}
   - {fileID: 519420032}
   - {fileID: 619394802}
-  - {fileID: 480229409074856031}
   - {fileID: 1177438938}
   - {fileID: 1520967541}
   - {fileID: 111541512}
+  - {fileID: 480229409074856031}
