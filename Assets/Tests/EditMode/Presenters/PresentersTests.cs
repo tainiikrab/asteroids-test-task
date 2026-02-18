@@ -12,14 +12,19 @@ namespace AsteroidsGame.Tests.EditMode.Presenters
         {
             var root = new RootAspect();
             var world = new ProtoWorld(root);
+            var systems = new ProtoSystems(world);
+
+            var scoreService = new ScoreService();
+            systems.AddService(scoreService, typeof(IScoreService));
+
             ref var playerCmp = ref root.EntityAspect.PlayerPool.NewEntity(out var player);
 
-            var presenter = new GameStatePresenter(world);
-            presenter.SetScore(42);
+            var presenter = new GameStatePresenter(systems);
+            scoreService.SetScore(42);
             presenter.UpdateState();
 
             Assert.That(presenter.IsGameOver, Is.False);
-            Assert.That(presenter.Score, Is.EqualTo(42));
+            Assert.That(presenter.Score, Is.EqualTo(0));
 
             world.Destroy();
         }
@@ -29,10 +34,15 @@ namespace AsteroidsGame.Tests.EditMode.Presenters
         {
             var root = new RootAspect();
             var world = new ProtoWorld(root);
+            var systems = new ProtoSystems(world);
+
+            var scoreService = new ScoreService();
+            systems.AddService(scoreService, typeof(IScoreService));
+            scoreService.SetScore(42);
+
             ref var playerCmp = ref root.EntityAspect.PlayerPool.NewEntity(out var player);
 
-            var presenter = new GameStatePresenter(world);
-            presenter.SetScore(7);
+            var presenter = new GameStatePresenter(systems);
 
             var eventsCount = 0;
             var scoreFromEvent = -1;
@@ -48,7 +58,7 @@ namespace AsteroidsGame.Tests.EditMode.Presenters
 
             Assert.That(presenter.IsGameOver, Is.True);
             Assert.That(eventsCount, Is.EqualTo(1));
-            Assert.That(scoreFromEvent, Is.EqualTo(7));
+            Assert.That(scoreFromEvent, Is.EqualTo(42));
 
             world.Destroy();
         }
@@ -59,12 +69,15 @@ namespace AsteroidsGame.Tests.EditMode.Presenters
             var root = new RootAspect();
             var world = new ProtoWorld(root);
 
-            ref var laserShooterCmp = ref root.EntityAspect.LaserShooterPool.NewEntity(out var laserShooter);
-            ref var pos = ref root.TransformAspect.PositionPool.Add(laserShooter);
-            ref var rot = ref root.TransformAspect.RotationPool.Add(laserShooter);
-            ref var vel = ref root.TransformAspect.VelocityPool.Add(laserShooter);
+            ref var playerCmp = ref root.EntityAspect.PlayerPool.NewEntity(out var playerEntity);
+            ref var laserShooterCmp = ref root.EntityAspect.LaserShooterPool.Add(playerEntity);
+            ref var pos = ref root.TransformAspect.PositionPool.Add(playerEntity);
+            ref var rot = ref root.TransformAspect.RotationPool.Add(playerEntity);
+            ref var vel = ref root.TransformAspect.VelocityPool.Add(playerEntity);
+            ref var health = ref root.EntityAspect.HealthPool.Add(playerEntity);
 
             laserShooterCmp.laserCount = 2;
+            health.current = 47;
             laserShooterCmp.laserReloadTimer = 1.5f;
             pos.x = 3f;
             pos.y = -4f;
@@ -77,7 +90,7 @@ namespace AsteroidsGame.Tests.EditMode.Presenters
             presenter.UpdateUI();
 
             Assert.That(view.RenderCalls, Is.EqualTo(1));
-            Assert.That(view.LastData.health, Is.EqualTo(1));
+            Assert.That(view.LastData.health, Is.EqualTo(47));
             Assert.That(view.LastData.x, Is.EqualTo(3f));
             Assert.That(view.LastData.y, Is.EqualTo(-4f));
             Assert.That(view.LastData.angle, Is.EqualTo(90f).Within(0.001f));

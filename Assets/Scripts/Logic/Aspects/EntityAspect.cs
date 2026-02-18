@@ -23,6 +23,9 @@
         public readonly ProtoPool<BulletShooterCmp> BulletShooterPool = new();
         public readonly ProtoPool<LaserShooterCmp> LaserShooterPool = new();
 
+        public readonly ProtoPool<HealthCmp> HealthPool = new();
+        public readonly ProtoPool<ScoreCmp> ScorePool = new();
+
 
         public void Init(ProtoWorld world)
         {
@@ -39,6 +42,9 @@
 
             _world.AddPool(BulletShooterPool);
             _world.AddPool(LaserShooterPool);
+
+            _world.AddPool(HealthPool);
+            _world.AddPool(ScorePool);
         }
 
         public void PostInit()

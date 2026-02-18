@@ -11,6 +11,7 @@ namespace AsteroidsGame.Tests.EditMode
         public IBulletConfig BulletConfig { get; } = new TestBulletConfig();
         public ILaserConfig LaserConfig { get; } = new TestLaserConfig();
         public ISaucerConfig SaucerConfig { get; } = new TestSaucerConfig();
+        public IScoreConfig ScoreConfig { get; } = new TestScoreConfig();
     }
 
     internal sealed class TestWorldConfig : IWorldConfig
@@ -25,6 +26,7 @@ namespace AsteroidsGame.Tests.EditMode
         public float Acceleration { get; set; } = 5f;
         public float Deceleration { get; set; } = 1f;
         public float ColliderRadius { get; set; } = 0.5f;
+        public int MaxHealth { get; set; } = 2;
     }
 
     internal sealed class TestAsteroidConfig : IAsteroidConfig
@@ -72,5 +74,12 @@ namespace AsteroidsGame.Tests.EditMode
         public int SpawnAmount { get; set; } = 1;
         public float ColliderRadius { get; set; } = 0.8f;
         public int TeleportationLimit { get; set; } = 2;
+    }
+
+    internal sealed class TestScoreConfig : IScoreConfig
+    {
+        public int AsteroidScore { get; set; } = 10;
+        public int FragmentScore { get; set; } = 15;
+        public int SaucerScore { get; set; } = 20;
     }
 }

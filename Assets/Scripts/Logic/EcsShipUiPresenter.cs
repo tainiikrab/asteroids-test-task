@@ -10,7 +10,7 @@ namespace AsteroidsGame.Logic
         private readonly float _laserInterval;
 
         private readonly ProtoIt _playerIterator;
-        private readonly ProtoPool<PlayerCmp> _playerPool;
+        private readonly ProtoPool<HealthCmp> _healthPool;
         private readonly ProtoPool<PositionCmp> _positionPool;
         private readonly ProtoPool<RotationCmp> _rotationPool;
         private readonly ProtoPool<VelocityCmp> _velocityPool;
@@ -25,7 +25,7 @@ namespace AsteroidsGame.Logic
             var entityAspect = world.Aspect(typeof(EntityAspect)) as EntityAspect;
             var transformAspect = world.Aspect(typeof(TransformAspect)) as TransformAspect;
 
-            _playerPool = entityAspect?.PlayerPool;
+            _healthPool = entityAspect?.HealthPool;
             _positionPool = transformAspect?.PositionPool;
             _rotationPool = transformAspect?.RotationPool;
             _velocityPool = transformAspect?.VelocityPool;
@@ -49,6 +49,7 @@ namespace AsteroidsGame.Logic
                 ref var position = ref _positionPool.Get(entity);
                 ref var rotation = ref _rotationPool.Get(entity);
                 ref var velocity = ref _velocityPool.Get(entity);
+                ref var health = ref _healthPool.Get(entity);
 
                 var speed = MathF.Sqrt(velocity.x * velocity.x + velocity.y * velocity.y);
                 var cooldown = _laserInterval - laserShooter.laserReloadTimer;
@@ -57,7 +58,7 @@ namespace AsteroidsGame.Logic
 
                 _uiView.RenderUI(new ShipUiData
                 {
-                    health = 1,
+                    health = health.current,
                     x = position.x,
                     y = position.y,
                     angle = Math.Abs(rotation.angle % 360f),

@@ -100,4 +100,15 @@
         public float time;
         public float interval;
     }
+
+    public struct HealthCmp
+    {
+        public int current;
+        public int max;
+    }
+
+    public struct ScoreCmp
+    {
+        public int score;
+    }
 }

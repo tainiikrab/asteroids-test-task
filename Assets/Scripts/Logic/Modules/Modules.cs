@@ -20,7 +20,8 @@
                 .AddService(new SequentialIdGeneratorService(), typeof(IIdGeneratorService))
                 .AddService(new GameViewSizeService(), typeof(IGameViewSizeService))
                 .AddService(new DeltaTimeService(), typeof(IDeltaTimeService))
-                .AddService(new RandomService(systems), typeof(IRandomService));
+                .AddService(new RandomService(systems), typeof(IRandomService))
+                .AddService(new ScoreService(), typeof(IScoreService));
         }
 
         public IProtoAspect[] Aspects()
@@ -121,13 +122,15 @@
         }
     }
 
-    public class DestroyModule : IProtoModule
+    public class CleanUpModule : IProtoModule
     {
         public void Init(IProtoSystems systems)
         {
             systems
                 .AddSystem(new TeleportCounterCleanupSystem())
                 .AddSystem(new TimerCleanupSystem())
+                .AddSystem(new HealthSystem())
+                .AddSystem(new ScoreSystem())
                 .AddSystem(new DestroyByTagSystem());
         }
 

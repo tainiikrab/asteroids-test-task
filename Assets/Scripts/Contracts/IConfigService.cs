@@ -4,6 +4,7 @@
     {
         public IWorldConfig WorldConfig { get; }
         public IPlayerConfig PlayerConfig { get; }
+        public IScoreConfig ScoreConfig { get; }
         public IAsteroidConfig AsteroidConfig { get; }
         public IAsteroidFragmentConfig AsteroidFragmentConfig { get; }
         public IBulletConfig BulletConfig { get; }
@@ -18,6 +19,7 @@
         public float Acceleration { get; }
         public float Deceleration { get; }
         public float ColliderRadius { get; }
+        public int MaxHealth { get; }
     }
 
     public interface IAsteroidConfig
@@ -71,5 +73,12 @@
         public float ColliderRadius { get; }
 
         public int TeleportationLimit { get; }
+    }
+
+    public interface IScoreConfig
+    {
+        public int AsteroidScore { get; }
+        public int SaucerScore { get; }
+        public int FragmentScore { get; }
     }
 }

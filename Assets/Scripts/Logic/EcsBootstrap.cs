@@ -30,7 +30,7 @@
                 .AddModule(new CollisionModule())
                 .AddModule(new SpawnModule())
                 .AddSystem(new ChildFollowSystem())
-                .AddModule(new DestroyModule())
+                .AddModule(new CleanUpModule())
                 .Init();
         }
 

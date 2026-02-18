@@ -49,7 +49,7 @@
             _shipUiPresenter = new EcsShipUiPresenter(_bootstrap.World, _shipUiView,
                 _unityGlobalConfigService.LaserConfig.ShotCooldown);
 
-            _gameStatePresenter = new GameStatePresenter(_bootstrap.World);
+            _gameStatePresenter = new GameStatePresenter(_bootstrap.Systems);
         }
 
         public void TogglePause(bool isPaused)

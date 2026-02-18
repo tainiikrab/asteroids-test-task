@@ -7,7 +7,7 @@ namespace AsteroidsGame.Logic
     public sealed class GameStatePresenter : IGameStatePresenter
     {
         private readonly ProtoIt _playerIterator;
-
+        private IScoreService _scoreService;
         private bool _isGameOver;
         private int _score;
 
@@ -16,18 +16,12 @@ namespace AsteroidsGame.Logic
 
         public event Action<int> OnGameOverEvent;
 
-        public GameStatePresenter(ProtoWorld world)
+        public GameStatePresenter(IProtoSystems systems)
         {
-            _playerIterator = new ProtoIt(new[]
-            {
-                typeof(PlayerCmp)
-            });
-            _playerIterator.Init(world);
-        }
+            _playerIterator = new ProtoIt(new[] { typeof(PlayerCmp) });
+            _playerIterator.Init(systems.World());
 
-        public void SetScore(int score)
-        {
-            _score = score;
+            _scoreService = systems.Services()[typeof(IScoreService)] as IScoreService;
         }
 
         public void UpdateState()
@@ -39,7 +33,7 @@ namespace AsteroidsGame.Logic
                 return;
 
             _isGameOver = true;
-            OnGameOverEvent?.Invoke(_score);
+            OnGameOverEvent?.Invoke(_scoreService.currentScore);
         }
     }
 
@@ -50,7 +44,6 @@ namespace AsteroidsGame.Logic
 
         event Action<int> OnGameOverEvent;
 
-        void SetScore(int score);
         void UpdateState();
     }
 }

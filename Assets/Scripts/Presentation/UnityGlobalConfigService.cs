@@ -14,6 +14,7 @@
         [SerializeField] private AsteroidConfig _asteroidConfig;
         [SerializeField] private AsteroidFragmentConfig _asteroidFragmentConfig;
         [SerializeField] private SaucerConfig _saucerConfig;
+        [SerializeField] private ScoreConfig _scoreConfig;
 
         public IWorldConfig WorldConfig => _worldConfig;
         public IPlayerConfig PlayerConfig => _playerConfig;
@@ -22,6 +23,7 @@
         public IAsteroidConfig AsteroidConfig => _asteroidConfig;
         public IAsteroidFragmentConfig AsteroidFragmentConfig => _asteroidFragmentConfig;
         public ISaucerConfig SaucerConfig => _saucerConfig;
+        public IScoreConfig ScoreConfig => _scoreConfig;
     }
 
     [Serializable]
@@ -38,6 +40,7 @@
         [field: SerializeField] public float Acceleration { get; set; } = 20f;
         [field: SerializeField] public float Deceleration { get; set; } = 6f;
         [field: SerializeField] public float ColliderRadius { get; set; } = 0.5f;
+        [field: SerializeField] public int MaxHealth { get; set; } = 2;
     }
 
     [Serializable]
@@ -93,5 +96,13 @@
 
         [field: SerializeField] public float TurnSpeed { get; set; } = 200;
         [field: SerializeField] public float Acceleration { get; set; } = 10;
+    }
+
+    [Serializable]
+    public sealed class ScoreConfig : IScoreConfig
+    {
+        [field: SerializeField] public int AsteroidScore { get; set; } = 10;
+        [field: SerializeField] public int FragmentScore { get; set; } = 15;
+        [field: SerializeField] public int SaucerScore { get; set; } = 20;
     }
 }

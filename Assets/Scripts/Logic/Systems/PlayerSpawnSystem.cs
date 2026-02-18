@@ -60,6 +60,10 @@
             collider.radius = _configService.PlayerConfig.ColliderRadius;
 
             ref var collisionSensor = ref _collisionAspect.CollisionSensorPool.Add(playerEntity);
+
+            ref var health = ref _entityAspect.HealthPool.Add(playerEntity);
+            health.current = _configService.PlayerConfig.MaxHealth;
+            health.max = _configService.PlayerConfig.MaxHealth;
         }
     }
 }
