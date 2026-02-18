@@ -82,17 +82,20 @@
                     v.y = v.y * invLength * maxSpeed;
                 }
 
-                ref var playerComponent = ref _entityAspect.PlayerPool.Get(playerEntity);
+                ref var playerCmp = ref _entityAspect.PlayerPool.Get(playerEntity);
+
+                ref var bulletShooterCmp = ref _entityAspect.BulletShooterPool.Get(playerEntity);
+                ref var laserShooterCmp = ref _entityAspect.LaserShooterPool.Get(playerEntity);
 
                 if (_currentInput.shootBullet)
                 {
-                    playerComponent.isShootingBullet = true;
+                    bulletShooterCmp.isShootingBullet = true;
                     continue;
                 }
 
-                playerComponent.isShootingBullet = false;
+                bulletShooterCmp.isShootingBullet = false;
 
-                if (_currentInput.shootLaser) playerComponent.isShootingLaser = true;
+                if (_currentInput.shootLaser) laserShooterCmp.isShootingLaser = true;
             }
         }
     }

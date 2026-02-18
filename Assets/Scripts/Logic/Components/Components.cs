@@ -26,14 +26,19 @@
 
     public struct PlayerCmp
     {
+    }
+
+    public struct BulletShooterCmp
+    {
         public bool isShootingBullet;
-        public bool isShootingLaser;
-
         public float bulletReloadTimer;
+    }
+
+    public struct LaserShooterCmp
+    {
+        public bool isShootingLaser;
         public float laserReloadTimer;
-
         public int laserCount;
-
         public float timeSinceLaserShot;
     }
 

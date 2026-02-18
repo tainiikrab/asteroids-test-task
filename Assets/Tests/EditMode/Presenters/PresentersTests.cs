@@ -59,13 +59,13 @@ namespace AsteroidsGame.Tests.EditMode.Presenters
             var root = new RootAspect();
             var world = new ProtoWorld(root);
 
-            ref var playerCmp = ref root.EntityAspect.PlayerPool.NewEntity(out var player);
-            ref var pos = ref root.TransformAspect.PositionPool.Add(player);
-            ref var rot = ref root.TransformAspect.RotationPool.Add(player);
-            ref var vel = ref root.TransformAspect.VelocityPool.Add(player);
+            ref var laserShooterCmp = ref root.EntityAspect.LaserShooterPool.NewEntity(out var laserShooter);
+            ref var pos = ref root.TransformAspect.PositionPool.Add(laserShooter);
+            ref var rot = ref root.TransformAspect.RotationPool.Add(laserShooter);
+            ref var vel = ref root.TransformAspect.VelocityPool.Add(laserShooter);
 
-            playerCmp.laserCount = 2;
-            playerCmp.laserReloadTimer = 1.5f;
+            laserShooterCmp.laserCount = 2;
+            laserShooterCmp.laserReloadTimer = 1.5f;
             pos.x = 3f;
             pos.y = -4f;
             rot.angle = -450f;

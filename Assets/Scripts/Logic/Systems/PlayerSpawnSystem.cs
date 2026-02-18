@@ -53,7 +53,8 @@
             entityIdComponent.type = EntityType.Player;
 
             ref var player = ref _entityAspect.PlayerPool.Add(playerEntity);
-            player.bulletReloadTimer = _configService.BulletConfig.ShotCooldown;
+            ref var bulletShooter = ref _entityAspect.BulletShooterPool.Add(playerEntity);
+            ref var laserShooter = ref _entityAspect.LaserShooterPool.Add(playerEntity);
 
             ref var collider = ref _collisionAspect.CircleColliderPool.Add(playerEntity);
             collider.radius = _configService.PlayerConfig.ColliderRadius;

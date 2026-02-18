@@ -15,6 +15,8 @@ namespace AsteroidsGame.Logic
         private readonly ProtoPool<RotationCmp> _rotationPool;
         private readonly ProtoPool<VelocityCmp> _velocityPool;
 
+        private readonly ProtoPool<LaserShooterCmp> _laserShooterPool;
+
         public EcsShipUiPresenter(ProtoWorld world, IShipUiView uiView, float laserInterval)
         {
             _uiView = uiView;
@@ -27,6 +29,7 @@ namespace AsteroidsGame.Logic
             _positionPool = transformAspect?.PositionPool;
             _rotationPool = transformAspect?.RotationPool;
             _velocityPool = transformAspect?.VelocityPool;
+            _laserShooterPool = entityAspect?.LaserShooterPool;
 
             _playerIterator = new ProtoIt(new[]
             {
@@ -42,13 +45,13 @@ namespace AsteroidsGame.Logic
 
             foreach (var entity in _playerIterator)
             {
-                ref var player = ref _playerPool.Get(entity);
+                ref var laserShooter = ref _laserShooterPool.Get(entity);
                 ref var position = ref _positionPool.Get(entity);
                 ref var rotation = ref _rotationPool.Get(entity);
                 ref var velocity = ref _velocityPool.Get(entity);
 
                 var speed = MathF.Sqrt(velocity.x * velocity.x + velocity.y * velocity.y);
-                var cooldown = _laserInterval - player.laserReloadTimer;
+                var cooldown = _laserInterval - laserShooter.laserReloadTimer;
                 if (cooldown < 0f)
                     cooldown = 0f;
 
@@ -59,7 +62,7 @@ namespace AsteroidsGame.Logic
                     y = position.y,
                     angle = Math.Abs(rotation.angle % 360f),
                     speed = speed,
-                    laserCharges = player.laserCount,
+                    laserCharges = laserShooter.laserCount,
                     laserCooldown = cooldown
                 });
                 return;

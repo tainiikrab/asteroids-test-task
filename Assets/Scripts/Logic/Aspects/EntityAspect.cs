@@ -20,6 +20,9 @@
         public readonly ProtoPool<FollowerCmp> FollowerPool = new();
         public readonly ProtoPool<TimerCmp> TimerPool = new();
 
+        public readonly ProtoPool<BulletShooterCmp> BulletShooterPool = new();
+        public readonly ProtoPool<LaserShooterCmp> LaserShooterPool = new();
+
 
         public void Init(ProtoWorld world)
         {
@@ -33,6 +36,9 @@
             _world.AddPool(AsteroidPool);
             _world.AddPool(FollowerPool);
             _world.AddPool(TimerPool);
+
+            _world.AddPool(BulletShooterPool);
+            _world.AddPool(LaserShooterPool);
         }
 
         public void PostInit()

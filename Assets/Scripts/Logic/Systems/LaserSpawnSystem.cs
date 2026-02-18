@@ -32,7 +32,7 @@
             _transformAspect = (TransformAspect)_world.Aspect(typeof(TransformAspect));
             _collisionAspect = (CollisionAspect)_world.Aspect(typeof(CollisionAspect));
 
-            _eventIterator = new ProtoIt(new[] { typeof(PlayerCmp) });
+            _eventIterator = new ProtoIt(new[] { typeof(LaserShooterCmp) });
             _eventIterator.Init(_world);
         }
 
@@ -44,60 +44,60 @@
             var shotInterval = laserConfig.ShotCooldown;
             var maxLasers = laserConfig.MaxLasers;
 
-            foreach (var playerEntity in _eventIterator)
+            foreach (var laserEntity in _eventIterator)
             {
-                ref var p = ref _entityAspect.PlayerPool.Get(playerEntity);
+                ref var laserShooterCmp = ref _entityAspect.LaserShooterPool.Get(laserEntity);
 
-                if (p.laserCount < maxLasers)
-                    p.laserReloadTimer += deltaTime;
+                if (laserShooterCmp.laserCount < maxLasers)
+                    laserShooterCmp.laserReloadTimer += deltaTime;
                 else
-                    p.laserReloadTimer = 0f;
-                p.timeSinceLaserShot += deltaTime;
+                    laserShooterCmp.laserReloadTimer = 0f;
+                laserShooterCmp.timeSinceLaserShot += deltaTime;
 
-                if (p.laserReloadTimer >= shotInterval)
+                if (laserShooterCmp.laserReloadTimer >= shotInterval)
                 {
-                    p.laserReloadTimer -= shotInterval;
-                    var nextCount = p.laserCount + 1;
-                    p.laserCount = nextCount > maxLasers ? maxLasers : nextCount;
+                    laserShooterCmp.laserReloadTimer -= shotInterval;
+                    var nextCount = laserShooterCmp.laserCount + 1;
+                    laserShooterCmp.laserCount = nextCount > maxLasers ? maxLasers : nextCount;
                 }
 
-                if (!p.isShootingLaser)
+                if (!laserShooterCmp.isShootingLaser)
                     continue;
-                p.isShootingLaser = false;
+                laserShooterCmp.isShootingLaser = false;
 
-                if (p.timeSinceLaserShot <= _configService.LaserConfig.Duration) continue;
-                p.timeSinceLaserShot = 0f;
+                if (laserShooterCmp.timeSinceLaserShot <= _configService.LaserConfig.Duration) continue;
+                laserShooterCmp.timeSinceLaserShot = 0f;
 
-                if (p.laserCount < 1)
+                if (laserShooterCmp.laserCount < 1)
                     continue;
-                p.laserCount--;
+                laserShooterCmp.laserCount--;
 
 
-                SpawnLaser(playerEntity);
+                SpawnLaser(laserEntity);
             }
         }
 
 
-        private void SpawnLaser(ProtoEntity playerEntity)
+        private void SpawnLaser(ProtoEntity laserShooterEntity)
         {
-            var playerPosition = _transformAspect.PositionPool.Get(playerEntity);
-            var playerVelocity = _transformAspect.VelocityPool.Get(playerEntity);
-            var playerRotation = _transformAspect.RotationPool.Get(playerEntity);
+            var shooterPosition = _transformAspect.PositionPool.Get(laserShooterEntity);
+            var shooterVelocity = _transformAspect.VelocityPool.Get(laserShooterEntity);
+            var shooterRotation = _transformAspect.RotationPool.Get(laserShooterEntity);
 
             ref var positon = ref _transformAspect.PositionPool.NewEntity(out var laserEntity);
-            positon.x = playerPosition.x;
-            positon.y = playerPosition.y;
+            positon.x = shooterPosition.x;
+            positon.y = shooterPosition.y;
 
             ref var velocity = ref _transformAspect.VelocityPool.Add(laserEntity);
 
-            var angleRad = playerRotation.angle * (MathF.PI / 180f);
+            var angleRad = shooterRotation.angle * (MathF.PI / 180f);
 
-            velocity.x = playerVelocity.x;
-            velocity.y = playerVelocity.y;
+            velocity.x = shooterVelocity.x;
+            velocity.y = shooterVelocity.y;
 
             ref var rotation = ref _transformAspect.RotationPool.Add(laserEntity);
-            rotation.angle = playerRotation.angle;
-            var _ = _transformAspect.AngularVelocityPool.Add(laserEntity);
+            rotation.angle = shooterRotation.angle;
+            _ = _transformAspect.AngularVelocityPool.Add(laserEntity);
 
             ref var laserCollider = ref _collisionAspect.LaserColliderPool.Add(laserEntity);
             laserCollider.radius = _configService.LaserConfig.ColliderRadius;
@@ -109,7 +109,7 @@
             entityId.type = EntityType.Laser;
 
             ref var childComponent = ref _entityAspect.ChildPool.Add(laserEntity);
-            childComponent.parent = _world.PackEntity(playerEntity);
+            childComponent.parent = _world.PackEntity(laserShooterEntity);
             childComponent.followsParent = true;
 
             ref var timer = ref _entityAspect.TimerPool.Add(laserEntity);
