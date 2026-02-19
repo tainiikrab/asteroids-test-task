@@ -192,7 +192,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_VertexColorAlwaysGammaSpace: 0
-  m_AdditionalShaderChannelsFlag: 25
+  m_AdditionalShaderChannelsFlag: 1
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0
@@ -1894,6 +1894,22 @@ PrefabInstance:
       propertyPath: m_Color.a
       value: 0.7882353
       objectReference: {fileID: 0}
+    - target: {fileID: 2260653989241651013, guid: 9b78bfb3c7ec55248a1da7f1242cc6f2, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2260653989241651013, guid: 9b78bfb3c7ec55248a1da7f1242cc6f2, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2260653989241651013, guid: 9b78bfb3c7ec55248a1da7f1242cc6f2, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2573386794251147589, guid: 9b78bfb3c7ec55248a1da7f1242cc6f2, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5001111222892943856, guid: 9b78bfb3c7ec55248a1da7f1242cc6f2, type: 3}
       propertyPath: m_SizeDelta.x
       value: 365.8
@@ -1908,7 +1924,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5524617629470448101, guid: 9b78bfb3c7ec55248a1da7f1242cc6f2, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5615954541822999936, guid: 9b78bfb3c7ec55248a1da7f1242cc6f2, type: 3}
       propertyPath: m_Pivot.x
@@ -1997,6 +2013,10 @@ PrefabInstance:
     - target: {fileID: 7459968078015890698, guid: 9b78bfb3c7ec55248a1da7f1242cc6f2, type: 3}
       propertyPath: m_Name
       value: TitleLabel
+      objectReference: {fileID: 0}
+    - target: {fileID: 7459968078015890698, guid: 9b78bfb3c7ec55248a1da7f1242cc6f2, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7767488108783533342, guid: 9b78bfb3c7ec55248a1da7f1242cc6f2, type: 3}
       propertyPath: m_SizeDelta.x
@@ -2088,7 +2108,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_VertexColorAlwaysGammaSpace: 0
-  m_AdditionalShaderChannelsFlag: 25
+  m_AdditionalShaderChannelsFlag: 1
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0
@@ -2860,10 +2880,10 @@ RectTransform:
   - {fileID: 1163578711}
   m_Father: {fileID: 27906755}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 22.149994}
-  m_SizeDelta: {x: 457.76, y: 405.7}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1392458274
 MonoBehaviour:
@@ -3096,7 +3116,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_VertexColorAlwaysGammaSpace: 0
-  m_AdditionalShaderChannelsFlag: 25
+  m_AdditionalShaderChannelsFlag: 1
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0
@@ -3684,6 +3704,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1392458273}
     m_Modifications:
+    - target: {fileID: 2260653989241651013, guid: 9b78bfb3c7ec55248a1da7f1242cc6f2, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2260653989241651013, guid: 9b78bfb3c7ec55248a1da7f1242cc6f2, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2260653989241651013, guid: 9b78bfb3c7ec55248a1da7f1242cc6f2, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5524617629470448101, guid: 9b78bfb3c7ec55248a1da7f1242cc6f2, type: 3}
       propertyPath: m_Name
       value: TitleScreen
